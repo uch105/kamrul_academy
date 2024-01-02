@@ -1,0 +1,27 @@
+{% extends 'ka_main/web/base.html' %}
+{% load static %}
+
+{% block title %}
+Checkout
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div style="margin: 180px 0px 60px 0px; text-align: center;">
+            <p class="en-bold small">Payment for : <span style="color: var(--secondary-color);">{{ name }}</span></p>
+            <p class="en-bold small">Payment of : <span style="color: var(--secondary-color);">{{ instance_price }}</span> tk</p>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <label for="bkash" class="en-bold small">
+                    <input type="radio" name="bkash" class="inputField" required value="bkash" > Pay with Bkash
+                </label>
+                <label for="nagad" class="en-bold small">
+                    <input type="radio" name="bkash" class="inputField" required disabled value="Nagad" > Pay with Nagad
+                </label>
+                <button type="submit" class="inputbutton">Proceed</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

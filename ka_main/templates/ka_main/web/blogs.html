@@ -1,0 +1,27 @@
+{% extends 'ka_main/web/base.html' %}
+{% load static %}
+
+{% block title %}
+All blogs
+{% endblock %}
+
+{% block body %}
+
+    <h1 style="text-align: center;margin-top: 150px;">Our Blogs</h1>
+    <div class="container courses">
+        {% for blog in blogs %}
+        <div class="course">
+            <img src="{{ blog.thumbnail.url }}" alt="">
+            <div class="text">
+                <div class="title bn-bold">{{ blog.title }}</div>
+                <div class="bn-regular">{{ blog.preface|safe }}</div>
+                <div class="data">
+                    <div class="dataa en-bold">Read by : {{ blog.read_count }}<br>Likes : {{ blog.likes }}<br>Comment: {{ blog.comment_count }}</div>
+                    <a href="{% url 'blog' pk=blog.blog_id %}" class="en-bold small">Read</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,426 @@
+
+
+
+
+/* global variables */
+
+
+:root{
+    --light-color : #FFFFFF;
+    --dark-color: #3C3C3B;
+    --primary-color: #008BFC;
+    --secondary-color: #FF5E27;
+    --app-bg-color: #F9F9F9;
+}
+@font-face {
+    font-family: 'BanglaBold';
+    src: url(HindSiliguri-Bold.ttf) format('truetype');
+    font-weight: 700;
+}
+@font-face {
+    font-family: 'BanglaLight';
+    src: url(HindSiliguri-Light.ttf) format('truetype');
+    font-weight: 300;
+}
+@font-face {
+    font-family: 'BanglaMedium';
+    src: url(HindSiliguri-Medium.ttf) format('truetype');
+    font-weight: 500;
+}
+@font-face {
+    font-family: 'BanglaRegular';
+    src: url(HindSiliguri-Regular.ttf) format('truetype');
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'BanglaSemiBold';
+    src: url(HindSiliguri-SemiBold.ttf) format('truetype');
+    font-weight: 600;
+}
+@font-face {
+    font-family: 'EnglishLight';
+    src: url(Montserrat-Light.ttf) format('truetype');
+    font-weight: 300;
+}
+@font-face {
+    font-family: 'EnglishRegular';
+    src: url(Montserrat-Regular.ttf) format('truetype');
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'EnglishMedium';
+    src: url(Montserrat-Medium.ttf) format('truetype');
+    font-weight: 500;
+}
+@font-face {
+    font-family: 'EnglishSemiBold';
+    src: url(Montserrat-SemiBold.ttf) format('truetype');
+    font-weight: 600;
+}
+@font-face {
+    font-family: 'EnglishBold';
+    src: url(Montserrat-Bold.ttf) format('truetype');
+    font-weight: 700;
+}
+h1,h2,h3,h4,h5,h6{
+    font-family: 'EnglishBold',sans-serif;
+}
+p{
+    font-family: 'EnlishRegular',sans-serif;
+}
+.extralarge{
+    font-size: 35px;
+}
+.large{
+    font-size: 30px;
+}
+.standard{
+    font-size: 25px;
+}
+.small{
+    font-size: 20px;
+}
+.tiny{
+    font-size: 15px;
+}
+.en-bold{
+    font-family: 'EnglishBold',sans-serif;
+}
+.bn-bold{
+    font-family: 'BanglaBold',sans-serif;
+}
+.bn-regular{
+    font-family: 'BanglaRegular',sans-serif;
+}
+.en-regular{
+    font-family: 'EnglishRegular',sans-serif;
+}
+.en-light{
+    font-family: 'EnglishLight',sans-serif;
+}
+.bn-light{
+    font-family: 'BanglaLight',sans-serif;
+}
+html{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    margin: 0px;
+    padding: 0px;
+}
+a{
+    text-decoration: none;
+}
+.app-bg{
+    background-color: var(--app-bg-color);
+}
+.light-bg{
+    background-color: var(--light-color);
+}
+.dark-bg{
+    background-color: var(--dark-color);
+}
+.primary-bg{
+    background-color: var(--primary-color);
+}
+.container{
+    padding-left: 100px;
+    padding-right: 100px;
+}
+@media screen and (max-width: 1200px) {
+    .container{
+        padding-left: 75px;
+        padding-right: 75px;
+    }
+}
+@media screen and (max-width: 1000px) {
+    .container{
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+}
+@media screen and (max-width: 800px) {
+    .container{
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+}
+
+form{
+    font-family: "BanglaRegular",sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.inputField{
+    margin: 20px;
+    border: none;
+    border-bottom: 1px var(--primary-color) solid;
+    background-color: none;
+}
+.inputbutton{
+    padding: 10px 60px;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+}
+
+
+
+
+
+/* ------------navbar section-----------*/
+
+
+
+
+nav{
+    z-index: 1000000000000000000000000000000000000000000000000000;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+.navitems{
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.navlinks{
+    padding: 20px;
+    border-radius: 30px;
+}
+.navlinks span a{
+    padding: 0px 10px 0px 10px;
+    color: var(--light-color);
+    text-decoration: none;
+}
+
+@media screen and (max-width:1368px){
+    .navitems img{
+        width: 200px;
+        height: auto;
+    }
+    .navlinks{
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width:1000px){
+    .navitems img{
+        width: 150px;
+        height: auto;
+    }
+    .navlinks{
+        padding: 10px;
+    }
+    .navlinks span a{
+        padding : 0px 7px 0px 7px;
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width:768px){
+    .navitems img{
+        width: 100px;
+        height: auto;
+    }
+    .navlinks{
+        padding: 7px;
+    }
+    .navlinks span a{
+        padding : 0px 5px 0px 5px;
+        font-size: 7px;
+    }
+}
+
+
+
+
+
+/* ---------------------------- body ------------------------- */
+
+
+
+.landing{
+    background-image: url(landing.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.landing .promo-text{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 200px 0px 200px 0px;
+}
+.landing .promo-text .text{
+    margin: 20px 0px 20px 0px;
+    color : var(--light-color)
+}
+.landing .promo-text .lwf{
+    font-size: 50px;
+}
+.with{
+    color: var(--secondary-color);
+}
+
+
+.slider{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.slider .txt{
+    text-align: center;
+    padding: 20px 0px;
+}
+.courses{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 15px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+.courses .course{
+    background-color: var(--primary-color);
+    padding: 20px;
+    border: none;
+    border-radius: 10px;
+}
+.courses .course img{
+    width: 100%;
+    height: auto;
+    border: none;
+    border-radius: 10px;
+}
+.courses .course .text{
+    display: flex;
+    flex-direction: column;
+    padding: 0 5px;
+    color: var(--light-color);
+}
+.courses .course .text .data{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.courses .course .text .data .dataa{
+    color: var(--dark-color);
+}
+.courses .course .text .data a{
+    text-decoration: none;
+    padding: 10px;
+    color: var(--light-color);
+    background-color: var(--dark-color);
+    border: none;
+    border-radius: 50%;
+}
+.faq{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 50px;
+    margin-bottom: 80px;
+}
+.faq1 a{
+    text-decoration: none;
+    color: var(--dark-color);
+    padding: 20px;
+    font-size: 25px;
+}
+#indexform{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 50px;
+}
+#indexform label, #form input, #form button{
+    margin-top: 20px;
+}
+#indexform #field{
+    border: none ;
+    border-bottom: 1px var(--dark-color) solid;
+}
+#indexform #message{
+    border: 1px var(--dark-color) solid;
+    border-radius: 10px;
+    width: 250px;
+    height: 100px;
+    text-align: center;
+}
+#indexform button{
+    width: 250px;
+    height: auto;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    border: none;
+    border-radius: 10px;
+}
+
+/* ------------- login page ---------------- */
+.login{
+    margin-top: 200px;
+}
+.login p a{
+    color: var(--secondary-color);
+}
+
+/* ========================= dashboard ===================== */
+
+
+
+
+/* ------------------------ footer -------------------------- */
+
+.footer-container{
+    padding: 50px 350px 100px 350px;
+    display: grid;
+    grid-template-columns: 150px 150px 250px;
+    grid-template-rows: auto;
+    justify-content: space-between;
+}
+.footer-container .list span a{
+    display: block;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: var(--dark-color);
+}
+.footer-container img{
+    padding : 5px;
+}
+.footer-container .contacts .social-media,.phone-no{
+    margin-bottom: 50px;
+}
+
+@media screen and (max-width: 1250px) {
+    .footer-container{
+        padding : 50px 200px 100px 200px;
+    }
+}
+@media screen and (max-width: 1100px) {
+    .footer-container{
+        padding : 50px 150px 100px 150px;
+    }
+}
+@media screen and (max-width: 900px) {
+    .footer-container{
+        padding : 50px 120px 100px 120px;
+    }
+    .footer-container .list span a{
+        font-size: 15px;
+    }
+}
+@media screen and (max-width: 768px) {
+    .footer-container{
+        padding : 50px 100px 100px 100px;
+    }
+    .footer-container .list span a{
+        font-size: 15px;
+    }
+}

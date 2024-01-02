@@ -1,0 +1,73 @@
+{% extends 'ka_main/web/base.html' %}
+{% load static %}
+
+{% block title %}
+Home - Kamrul Academy
+{% endblock title %}
+
+{% block body %}
+    <div class="container landing">
+        <div class="promo-text">
+            <div class="lwf en-bold text">Learn <span class="with">with </span>Fun</div>
+            <div class="bn-bold text standard">শেখার যাত্রা হোক আনন্দময় এবং ফলপ্রসূ</div>
+            <a href=""class="en-bold small" style="color: var(--light-color);text-decoration: none;margin-top: 10px;padding: 30px;background-color: var(--primary-color);border: none;border-radius: 30px;">Download our App</a>
+        </div>
+    </div>
+    {% for promo in promos %}
+    <div class="container slider">
+        <div class="txt">
+            <h1>{{ promo.titleBold }}</h1>
+            <p>{{ promo.text|safe }}</p>
+        </div>
+        <img src="{{ promo.image.url }}" width="100%" height="100%">
+    </div>
+    {% endfor %}
+    <h1 style="text-align: center;margin-top: 60px;">Our courses</h1>
+    <div class="container courses">
+        {% for course in courses %}
+        <div class="course">
+            <img src="{{ course.thumbnail.url }}" alt="">
+            <div class="text">
+                <div class="title bn-bold">{{ course.title }}</div>
+                <div class="bn-regular">{{ course.preface|safe }}</div>
+                <div class="data">
+                    <div class="dataa bn-light">Duration : {{ course.duration_in_minutes }} mins <br>Enrolled : {{ course.enrolled }}</div>
+                    <a href="{% url 'course' pk=course.course_id %}" class="en-bold small">Get</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="container faq">
+        <div class="faq1">
+            <h1 class="bn-bold" style="text-align: center;">সাধারণ জিজ্ঞাসা</h1>
+            {% for faq in faqs %}
+            <a href=""class="bn-regular">{{ faq.title }}</a>
+            <hr>
+            {% endfor %}
+        </div>
+        <div class="faq2">
+            <h1 class="bn-bold" style="text-align: center;">মেসেজ দিন</h1>
+            <form action="{% url 'index' %}" method="POST"id="indexform">
+                {% csrf_token %}
+                <div class="name">
+                    <label for="name"class="bn-regular">নাম*</label>
+                    <input type="text" name="name" class="inputField" required>
+                </div>
+                <div class="email">
+                    <label for="email"class="bn-regular">ইমেইল*</label>
+                    <input type="email" name="email" class="inputField" required>
+                </div>
+                <div class="phone">
+                    <label for="phone"class="bn-regular">ফোন নাম্বার*</label>
+                    <input type="tel" name="phone" class="inputField" required>
+                </div>
+                <input type="text" name="message" required id="message" placeholder="মেসেজ লিখুন" class="bn-regular inputField">
+                <button type="submit" class="bn-bold inputbutton">পাঠান</button>
+            </form>
+        </div>
+    </div>
+
+    
+{% endblock %}

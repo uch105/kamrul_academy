@@ -1,0 +1,27 @@
+{% extends 'ka_main/web/base.html' %}
+{% load static %}
+
+{% block title %}
+Edit Information - {{ signed_user.name }}
+{% endblock %}
+
+{% block body %}
+
+    <h3 style="margin-top: 120px;text-align: center;">Edit your information</h3>
+    <div class="container">
+        <form action="{% url 'dashboard-edit-info' pk=signed_user.user_id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input class="inputField" type="text" name="nationality" placeholder="What is your nationality" required>
+            <input class="inputField" type="text" name="address" placeholder="Your address" required>
+            <input class="inputField" type="text" name="institution" placeholder="Your institution" required>
+            <input class="inputField" type="text" name="s_class" placeholder="Class" required>
+            <input class="inputField" type="text" name="s_group" placeholder="Group e.g Science" required>
+            <select name="sex" class="inputField">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+            <button type="submit" class="inputbutton">Save</button>
+        </form>
+    </div>
+
+{% endblock %}

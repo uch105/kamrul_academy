@@ -1,0 +1,24 @@
+{% extends 'ka_main/mobile/base.html' %}
+{% load static %}
+{% block title %}Home - Kamrul Academy{% endblock %}
+{% block body %}
+<div class="container body">
+    <div class="one">
+        <h3>Sorry! &#128542 <br>Currently we are not serving any mobile webpage.<br> Only mobile applications are supported! <br><br>Thank You &#129392</h3>
+    </div>
+    <div class="two">
+        <p class="en-regular small">If you are an Android user</p>
+    </div>
+    <div class="three">
+        <a href=""class="en-bold small">Download app</a>
+        <a href=""><img src="{% static 'images/icons/Google Play.png' %}" alt=""></a>
+    </div>
+    <div class="two">
+        <p class="en-regular small">If you are an Apple user</p>
+    </div>
+    <div class="three">
+        <a href=""class="en-bold small">Download app</a>
+        <a href=""><img src="{% static 'images/icons/Apple Logo.png' %}" alt=""></a>
+    </div>
+</div>
+{% endblock %}

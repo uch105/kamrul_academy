@@ -1,0 +1,184 @@
+
+
+
+
+/* global variables */
+
+
+:root{
+    --light-color : #FFFFFF;
+    --dark-color: #3C3C3B;
+    --primary-color: #008BFC;
+    --secondary-color: #FF5E27;
+    --app-bg-color: #F9F9F9;
+}
+@font-face {
+    font-family: 'BanglaBold';
+    src: url(HindSiliguri-Bold.ttf) format('truetype');
+    font-weight: 700;
+}
+@font-face {
+    font-family: 'BanglaLight';
+    src: url(HindSiliguri-Light.ttf) format('truetype');
+    font-weight: 300;
+}
+@font-face {
+    font-family: 'BanglaMedium';
+    src: url(HindSiliguri-Medium.ttf) format('truetype');
+    font-weight: 500;
+}
+@font-face {
+    font-family: 'BanglaRegular';
+    src: url(HindSiliguri-Regular.ttf) format('truetype');
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'BanglaSemiBold';
+    src: url(HindSiliguri-SemiBold.ttf) format('truetype');
+    font-weight: 600;
+}
+@font-face {
+    font-family: 'EnglishLight';
+    src: url(Montserrat-Light.ttf) format('truetype');
+    font-weight: 300;
+}
+@font-face {
+    font-family: 'EnglishRegular';
+    src: url(Montserrat-Regular.ttf) format('truetype');
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'EnglishMedium';
+    src: url(Montserrat-Medium.ttf) format('truetype');
+    font-weight: 500;
+}
+@font-face {
+    font-family: 'EnglishSemiBold';
+    src: url(Montserrat-SemiBold.ttf) format('truetype');
+    font-weight: 600;
+}
+@font-face {
+    font-family: 'EnglishBold';
+    src: url(Montserrat-Bold.ttf) format('truetype');
+    font-weight: 700;
+}
+h1,h2,h3,h4,h5,h6{
+    font-family: 'EnglishBold',sans-serif;
+}
+p{
+    font-family: 'EnlishRegular',sans-serif;
+}
+.extralarge{
+    font-size: 35px;
+}
+.large{
+    font-size: 30px;
+}
+.standard{
+    font-size: 25px;
+}
+.small{
+    font-size: 20px;
+}
+.tiny{
+    font-size: 15px;
+}
+.en-bold{
+    font-family: 'EnglishBold',sans-serif;
+}
+.bn-bold{
+    font-family: 'BanglaBold',sans-serif;
+}
+.bn-regular{
+    font-family: 'BanglaRegular',sans-serif;
+}
+.en-regular{
+    font-family: 'EnglishRegular',sans-serif;
+}
+.en-light{
+    font-family: 'EnglishLight',sans-serif;
+}
+.bn-light{
+    font-family: 'BanglaLight',sans-serif;
+}
+html{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    margin: 0px;
+    padding: 0px;
+}
+a{
+    text-decoration: none;
+}
+.app-bg{
+    background-color: var(--app-bg-color);
+}
+.light-bg{
+    background-color: var(--light-color);
+}
+.dark-bg{
+    background-color: var(--dark-color);
+}
+.primary-bg{
+    background-color: var(--primary-color);
+}
+.container{
+    padding: 0 15px;
+}
+
+
+/* ------------------------navbar ---------------------- */
+
+nav{
+    background-color: var(--app-bg-color);
+    z-index: 1000000000000000000000000000000000000000000000000000;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+.logo{
+    text-align: center;
+    padding: 10px;
+}
+
+.navlinks{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 15px 0;
+}
+
+/* ====================body =================== */
+
+.body{
+    margin-top: 200px;
+    padding: 0px 80px;
+}
+.one h3{
+    text-align: center;
+}
+.two p{
+    text-align: center;
+}
+.three{
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    background-color: var(--primary-color);
+    align-items: center;
+    justify-content: space-around;
+    border: none;
+    border-radius: 15px;
+}
+.three a{
+    text-decoration: none;
+    text-align: center;
+    color: var(--light-color);
+    cursor: pointer;
+}
+.three a img{
+    padding: 10px;
+}

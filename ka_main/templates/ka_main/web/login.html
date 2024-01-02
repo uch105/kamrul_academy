@@ -1,0 +1,21 @@
+{% extends 'ka_main/web/base.html' %}
+{% load static %}
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block body %}
+    <div class="container login">
+        <h1 class="en-bold medium" style="text-align: center;">Log In Here!</h1>
+        {% if error %}<p class="en-regular" style="text-align: center;">{{ error }}</p>{% endif %}
+        <form action="{% url 'log-in' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Enter your username" class="inputField">
+            <input type="password" name="password" class="inputField" placeholder="Enter your password">
+            <button type="submit" class="inputField inputbutton">Log In</button>
+        </form>
+        <div>
+            <p style="text-align: center;" class="en-bold">Not a member? <a href="{% url 'sign-in' %}">Sign In</a> here...</p>
+        </div>
+    </div>
+{% endblock %}

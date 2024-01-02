@@ -1,0 +1,27 @@
+{% extends 'ka_main/web/base.html' %}
+{% load static %}
+
+{% block title %}
+{{ book.name }}
+{% endblock %}
+
+{% block body %}
+
+    <h1 class="bn-bold medium" style="text-align: center;margin-top: 200px;">{{ book.name }}</h1>
+    <div class="container">
+        <div style="display: flex;justify-content: space-evenly;align-items: center; margin-bottom: 200px;">
+            <img src="{{ book.book_image.url }}" alt="" width="30%" height="30%" style="border: none;border-radius: 10px;">
+        <div>
+        <p style="text-align: center;max-width: 400px;" class="en-regular tiny">You can buy this book from here. But unfornately, if you want to read the book, you have to open our app to read and to include, this book is not for downloading. Thank You!</p>
+        <p style="text-align: center;" class="en-bold small">Price : {{ book.price }} Tk.</p>
+        <div style="display: flex;justify-content: space-around;margin-top: 20px;">
+        {% if purchased %}
+        <a href="" class="en-bold" style="text-decoration: none;text-align:center;color: var(--light-color);background-color: var(--primary-color);border: none;border-radius: 10px;padding: 18px;">Download Mobile App</a>
+        {% else %}
+        <a href="{% url 'checkout' pk=book.book_id %}" class="en-bold" style="text-decoration: none;text-align:center;color: var(--light-color);background-color: var(--primary-color);border: none;border-radius: 10px;padding: 18px;">Buy now!</a>
+        {% endif %}
+        </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}

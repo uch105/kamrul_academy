@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/icons/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/main_web.css' %}">
+    <title>{% block title %}
+    {% endblock %}</title>
+</head>
+<body>
+    {% include 'ka_main/web/navbar.html' %}
+
+    {% block body %}
+    {% endblock body %}
+
+    {% include 'ka_main/web/footer.html' %}
+
+    <script>
+        
+    </script>
+
+</body>
+</html>

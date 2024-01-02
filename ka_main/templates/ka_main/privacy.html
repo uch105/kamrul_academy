@@ -1,0 +1,16 @@
+{% extends 'ka_main/web/base.html' %}
+{% load static %}
+
+{% block title %}
+Privacy
+{% endblock title %}
+
+{% block body %}
+    <div class="container" style="margin-top: 200px;">
+        {% for t in text %}
+        <p>
+        {{ t.text|safe }}
+        </p>
+        {% endfor %}
+    </div>
+{% endblock %}
