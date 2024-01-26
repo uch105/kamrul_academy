@@ -337,7 +337,15 @@ def login_view(request):
         template_name = 'ka_main/mobile/index.html'
     
     if request.method == 'POST':
-        username = request.POST.get("username")
+        instance_username = request.POST.get("username")
+        try:
+            try:
+                username = Signed_user.objects.get(email = instance_username).user_id
+            except:
+                username = Signed_user.objects.get(phone_number = instance_username).user_id
+        except:
+            return render(request, template_name,{'error':'Invalid credentials!'})
+
         password = request.POST.get("password")
 
         user = authenticate(request, username=username,password=password)
@@ -351,10 +359,12 @@ def login_view(request):
 
 def dashboard(request,pk):
     signed_user = Signed_user.objects.get(user_id=pk)
+    user_details = User_Details.objects.get(user_id=pk)
     liked_courses = len(UserLikeCourse.objects.filter(username=pk))
     liked_blogs = len(UserLikeBlog.objects.filter(username=pk))
     context = {
         'signed_user':signed_user,
+        'user_details':user_details,
         'liked_courses':liked_courses,
         'liked_blogs':liked_blogs,
     }
@@ -363,7 +373,7 @@ def dashboard(request,pk):
 
 def dashboard_edit_info(request,pk):
     if request.method == 'POST':
-        instance = Signed_user.objects.get(user_id=pk)
+        instance = User_Details.objects.get(user_id=pk)
         instance.nationality = request.POST.get("nationality")
         instance.address = request.POST.get("address")
         instance.institution = request.POST.get("institution")
@@ -379,8 +389,14 @@ def dashboard_edit_info(request,pk):
         return redirect('dashboard',pk)
         
     signed_user = Signed_user.objects.get(user_id=pk)
+    user_details = User_Details.objects.get(user_id=pk)
+    liked_courses = len(UserLikeCourse.objects.filter(username=pk))
+    liked_blogs = len(UserLikeBlog.objects.filter(username=pk))
     context = {
         'signed_user':signed_user,
+        'user_details':user_details,
+        'liked_courses':liked_courses,
+        'liked_blogs':liked_blogs,
     }
     return render(request,'ka_main/web/edit-info.html',context)
 
@@ -414,8 +430,10 @@ def signin(request):
                     try:
                         user = User.objects.create_user(username=username,email=email,password=password)
                         user.save()
-                        signed_user = Signed_user.objects.create(user_id=username,name=fullname,email=email,phone_number=phone,password=password,date_joined=datetime.date.today())
+                        signed_user = Signed_user.objects.create(user_id=username,name=fullname,email=email,phone_number=phone)
                         signed_user.save()
+                        user_details = User_Details.objects.create(user_id = username)
+                        user_details.save()
                         auth_login(request,user)
                         return redirect('dashboard',pk=username)
                     except:

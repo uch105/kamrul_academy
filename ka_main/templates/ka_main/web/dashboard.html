@@ -11,7 +11,7 @@ Dashboard - {{ signed_user.name }}
         <div style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;">
             <div style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;">
                 <div class="one">
-                    {% if signed_user.sex %}
+                    {% if user_details.sex %}
                     <img src="{% static 'images/icons/boy.jpg' %}" alt="User Image" width="200px" height="200px" style="padding: 10px;border: none;border-radius: 50%;">
                     {% else %}
                     <img src="{% static 'images/icons/girl.jpg' %}" alt="User Image" width="200px" height="200px" style="padding: 10px;border: none;border-radius: 50%;">
@@ -20,15 +20,15 @@ Dashboard - {{ signed_user.name }}
                 <div style="display: flex;flex-direction: column;padding-left: 20px;">
                     <span class="en-bold small" style="padding: 10px 5px;">Name : {{ signed_user.name }}</span>
                     <span class="en-bold small" style="padding: 10px 5px;">Id : {{ signed_user.user_id }}</span>
-                    <span class="en-bold small" style="padding: 10px 5px;">Gender : {% if signed_user.sex %}Male{% else %}Female{% endif %}</span>
+                    <span class="en-bold small" style="padding: 10px 5px;">Gender : {% if user_details.sex %}Male{% else %}Female{% endif %}</span>
                     <span class="en-bold small" style="padding: 10px 5px;"><a href="{% url 'dashboard-edit-info' pk=signed_user.user_id %}">Edit Info</a></span>
                 </div>
             </div>
             <div style="display: flex;flex-direction: column;">
-                <span class="en-bold small" style="padding: 10px 5px;">Address : {{ signed_user.address }}</span>
+                <span class="en-bold small" style="padding: 10px 5px;">Address : {{ user_details.address }}</span>
                 <span class="en-bold small" style="padding: 10px 5px;">Mobile : {{ signed_user.phone_number }}</span>
                 <span class="en-bold small" style="padding: 10px 5px;">Email : {{ signed_user.email }}</span>
-                <span class="en-bold small" style="padding: 10px 5px;">Institution : {{ signed_user.institution }}, Class : {{ signed_user.s_class }}, Group : {{ signed_user.s_group }}</span>
+                <span class="en-bold small" style="padding: 10px 5px;">Institution : {{ user_details.institution }}, Class : {{ user_details.s_class }}, Group : {{ user_details.s_group }}</span>
             </div>
         </div>
         <div style="display: flex; flex-direction: row;align-items: center;justify-content: space-around;margin-top: 100px;">

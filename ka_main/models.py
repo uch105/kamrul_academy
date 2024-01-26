@@ -16,6 +16,14 @@ class Random_user(models.Model):
 class Signed_user(models.Model):
     user_id = models.CharField(max_length= 100,unique=True,primary_key=True)
     name = models.CharField(max_length=200)
+    email = models.EmailField(null=True)
+    phone_number = models.CharField(max_length=100,unique=True)
+
+    def __str__(self):
+        return self.name
+
+class User_Details(models.Model):
+    user_id = models.CharField(max_length= 100,unique=True,primary_key=True)
     father_name = models.CharField(max_length=200,null=True)
     mother_name = models.CharField(max_length=200,null=True)
     nationality = models.CharField(max_length=50,null=True)
@@ -26,16 +34,9 @@ class Signed_user(models.Model):
     s_group = models.CharField(max_length=100,null=True)
     sex = models.BooleanField(default=True)
     pp = models.ImageField(upload_to='media/images/user_iamges/',null=True)
-    phone_number = models.CharField(max_length=100,unique=True)
     alter_phone_number = models.CharField(max_length=100,null=True)
     date_joined = models.DateTimeField(auto_now_add = True)
-    password = models.CharField(max_length= 200)
     institution = models.CharField(max_length=50,null=True)
-    email = models.EmailField(null=True)
-
-    def __str__(self):
-        return self.name
-
 class Book(models.Model):
     book_id = models.CharField(max_length= 100,unique=True,primary_key=True)
     name = models.CharField(max_length = 200)

@@ -9,8 +9,12 @@ class Random_userAdmin(admin.ModelAdmin):
 
 @admin.register(Signed_user)
 class Signed_userAdmin(admin.ModelAdmin):
+    search_fields = ("user_id","email","phone_number",)
+
+@admin.register(User_Details)
+class User_DetailsAdmin(admin.ModelAdmin):
     search_fields = ("user_id",)
-    list_filter = ("name","blood_group","sex","s_class","s_group","date_joined","institution",)
+    list_filter = ("blood_group","sex","s_class","s_group","date_joined","institution",)
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
