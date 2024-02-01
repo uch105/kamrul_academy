@@ -69,7 +69,7 @@ class Mentor(models.Model):
     password = models.CharField(max_length= 200)
     nid = models.BigIntegerField(default=0)
     institution = models.TextField()
-    expertise = models.TextField()
+    expertise = HTMLField()
     payment_details = models.TextField()
     email = models.EmailField(null=True)
 
