@@ -12,13 +12,10 @@ Checkout
             <p class="en-bold small">Payment for : <span style="color: var(--secondary-color);">{{ name }}</span></p>
             <p class="en-bold small">Payment of : <span style="color: var(--secondary-color);">{{ instance_price }}</span> tk</p>
             <p class="en-bold small">We are unable to process online payments at this moment. Please send money to 01590-038009 with your user_id in the reference.</p>
-            <form action="" method="POST">
+            <form action="{% url 'checkout' pk={{ pk }} %}" method="POST">
                 {% csrf_token %}
                 <label for="bkash" class="en-bold small">
-                    <input type="radio" name="bkash" class="inputField" required value="bkash" > Pay with Bkash
-                </label>
-                <label for="nagad" class="en-bold small">
-                    <input type="radio" name="bkash" class="inputField" required disabled value="Nagad" > Pay with Nagad
+                    <input type="radio" name="payment" class="inputField" required value="bkash" > Pay with Bkash
                 </label>
                 <button type="submit" class="inputbutton">Proceed</button>
             </form>

@@ -91,3 +91,13 @@ class UserLikeCourse(admin.ModelAdmin):
 @admin.register(UserDislikeCourse)
 class UserDislikeCourse(admin.ModelAdmin):
     list_filter = ("blog_id",)
+
+@admin.register(ParentcourseTypeOne)
+class ParentcourseTypeOne(admin.ModelAdmin):
+    list_filter = ("rating_counts","seat_remaining","days_remaining",)
+
+admin.site.register(Curriculum)
+
+@admin.register(Enrollment)
+class Enrollment(admin.ModelAdmin):
+    list_filter = ("courseId",)

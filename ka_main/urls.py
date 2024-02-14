@@ -34,4 +34,6 @@ urlpatterns = [
     path("terms-and-conditions/",views.terms_and_conditions,name="terms-and-conditions"),
     path("certificates/",views.certificates,name="certificates"),
     path("checkout/<str:pk>",views.checkout,name="checkout"),
+    path("parentcourse/<str:pk>/",views.parentcourse,name="parentcourse"),
+    path("enroll/<str:pk>/",views.enrolling,name="enroll")
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

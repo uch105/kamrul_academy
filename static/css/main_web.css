@@ -62,11 +62,11 @@
     src: url(Montserrat-Bold.ttf) format('truetype');
     font-weight: 700;
 }
-h1,h2,h3,h4,h5,h6{
+h1,h3,h5{
     font-family: 'EnglishBold',sans-serif;
 }
-p{
-    font-family: 'EnlishRegular',sans-serif;
+h2,h4,h6{
+    font-family: 'BanglaBold',sans-serif;
 }
 .extralarge{
     font-size: 35px;
@@ -82,6 +82,9 @@ p{
 }
 .tiny{
     font-size: 15px;
+}
+.extra-tiny{
+    font-size: 10px;
 }
 .en-bold{
     font-family: 'EnglishBold',sans-serif;
@@ -423,4 +426,11 @@ nav{
     .footer-container .list span a{
         font-size: 15px;
     }
+}
+
+/* about */ 
+.team{
+    background-image: url(team.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }

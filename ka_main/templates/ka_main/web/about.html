@@ -9,7 +9,7 @@ About Us!
     <div class="container" style="margin-top: 200px;">
         <div class="ceo">
             <div class="ceop">
-                <img src="{% static 'images/others/sample.JPG' %}" alt="" width="200px" height="266.67px">
+                <img src="{% static 'images/others/kamrul.jpg' %}" alt="" width="200px" height="300px" style="border: none;border-radius: 30px;">
                 <p class="en-bold ceoname">Md Kamrul Hasan</p>
                 <p class="en-bold ceoname2">Founder & CEO</p>
             </div>
@@ -31,40 +31,40 @@ Reimagine education as a lifelong journey of exploration and growth, fueled by p
             </div>
         </div>
         <div class="team">
-            <h1 style="text-align: center;">OUR TEAM</h1>
+            <h1 style="text-align: center; color: var(--light-color);padding-top: 300px;padding-bottom: 300px;">OUR TEAM</h1>
         </div>
         <h1 style="text-align: center;">Employees</h1>
         <div class="persons">
             <div class="person">
-                <img src="{% static 'images/others/sample.JPG' %}" alt="" width="200px" height="266.67px">
+                <img src="{% static 'images/others/hossain.jpg' %}" alt="" width="200px" height="300px">
                 <p class="en-bold ceoname">Hossain Rahman</p>
                 <p class="en-bold ceoname2">Chief Operating Officer</p>
             </div>
             <div class="person">
                 <p class="en-bold ceoname">Tanvir Saklan</p>
                 <p class="en-bold ceoname2">Chief Technical Officer</p>
-                <img src="{% static 'images/others/sample.JPG' %}" alt="" width="200px" height="266.67px">
+                <img src="{% static 'images/others/sample.JPG' %}" alt="" width="200px" height="300px">
             </div>
             <div class="person">
-                <img src="{% static 'images/others/sample.JPG' %}" alt="" width="200px" height="266.67px">
+                <img src="{% static 'images/others/saiful.png' %}" alt="" width="200px" height="300px">
                 <p class="en-bold ceoname">Saiful Islam</p>
                 <p class="en-bold ceoname2">Advisor</p>
             </div>
         </div>
-        <h1 style="text-align: center;">Course Instructors</h1>
+        <h1 style="text-align: center;">Graphics Team</h1>
         <div class="persons">
             <div class="person">
-                <img src="{% static 'images/others/sample.JPG' %}" alt="" width="200px" height="266.67px">
+                <img src="{% static 'images/others/shaon.jpg' %}" alt="" width="200px" height="300px">
                 <p class="en-bold ceoname">Ahsanullah Shawon</p>
                 <p class="en-bold ceoname2">Video Editor</p>
             </div>
             <div class="person">
-                <p class="en-bold ceoname">Naimul Islam</p>
+                <p class="en-bold ceoname">Nayeemul Islam</p>
                 <p class="en-bold ceoname2">Mobile Graphics Designer</p>
-                <img src="{% static 'images/others/sample.JPG' %}" alt="" width="200px" height="266.67px">
+                <img src="{% static 'images/others/nayeem.jpg' %}" alt="" width="200px" height="300px">
             </div>
             <div class="person">
-                <img src="{% static 'images/others/sample.JPG' %}" alt="" width="200px" height="266.67px">
+                <img src="{% static 'images/others/rajat.jpg' %}" alt="" width="200px" height="300px">
                 <p class="en-bold ceoname">Rajat</p>
                 <p class="en-bold ceoname2">UX/UI Designer</p>
             </div>
@@ -72,24 +72,24 @@ Reimagine education as a lifelong journey of exploration and growth, fueled by p
         <h1 style="text-align: center;">Teachers</h1>
         <div class="persons">
             <div class="person">
-                <img src="{% static 'images/others/sample.JPG' %}" alt="" width="200px" height="266.67px">
+                <img src="{% static 'images/others/nesar.jpg' %}" alt="" width="200px" height="300px">
                 <p class="en-bold ceoname">Nesar Uddin</p>
                 <p class="en-bold ceoname2">Teacher</p>
             </div>
             <div class="person">
                 <p class="en-bold ceoname">Saiful Islam</p>
                 <p class="en-bold ceoname2">Teacher</p>
-                <img src="{% static 'images/others/sample.JPG' %}" alt="" width="200px" height="266.67px">
+                <img src="{% static 'images/others/saiful.png' %}" alt="" width="200px" height="300px">
             </div>
             <div class="person">
-                <img src="{% static 'images/others/sample.JPG' %}" alt="" width="200px" height="266.67px">
+                <img src="{% static 'images/others/sourav.png' %}" alt="" width="200px" height="300px">
                 <p class="en-bold ceoname">Sourav Biswash</p>
                 <p class="en-bold ceoname2">Teacher</p>
             </div>
             <div class="person">
                 <p class="en-bold ceoname">Tanvir Saklan</p>
                 <p class="en-bold ceoname2">Teacher</p>
-                <img src="{% static 'images/others/sample.JPG' %}" alt="" width="200px" height="266.67px">
+                <img src="{% static 'images/others/sample.JPG' %}" alt="" width="200px" height="300px">
             </div>
         </div>
     </div>
@@ -101,6 +101,19 @@ Reimagine education as a lifelong journey of exploration and growth, fueled by p
             flex-direction: row;
             justify-content: space-evenly;
             align-items: center;
+        }
+        @media screen and (max-width:1300px){
+            .ceo{
+                display:flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .ceom{
+                margin-top: 30px;
+            }
+            .ceov{
+                margin-top: 30px;
+            }
         }
         .ceom{
             max-width: 350px;

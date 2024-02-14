@@ -10,7 +10,7 @@
         {% if error %}<p class="en-regular" style="text-align: center;">{{ error }}</p>{% endif %}
         <form action="{% url 'log-in' %}" method="POST">
             {% csrf_token %}
-            <input type="text" name="username" placeholder="Enter your username" class="inputField">
+            <input type="text" name="username" placeholder="Enter your email/phone" class="inputField">
             <input type="password" name="password" class="inputField" placeholder="Enter your password">
             <button type="submit" class="inputField inputbutton">Log In</button>
         </form>

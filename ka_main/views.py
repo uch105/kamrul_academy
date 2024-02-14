@@ -6,6 +6,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User 
 from user_agents import parse
 from requests import request
+import requests
 import datetime
 from django.core.mail import send_mail
 from django.http.request import HttpRequest
@@ -491,13 +492,14 @@ def mentor(request,pk):
     if device == "Desktop":
         template_name = 'ka_main/web/mentor.html'
     else:
-        template_name = 'ka_main/mobile/index.html'
+        template_name = 'ka_main/mobile/mentor.html'
     
     mentor = Mentor.objects.get(user_id=pk)
     context = {
         'mentor':mentor,
     }
     
+    #return render(request,template_name)
     return render(request,template_name,context)
 
 def affiliate_join(request):
@@ -554,6 +556,25 @@ def certificates(request):
     
     return render(request,template_name)
 
+def parentcourse(request,pk):
+    device = identify_device(request)
+    if device == "Desktop":
+        template_name = 'ka_main/web/parentcourse.html'
+    else:
+        template_name = 'ka_main/mobile/parentcourse.html'
+    
+    instance = ParentcourseTypeOne.objects.get(courseId=pk)
+    mentor = Mentor.objects.get(user_id=instance.mentorId)
+    curriculums = Curriculum.objects.filter(courseId=pk)
+
+    context = {
+        'instance':instance,
+        'mentor':mentor,
+        'çurriculums':curriculums,
+    }
+    
+    return render(request,template_name,context)
+
 def checkout(request,pk):
     try:
         instance = Course.objects.get(course_id=pk)
@@ -564,14 +585,56 @@ def checkout(request,pk):
         instance_price = instance.price
         name = instance.name
     
+    pk=pk
     context = {
         'name': name,
         'instance_price': instance_price,
+        'pk':pk,
     }
+
+    if request.method == "POST":
+        payment = request.POST.get("payment")
+        if payment == "bkash":
+
+            #grant token
+            
+            url = "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/token/grant"
+
+            payload = {
+                "app_key": "4f6o0cjiki2rfm34kfdadl1eqq",
+                "app_secret": "2is7hdktrekvrbljjh44ll3d9l1dtjo4pasmjvs5vl5qr3fug4b"
+            }
+            headers = {
+                "accept": "application/json",
+                "username": "sandboxTokenizedUser02",
+                "password": "sandboxTokenizedUser02",
+                "content-type": "application/json"
+            }
+
+            response = requests.post(url, json=payload, headers=headers)
 
     return render(request,'ka_main/web/checkout.html',context)
 
+def enrolling(request,pk):
+    device = identify_device(request)
+    if device == "Desktop":
+        template_name = 'ka_main/web/enroll.html'
+    else:
+        template_name = 'ka_main/mobile/enroll.html'
+    
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
 
+        instance = Enrollment.objects.create(courseId=pk,user=email,phone=phone,enrolled=True)
+        return redirect("parentcourse",pk)
+    
+    instance = ParentcourseTypeOne.objects.get(courseId=pk)
+    context = {
+        'instance':instance,
+    }
+
+    return render(request,template_name,context)
 
 
 

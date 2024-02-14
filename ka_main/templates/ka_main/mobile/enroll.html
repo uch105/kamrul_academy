@@ -1,0 +1,39 @@
+{% extends 'ka_main/mobile/base.html' %}
+{% load static %}
+
+{% block title %}
+Course Enrollment
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="tiny" style="margin-top: 200px;text-align: center;">Enroll for the course<br>"{{ instance.title }}"</h1>
+    <form action="{% url 'enroll' pk=instance.courseId %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="email" placeholder="Enter your email" class="inputField">
+        <input type="text" name="phone" class="inputField" placeholder="Enter your phone number">
+        <button type="submit" class="inputField inputbutton">Enroll</button>
+    </form>
+</div>
+<style>
+form{
+    font-family: "BanglaRegular",sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.inputField{
+    margin: 20px;
+    border: none;
+    border-bottom: 1px var(--primary-color) solid;
+    background-color: none;
+}
+.inputbutton{
+    padding: 10px 60px;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+}
+</style>
+{% endblock %}

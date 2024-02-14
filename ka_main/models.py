@@ -69,7 +69,7 @@ class Mentor(models.Model):
     password = models.CharField(max_length= 200)
     nid = models.BigIntegerField(default=0)
     institution = models.TextField()
-    expertise = HTMLField()
+    expertise = models.TextField()
     payment_details = models.TextField()
     email = models.EmailField(null=True)
 
@@ -80,7 +80,7 @@ class Blog(models.Model):
     blog_id = models.CharField(max_length= 100,unique=True,primary_key=True)
     title = models.CharField(max_length = 200)
     thumbnail = models.ImageField(upload_to='media/images/blog_images/',null=True)
-    preface = HTMLField()
+    preface = models.TextField()
     desc = HTMLField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now = True)
@@ -98,7 +98,7 @@ class Course(models.Model):
     title = models.CharField(max_length = 200)
     thumbnail = models.ImageField(upload_to='media/images/course_images/',null=True)
     preface = models.TextField()
-    desc = HTMLField()
+    desc = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now = True)
     mod_name = models.ForeignKey(Moderator,on_delete=models.SET_NULL,null=True)
@@ -135,8 +135,8 @@ class Course_hub(models.Model):
     c_hub_id = models.CharField(max_length=100,primary_key=True)
     title = models.CharField(max_length = 200)
     thumbnail = models.ImageField(upload_to='media/images/course_images/')
-    preface = HTMLField()
-    desc = HTMLField()
+    preface = models.TextField()
+    desc = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now = True)
     mod_name = models.ForeignKey(Moderator,on_delete=models.SET_NULL,null=True)
@@ -203,7 +203,7 @@ class LiveClassComments(models.Model):
     
 class IndexPromo(models.Model):
     titleBold = models.CharField(max_length=300)
-    text = HTMLField()
+    text = models.TextField()
     image = models.ImageField(upload_to="media/images/index")
 
     def __str__(self):
@@ -211,7 +211,7 @@ class IndexPromo(models.Model):
 
 class Faq(models.Model):
     title = models.CharField(max_length=300)
-    answer = HTMLField()
+    answer = models.TextField()
     for_index = models.BooleanField(default=False)
 
     def __str__(self):
@@ -228,13 +228,13 @@ class Inquiry(models.Model):
         return self.email
 
 class Terms_Conditions(models.Model):
-    text = HTMLField()
+    text = models.TextField()
 
 class Refund_Policy(models.Model):
-    text = HTMLField()
+    text = models.TextField()
 
 class Privacy(models.Model):
-    text = HTMLField()
+    text = models.TextField()
 
 class UserConnectProduct(models.Model):
     piduid = models.CharField(max_length=200)
@@ -271,3 +271,50 @@ class UserDislikeCourse(models.Model):
 
     def __str__(self):
         return self.username
+    
+class ParentcourseTypeOne(models.Model):
+    courseId = models.CharField(max_length=100,primary_key=True)
+    title = models.TextField()
+    preface = models.TextField()
+    description = models.TextField(null=True)
+    rating = models.FloatField()
+    rating_counts = models.IntegerField()
+    banner = models.ImageField(upload_to="media/images/parentcourse/")
+    seat_remaining = models.IntegerField()
+    days_remaining = models.IntegerField()
+    modules_count = models.IntegerField()
+    classes_count = models.IntegerField()
+    exam_count = models.IntegerField()
+    project_count = models.IntegerField()
+    mentorId = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title
+
+class Curriculum(models.Model):
+    courseId = models.CharField(max_length=100)
+    week_name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
+    classes_count = models.IntegerField()
+
+    def __str__(self):
+        return self.title
+
+class TemporaryMentor(models.Model):
+    mentorId = models.CharField(max_length=100,primary_key=True)
+    email = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    speciality = models.CharField(max_length=300)
+
+    def __str__(self):
+        return self.name
+
+class Enrollment(models.Model):
+    courseId = models.CharField(max_length=100)
+    user = models.CharField(max_length=100)
+    phone = models.CharField(max_length=100)
+    enrolled = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user
