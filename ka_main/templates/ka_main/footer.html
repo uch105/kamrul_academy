@@ -1,0 +1,46 @@
+{% load static %}
+<footer class="footer-container">
+    <div class="container above">
+        <div class="first-footer">
+            <div><img src="{% static 'images/icons/LogoLight.png' %}" alt="Kamrul Academy"></div>
+            <div><span class="bn-bold small">আমাদের সাথে কানেক্টেড থাকো</span></div>
+            <div class="social">
+                <a href="https://www.facebook.com/people/Kamrul-Academy/100090648279409/"><img src="{% static 'images/icons/Facebook.png' %}" alt=""></a>
+                <a href="https://www.instagram.com/kamrulacademy/"><img src="{% static 'images/icons/Instagram.png' %}" alt=""></a>
+                <a href="https://wa.me/qr/YYD3XV5YRNUKL1"><img src="{% static 'images/icons/WhatsApp.png' %}" alt=""></a>
+                <a href="https://www.linkedin.com/signup/cold-join?session_redirect=https%3A%2F%2Fwww%2Elinkedin%2Ecom%2Ffeed%2F&trk=login_reg_redirect"><img src="{% static 'images/icons/LinkedIn.png' %}" alt=""></a>
+                <a href="https://t.me/kamrulacademy"><img src="{% static 'images/icons/Telegram.png' %}" alt=""></a>
+                <a href="https://www.tiktok.com/@kamrulacademy_23?is_from_webapp=1&sender_device=pc"><img src="{% static 'images/icons/Tiktok.png' %}" alt=""></a>
+            </div>
+        </div>
+        <div class="second-footer">
+            <div><span class="bn-bold small">লিংক</span></div>
+            <div><a href="{% url 'livecourses' %}"><span class="bn-regular tiny contact">কোর্সসমূহ</span></a></div>
+            <div><a href="{% url 'books' %}"></a><span class="bn-regular tiny contact">বই পড়ুন</span></a></div>
+            <div><a href="{% url 'about' %}"></a><span class="bn-regular tiny contact">আমাদের সম্পর্কে</span></a></div>
+            <div><a href="{% url 'blogs' %}"></a><span class="bn-regular tiny contact">ব্লগসমুহ</span></a></div>
+        </div>
+        <div class="third-footer">
+            <div><span class="bn-bold small">যোগাযোগ</span></div>
+            <div><span class="en-regular tiny contact contact1"><img src="{% static 'images/icons/call-calling-blue.png' %}" alt="Call"><span>+8801323314826</span></span></div>
+            <div><span class="en-regular tiny contact contact1"><img src="{% static 'images/icons/sms-blue.png' %}" alt="Mail"><span>kamrulacademyofficial@gmail.com</span></span></div>
+            <div><span class="bn-regular tiny contact contact1"><img src="{% static 'images/icons/location.png' %}" alt="Call"><span>৪০/১৮, সতিশ সরকার রোড, ডি.আই.টি প্লট,<br>গেন্ডারিয়া, ঢাকা-১২০৪</span></span></div>
+        </div>
+        <div class="fourth-footer">
+            <div><span class="bn-bold small">কোম্পানীর তথ্য</span></div>
+            <div><span class="en-regular tiny contact">Trade Licence No : <br>TRAD/DNCC/037342/2023</span></div>
+            <div><span class="en-regular tiny contact">E - TIN No : <br>196791695988</span></div>
+        </div>
+    </div>
+    <hr class="container">
+    <div class="container under">
+        <div class="links">
+            <a href="{% url 'terms' %}"><span class="en-bold contact">Terms & Conditions</span></a>
+            <span class="en-light dari">|</span>
+            <a href="{% url 'refund' %}"><span class="en-bold contact">Refund Policy</span></a>
+            <span class="en-light dari">|</span>
+            <a href="{% url 'privacy' %}"><span class="en-bold contact">Privacy Policy</span></a>
+        </div>
+        <div class="copyright"><span class="en-bold tiny">Copyright © 2024 Kamrul Academy</span></div>
+    </div>
+</footer>

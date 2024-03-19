@@ -1,0 +1,35 @@
+{% extends 'ka_main/base.html' %}
+{% load static %}
+
+{% block title %}
+All blogs
+{% endblock %}
+
+{% block body %}
+
+<h1 style="text-align: center;padding: 50px 0px;">Latest Blog</h1>
+
+<div class="index-blogs">
+    <div class="container">
+        <div class="blogs">
+            {% for blog in blogs %}
+            <div class="blog">
+                <div class="category">
+                    <span class="en-bold extra-tiny category1">{{ blog.tag }}</span>
+                </div>
+                <img src="{{ blog.banner.url }}" alt="">
+                <span class="bn-bold small">{{ blog.title }}</span>
+                <span class="bn-light tiny">{{ blog.preface }}</span>
+                <div>
+                    <a href="{% url 'blog' pk=blog.blogid %}">
+                        <span class="bn-regular tiny">বিস্তারিত দেখি</span>
+                        <img src="{% static 'images/icons/arrow-right-blue.png' %}" alt="">
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

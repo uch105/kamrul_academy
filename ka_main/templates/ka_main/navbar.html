@@ -1,0 +1,23 @@
+{% load static %}
+<header class="navigation-header">
+    <nav class="container">
+        <div class="logo-container">
+            <a href="{% url 'home' %}"><img src="{% static 'images/icons/LogoLight.png' %}" alt="Kamrul Academy"></a>
+        </div>
+        <div class="navigation-items" id="navigation-items">
+            <a href="{% url 'livecourses' %}" class="bn-bold">কোর্সসমূহ</a>
+            <a href="{% url 'books' %}" class="bn-bold">বই পড়ুন</a>
+            <a href="{% url 'about' %}" class="bn-bold">আমাদের সম্পর্কে</a>
+            <a href="{% url 'blogs' %}" class="bn-bold">ব্লগসমূহ</a>
+            {% if user.is_authenticated %}
+            <a class="bn-bold" href="{% url 'dashboard' %}"><span class="login-button">ড্যাশবোর্ড</span></a>
+            {% else %}
+            <a class="bn-bold" href="{% url 'sign-up' %}"><span class="login-button">লগ ইন<img src="{% static 'images/icons/login.png' %}" alt="Login arrow"></span></a>
+            {% endif %}
+        </div>
+        <div class="hamburger">
+            <span id="openHam">&#9776;</span>
+            <span id="closeHam">&#x2716;</span>
+        </div>
+    </nav>
+</header>

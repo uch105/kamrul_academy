@@ -1,0 +1,43 @@
+{% extends 'ka_main/base.html' %}
+{% load static %}
+
+{% block title %}
+Checkout
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="payment-instructions">
+            <p class="bn-bold small">পেমেন্ট মেথড: <br><br>
+                বিকাশে পেমেন্ট করুন 01323314826 <br><br>
+                অথবা সেন্ড মানি করুন বিকাশ/নগদ - 01590038009 (পার্সোনাল)<br><br>
+                রকেট - 01712823092 (পার্সোনাল)<br><br>
+                পেমেন্ট সম্পন্ন করে ট্রানজেকশন আইডি ইনবক্স করুন 
+                অথবা পেমেন্ট করে ফর্ম টা পূর্ণ করুন
+                <a href="https://forms.gle/j5zL47Wwq47z6AFR7" class="bn-bold small blue">https://forms.gle/j5zL47Wwq47z6AFR7</a><br><br>
+                বিস্তারিত জানতে কল করুন : +880 1323-314826<br><br>
+                
+                পেমেন্ট সম্পন্ন হলেই আমাদের ব্যাচের প্রাইভেট গ্রুপে আপনাকে এড করে দিবো ইনশাআল্লাহ
+                </p>
+        </div>
+    </div>
+    <style>
+        .payment-instructions{
+            display: flex;
+            justify-content: center;
+            padding: 30px;
+            margin-top: 10px;
+            background-color: var(--light-color);
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.23);
+        }
+        .payment-instructions > p{
+            max-width: 500px;
+        }
+        @media screen and (max-width: 500px){
+            .payment-instructions > p{
+                max-width: 300px;
+            }
+        }
+    </style>
+{% endblock %}

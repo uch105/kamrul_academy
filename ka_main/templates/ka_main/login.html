@@ -1,0 +1,28 @@
+{% extends 'ka_main/base.html' %}
+{% load static %}
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="login-container">
+            <div class="login-box">
+                <div class="images">
+                    <img src="{% static 'images/others/loginpageanimate.png' %}" alt="">
+                    <span class="bn-regular tiny" style="text-align: center; color: var(--dark-color);">লাইভ ক্লাসে অংশ নিয়ে বজায় রাখুন রুটিনমাফিক ডেভেলপমেন্ট</span>
+                </div>
+                <div class="credentials">
+                    <span class="bn-bold tiny">লগ ইন করুন</span>
+                    <form action="">
+                        <input type="tel" id="inputfield" class="inputfield" placeholder="মোবাইল নাম্বার / ইমেইল">
+                        <input type="password" id="inputfield" class="inputfield" placeholder="পাসওয়ার্ড">
+                        <input type="submit" value="লগ ইন" id="inputfield" class="inputfield btn">
+                    </form>
+                    <span class="bn-regular tiny">কল করুন: 01323314826</span>
+                    <span class="en-regular tiny">Not a member? <a href="{% url 'sign-up' %}"><span style="color: green;">Be a member</span></a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

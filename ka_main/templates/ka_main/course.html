@@ -1,0 +1,158 @@
+{% extends 'ka_main/base.html' %}
+{% load static %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block body %}
+
+{% if islive %}
+
+<div class="course-page" >
+    {% if course.offer %}
+    <div style="display: none;" id="expirydate">{{ course.expiry_date }}</div>
+    <div class="offer" id="offer">
+        <span class="bon-bold small">{{ course.promocode }} প্রোমো কোডটি ব্যবহার করলেই পাচ্ছেন {{ course.saving }} টাকা ছাড় । বাকি <span id="days" class="changable"></span> দিন <span id="hours" class="changable"></span> ঘন্টা <span id="minutes" class="changable"></span> মিনিট</span>
+    </div>
+    {% endif %}
+    <div class="container">
+        <div class="main-course">
+            <div class="course-details">
+                <span class="bn-bold large">{{ course.title }}</span>
+                <div class="info">
+                    <div class="infoo">
+                        <span class="bn-bold extra-tiny">ব্যাচ শুরু</span>
+                        <span class="blue bn-bold extra-tiny">{{ course.startdate }}</span>
+                    </div>
+                    <div class="infoo">
+                        <span class="bn-bold extra-tiny">সময়</span>
+                        <span class="blue bn-bold extra-tiny">{{ course.classtime }}</span>
+                    </div>
+                    <div class="infoo">
+                        <span class="bn-bold extra-tiny">ক্লাসের দিন</span>
+                        <span class="blue bn-bold extra-tiny">{{ course.classday }}</span>
+                    </div>
+                </div>
+                <p class="bn-regular tiny">
+                    {{ course.description }}
+                </p>
+                <div class="faqs">
+                    {% for faq in faqs %}
+                    <details>
+                        <summary class="bn-bold tiny">{{ faq.question }}</summary>
+                        <p class="bn-regular tiny">{{ faq.answer }}</p>
+                    </details>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="sticky">
+                <div class="course-sticky">
+                    <iframe class="img" src="{{ course.utubelink }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <div class="bullets">
+                        <span class="bullet">
+                            <img src="{% static 'images/icons/calendar.png' %}" alt="">
+                            <span class="bn-regular tiny">ব্যাচ {{ course.batchno }}</span>
+                        </span>
+                        <span class="bullet">
+                            <img src="{% static 'images/icons/people.png' %}" alt="">
+                            <span class="bn-regular tiny">{{ course.seatremaining }} সিট বাকি</span>
+                        </span>
+                        <span class="bullet">
+                            <img src="{% static 'images/icons/clock.png' %}" alt="">
+                            <span class="bn-regular tiny">{{ course.daysremaining }} দিন বাকি</span>
+                        </span>
+                    </div>
+                    <div style="text-align: center;padding: 10px;margin-bottom: 10px;">
+                        <span class="blue en-bold standard"><span><del>&#2547; {{ course.saving }}</del></span>&#2547; {{ course.fee }}</span>
+                    </div>
+                    {% if enrolled %}
+                    {% else %}
+                    <a href="{% url 'checkout' pk=course.courseid %}"><span class="bn-bold tiny white">ভর্তি হোন</span></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+
+<!-- recorded -->
+
+<div class="course-page" >
+    {% if course.offer %}
+    <div style="display: none;" id="expirydate">{{ course.expiry_date }}</div>
+    <div class="offer" id="offer">
+        <span class="bon-bold small">{{ course.promocode }} প্রোমো কোডটি ব্যবহার করলেই পাচ্ছেন {{ course.saving }} টাকা ছাড় । বাকি <span id="days" class="changable"></span> দিন <span id="hours" class="changable"></span> ঘন্টা <span id="minutes" class="changable"></span> মিনিট</span>
+    </div>
+    {% endif %}
+    <div class="container">
+        <div class="main-course">
+            <div class="course-details">
+                <span class="bn-bold large">{{ course.title }}</span>
+                <div class="info">
+                    <div class="infoo">
+                        <span class="bn-bold extra-tiny">ক্লাস সংখ্যা</span>
+                        <span class="blue bn-bold extra-tiny">{{ course.total_class }}</span>
+                    </div>
+                    <div class="infoo">
+                        <span class="bn-bold extra-tiny">পরীক্ষা</span>
+                        <span class="blue bn-bold extra-tiny">{{ course.total_exam }}</span>
+                    </div>
+                    <div class="infoo">
+                        <span class="bn-bold extra-tiny">মোট সময়</span>
+                        <span class="blue bn-bold extra-tiny">{{ course.total_duration }} minutes</span>
+                    </div>
+                </div>
+                <p class="bn-regular tiny">
+                    {{ course.description }}
+                </p>
+                <div class="faqs">
+                    {% for faq in faqs %}
+                    <details>
+                        <summary class="bn-bold tiny">{{ faq.question }}</summary>
+                        <p class="bn-regular tiny">{{ faq.answer }}</p>
+                    </details>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="sticky">
+                <div class="course-sticky">
+                    <img src="{{ course.banner.url }}" alt="">
+                    <div style="text-align: center;padding: 10px;margin-bottom: 10px;">
+                        <span class="blue en-bold standard"><span><del>&#2547; {{ course.saving }}</del></span>&#2547; {{ course.fee }}</span>
+                    </div>
+                    {% if enrolled %}
+                    <a href="{% url 'checkout' pk=course.courseid %}"><span class="bn-bold tiny white">ভর্তি হোন</span></a>
+                    {% else %}
+                    <a href="{% url 'class' pk=course.courseid pk2=course.firstclass %}"><span class="bn-bold tiny white">ক্লাস করুন</span></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+<script>
+    var countDownDate = new Date(document.getElementById("expirydate").innerText).getTime();
+    var x = setInterval(function(){
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        //var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerHTML = days
+        document.getElementById("hours").innerHTML = hours
+        document.getElementById("minutes").innerHTML = minutes
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("offer").style.display = "none";
+        }
+    },1);
+</script>
+{% endblock %}

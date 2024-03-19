@@ -1,0 +1,95 @@
+{% extends 'ka_main/dashboard.html' %}
+{% load static %}
+
+{% block title %}
+Dashboard - Live Courses
+{% endblock title %}
+
+{% block body %}
+
+<div class="dashboard-block">
+    {% if yes %}
+    <div class="enrolled" >
+        <span class="en-bold small">Enrolled Live Courses</span>
+        <div class="live-classes">
+            {% for class in classes %}
+            <div class="class">
+                <img src="{{ course.banner.url }}" alt="">
+                <span class="bn-bold tiny text">{{ class.title }}</span>
+                <span class="bn-regular tiny">{{ class.name }}</span>
+                <div class="timer">
+                    <img src="{% static 'images/icons/timer.png' %}" alt="">
+                    <div style="display: none;" id="expirydate">{{ class.startdate }}</div>
+                    <span class="en-bold extra-tiny">Starts in <span class=" en-bold extra-tiny orange"><span id="days"></span> দিন <span id="hours" ></span> ঘন্টা <span id="minutes"></span> মিনিট</span></span>
+                </div>
+                <div class="date-time">
+                    <div class="date">
+                        <img src="{% static 'images/icons/calendar.png' %}" alt="">
+                        <span class="en-bold extra-tiny">{{ class.date }}</span>
+                    </div>
+                    <div class="date">
+                        <img src="{% static 'images/icons/clock.png' %}" alt="">
+                        <span class="en-bold extra-tiny">{{ class.schedule }}</span>
+                    </div>
+                </div>
+                <div class="class-join-link">
+                    <a href="{{ class.link }}">
+                        <span>JOIN CLASS : </span>
+                        <img src="{% static 'images/icons/video-white.png' %}" alt="">
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+
+    <div class="not-enrolled" >
+        <img src="{% static 'images/icons/tv.png' %}" alt="">
+        <span class="bn-bold tiny orange">আপনি এখনো কোনো কোর্স এ এনরোল করেন নাই।</span>
+        <a href="{% url 'livecourses' %}"><span class="en-bold tiny">Explore Courses &#8594;</span></a>
+    </div>
+
+    {% endif %}
+
+    <div class="help">
+        <div class="images">
+            <div class="image">
+                <img src="{% static 'images/icons/customer-service.png' %}" alt="">
+            </div>
+            <div>
+                <span class="bn-regular small orange">হেল্প লাগবে?</span>
+                <span class="bn-regular tiny">যেকোনো টেকনিক্যাল সমস্যাতে কল করুন <span class="orange">(সকাল ১২টা থেকে রাত ১২টা)</span></span>
+            </div>
+        </div>
+        <div class="phone">
+            <span class="bn-regular tiny">কল করুন</span>
+            <span class="text">
+                <img src="{% static 'images/icons/call-discolor.png' %}" alt="">
+                <span class="en-bold tiny">01323314826</span>
+            </span>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var countDownDate = new Date(document.getElementById("expirydate").innerText).getTime();
+    var x = setInterval(function(){
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        //var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerHTML = days
+        document.getElementById("hours").innerHTML = hours
+        document.getElementById("minutes").innerHTML = minutes
+        //if (distance < 0) {
+        //    clearInterval(x);
+        //    document.getElementById("offer").style.display = "none";
+        //}
+    },1);
+</script>
+{% endblock %}

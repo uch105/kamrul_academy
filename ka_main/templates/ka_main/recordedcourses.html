@@ -1,0 +1,55 @@
+{% extends 'ka_main/base.html' %}
+{% load static %}
+
+{% block title %}
+All Recorded Courses
+{% endblock %}
+
+{% block body %}
+<h2 style="text-align: center;padding: 20px 0px;">আমাদের কোর্সসমুহ</h2>
+<div class="all-course-category">
+    <a href="{% url 'livecourses' %}"><span class="bn-bold tiny course-type">লাইভ</span></a>
+    <a href="{% url 'recordedcourses' %}"><span class="bn-bold tiny course-type">রেকর্ডেড</span></a>
+</div>
+<div class="wrapper-fold">
+    <div class="wrapper">
+        <i class="fas fa-angle-left" id="left"></i>
+        <ul class="carousel">
+            {% for course in courses %}
+          <li class="card">
+            <div class="course">
+                <div class="banner">
+                    <img src="{{ course.banner.url }}" alt="Banner" width="320px" height="auto" style="border-radius: 8px 8px 0px 0px;">
+                </div>
+                <div class="bullets">
+                    <span class="bullet">
+                        <img src="{% static 'images/icons/folder-open.png' %}" alt="">
+                        <span class="bn-regular extra-tiny">{{ course.total_class }} classes</span>
+                    </span>
+                    <span class="bullet">
+                        <img src="{% static 'images/icons/note-2.png' %}" alt="">
+                        <span class="bn-regular extra-tiny">{{ course.total_exam }} exams</span>
+                    </span>
+                    <span class="bullet">
+                        <img src="{% static 'images/icons/clock.png' %}" alt="">
+                        <span class="bn-regular extra-tiny">{{ course.total_duration }} minutes</span>
+                    </span>
+                </div>
+                <hr>
+                <div class="title">
+                    <span class="bn-bold small">{{ course.title }}</span>
+                </div>
+                <div class="details">
+                    <span>
+                        <a href="{% url 'parentcourse' pk=course.courseid %}" class="bn-regular tiny">বিস্তারিত দেখুন</a>
+                        <img src="{% static 'images/icons/arrow-right.png' %}" alt="">
+                    </span>
+                </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        <i class="fas fa-angle-right" id="right"></i>
+      </div>
+</div>
+{% endblock %}

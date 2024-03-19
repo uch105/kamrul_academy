@@ -1,0 +1,43 @@
+{% extends 'ka_main/dashboard.html' %}
+{% load static %}
+
+{% block title %}
+Dashboard - Profile
+{% endblock title %}
+
+{% block body %}
+
+<div class="dashboard-block">
+
+    <div class="profile">
+        <div class="personal">
+            <span class="bn-bold tiny">পার্সোনাল ডিটেইলস</span>
+            {% if instance.allokay %}
+            <img src="{{ instance.dp.url }}" alt="">
+            {% else %}
+            <img src="{% static 'images/others/dp.png' %}" alt="">
+            {% endif %}
+            <span class="bn-regular extra-tiny">ছবিটি অবশ্যই 150*150 px হতে হবে</span>
+            <form action="{% url 'dashboard-profile' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" id="inputfield" class="inputfield pictureinput" placeholder="ছবি আপলোড করুন" name="dp" required>
+                <input type="text" id="inputfield" class="inputfield"name="fullname" placeholder="পুরো নাম" required>
+                <input type="tel" id="inputfield" class="inputfield" placeholder="প্রাইমারী নাম্বার" name="primary" required>
+                <input type="tel" id="inputfield" class="inputfield" placeholder="অলটারনেটিভ নাম্বার" name="alternative" required>
+                <input type="email" id="inputfield" class="inputfield" placeholder="প্রাইমারী ইমেইল" name="email" required>
+                <input type="submit" value="আপডেট" id="inputfield" class="inputfield btn">
+            </form>
+        </div>
+        <div class="personal">
+            <span class="bn-bold tiny">পাসওয়ার্ড পরিবর্তন করুন</span>
+            <form action="">
+                {% csrf_token %}
+            <input type="password" disabled name="" id="inputfield" class="inputfield pass" placeholder="নতুন পাসওয়ার্ড" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must contain at least one number, one uppercase and lowercase letter, and at least 8 characters long">
+            <input type="password" disabled name="" id="inputfield" class="inputfield" placeholder="কনফার্ম পাসওয়ার্ড">
+            <input type="submit" disabled value="সেট করুন" id="inputfield" class="inputfield btn">
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

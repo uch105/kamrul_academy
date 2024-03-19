@@ -1,0 +1,46 @@
+{% extends 'ka_main/base.html' %}
+{% load static %}
+{% block title %}
+    Verify
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    {% if error %}
+    <p class="en-bold" style="text-align: center;">{{ error }}</p>
+    {% endif %}
+    <div class="login-container">
+        <div class="login-box">
+            <div class="images">
+                <img src="{% static 'images/others/otppageanimate.png' %}" alt="">
+                <span class="bn-regular tiny" style="text-align: center; color: var(--dark-color);">লাইভ ক্লাসে অংশ নিয়ে বজায় রাখুন রুটিনমাফিক ডেভেলপমেন্ট</span>
+            </div>
+            <div class="credentials">
+                <span class="bn-bold tiny">মোবাইল নাম্বার কনফার্ম করুন</span>
+                <span class="bn-regular tiny">{{ phone }} ফোনে পাঠানো 5 সংখ্যার কোডটি লিখুন</span>
+                <form action="{% url 'otp' pk=phone %}" class="otp-form" autocomplete="off" method="POST">
+                    {% csrf_token %}
+                    <div class="otps">
+                        <input type="number" name="1" id="inputfield digit1" class="inputfield" oninput="shiftFocus(this, 'digit2')" maxlength="1" required>
+                        <input type="number" name="2" id="inputfield digit2" class="inputfield" oninput="shiftFocus(this, 'digit3')" maxlength="1" required>
+                        <input type="number" name="3" id="inputfield digit3" class="inputfield" oninput="shiftFocus(this, 'digit4')" maxlength="1" required>
+                        <input type="number" name="4" id="inputfield digit4" class="inputfield" oninput="shiftFocus(this, 'digit5')" maxlength="1" required>
+                        <input type="number" name="5" id="inputfield digit5" class="inputfield" oninput="shiftFocus(this, null)" maxlength="1" required>
+                    </div>
+                    <input type="submit" value="সাইন ইন" id="inputfield" class="inputfield btn">
+                </form>
+                <span class="bn-regular tiny">কল করুন: 01323314826</span>
+                <span class="bn-regular tiny">কোড পাননি? <a href="{% url 'sign-up' %}"><span style="color: green;">পুনরায় পাঠান</span></a></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function shiftFocus(currentInput, nextInputId) {
+        if (currentInput.value.length === 1 && nextInputId) {
+            document.getElementById(nextInputId).focus();
+        }
+    }
+</script>
+{% endblock %}

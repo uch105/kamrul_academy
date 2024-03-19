@@ -1,0 +1,372 @@
+{% extends 'ka_main/base.html' %}
+{% load static %}
+
+{% block title %}
+Home Page - Kamrul Academy
+{% endblock title %}
+
+{% block body %}
+<div class="index-hero">
+    <div class="container hero-contents">
+        <div class="texts">
+            <div class="first-hero">
+                <div><img src="{% static 'images/icons/live1.png' %}" alt="Live"></div>
+                <div><span class="bn-regular extra-tiny">দেশ সেরা লাইভ আইটি ট্রেনিং ইন্সটিটিউট</span></div>
+            </div>
+            <div class="second-hero">
+                <span class="large"><h2>শেখার যাত্রা চলুক <br> অভিজ্ঞ নির্দেশনায়</h2></span>
+            </div>
+            <div class="third-hero">
+                <span class="bn-regular tiny">আপডেটেড কারিকুলাম, অভিজ্ঞ টিচার, মেন্টর ও সার্বক্ষণিক গাইডেন্স সহ কামরুল একাডেমি রয়েছে শিক্ষার্থীদের পরিপূর্ণ বিকাশে সহায়তায়। আপনার চাহিদা ও আগ্রহ অনুযায়ী বেছে নিন কোর্সসমূহ</span>
+            </div>
+            <div class="fourth-hero">
+                <span>
+                    <a href="{% url 'livecourses' %}" class="bn-regular tiny">ব্রাউজ কোর্স</a>
+                    <img src="{% static 'images/icons/arrow-right.png' %}" alt="">
+                </span>
+                
+            </div>
+        </div>
+        <div class="pics"><img src="{% static 'images/others/hero.png' %}" alt=""></div>
+    </div>
+</div>
+
+<div class="index-courses">
+    <div class="container">
+        <div class="type">
+            <span class="bn-regular tiny orange">লাইভ কোর্স</span>
+        </div>
+        <div class="type" style="margin-top: 15px;">
+            <span class="bn-bold standard">আমাদের কোর্সসমুহ</span>
+        </div>
+
+        <div class="courses">
+            {% for course in lcourses %}
+            <div class="course">
+                <div class="banner">
+                    <img src="{{ course.banner.url }}" alt="Banner" width="350px" height="auto" style="border-radius: 10px 10px 0px 0px;">
+                </div>
+                <div class="bullets">
+                    <span class="bullet">
+                        <img src="{% static 'images/icons/calendar.png' %}" alt="">
+                        <span class="bn-regular tiny">ব্যাচ {{ course.batchno }}</span>
+                    </span>
+                    <span class="bullet">
+                        <img src="{% static 'images/icons/people.png' %}" alt="">
+                        <span class="bn-regular tiny">{{ course.seatremaining }} সিট বাকি</span>
+                    </span>
+                    <span class="bullet">
+                        <img src="{% static 'images/icons/clock.png' %}" alt="">
+                        <span class="bn-regular tiny">{{ course.daysremaining }} দিন বাকি</span>
+                    </span>
+                </div>
+                <hr>
+                <div class="title">
+                    <span class="bn-bold small">{{ course.title }}</span>
+                </div>
+                <div class="details">
+                    <span>
+                        <a href="{% url 'parentcourse' pk=course.courseid %}" class="bn-regular tiny">বিস্তারিত দেখুন</a>
+                        <img src="{% static 'images/icons/arrow-right.png' %}" alt="">
+                    </span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="all-button">
+            <span>
+                <a href="{% url 'livecourses' %}" class="bn-regular tiny">সকল কোর্স</a>
+                <img src="{% static 'images/icons/arrow-right-black.png' %}" alt="">
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="index-studentcount">
+    <div class="container">
+        <div class="holder">
+            <div class="texts">
+                <div class="text">
+                    <span class="bn-bold standard color1">২৫ লক্ষ+</span>
+                    <span class="bn-regular tiny">শিক্ষার্থী</span>
+                </div>
+                <div class="text">
+                    <span class="bn-bold standard color2">৫০ জন+</span>
+                    <span class="bn-regular tiny">অভিজ্ঞ মেন্টর</span>
+                </div>
+                <div class="text">
+                    <span class="bn-bold standard color3">৯০%</span>
+                    <span class="bn-regular tiny">কমপ্লিশন রেট</span>
+                </div>
+                <div class="text">
+                    <span class="bn-bold standard color4">২৮</span>
+                    <span class="bn-regular tiny">লাইভ কোর্স</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="index-courses">
+    <div class="container">
+        <div class="type">
+            <span class="bn-regular tiny orange">রেকের্ডেড কোর্স</span>
+        </div>
+        <div class="type" style="margin-top: 15px;">
+            <span class="bn-bold standard">আমাদের কোর্সসমুহ</span>
+        </div>
+        
+        <div class="courses">
+            {% for course in rcourses %}
+            <div class="course">
+                <div class="banner">
+                    <img src="{{ course.banner.url }}" alt="Banner" width="350px" height="auto" style="border-radius: 10px 10px 0px 0px;">
+                </div>
+                <div class="bullets">
+                    <span class="bullet">
+                        <img src="{% static 'images/icons/folder-open.png' %}" alt="">
+                        <span class="bn-regular tiny">{{ course.total_class }} classes</span>
+                    </span>
+                    <span class="bullet">
+                        <img src="{% static 'images/icons/note-2.png' %}" alt="">
+                        <span class="bn-regular tiny">{{ course.total_exam }} exams</span>
+                    </span>
+                    <span class="bullet">
+                        <img src="{% static 'images/icons/clock.png' %}" alt="">
+                        <span class="bn-regular tiny">{{ course.total_duration }} minutes</span>
+                    </span>
+                </div>
+                <hr>
+                <div class="title">
+                    <span class="bn-bold small">{{ course.title }}</span>
+                </div>
+                <div class="details">
+                    <span>
+                        <a href="{% url 'parentcourse' pk=course.courseid %}" class="bn-regular tiny">বিস্তারিত দেখুন</a>
+                        <img src="{% static 'images/icons/arrow-right.png' %}" alt="">
+                    </span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="all-button">
+            <span>
+                <a href="{% url 'recordedcourses' %}" class="bn-regular tiny">সকল কোর্স</a>
+                <img src="{% static 'images/icons/arrow-right-black.png' %}" alt="">
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="index-live-features">
+    <div class="container">
+        <div class="bn-regular extra-tiny orange">দেখে নিন কি কি পাচ্ছেন</div>
+        <h2>কি কি পাচ্ছেন লাইভ কোর্সে</h2>
+        <div class="cards">
+            <div class="card">
+                <img src="{% static 'images/icons/instagram-live.png' %}" alt="">
+                <h4>ইন্টারেকটিভ লাইভ ক্লাস</h4>
+                <span class="bn-regular tiny">প্রতিটি লাইভ কোর্সে থাকছে মেন্টরদের সাথে সরাসরি কমিউনিকেট করার সুযোগ</span>
+            </div>
+            <div class="card">
+                <img src="{% static 'images/icons/notebook1.png' %}" alt="">
+                <h4>স্পেশালাইজড গাইডেন্স</h4>
+                <span class="bn-regular tiny">গাইড টিচার ও মেন্টর থাকছেন পারদর্শিতা ও আগ্রহ অনুযায়ী দিক নির্দেশনায়</span>
+            </div>
+            <div class="card">
+                <img src="{% static 'images/icons/study-time.png' %}" alt="">
+                <h4>ডেইলি প্রোগ্রেস ট্র্যাকিং</h4>
+                <span class="bn-regular tiny">নিজস্ব ড্যাশবোর্ডে পাওয়া যাবে ডেইলি এক্টিভিটি লিস্ট ও গ্রোথ রেট</span>
+            </div>
+            <div class="card">
+                <img src="{% static 'images/icons/medal1.png' %}" alt="">
+                <h4>শিক্ষা পরবর্তী প্রয়োগের সুযোগ</h4>
+                <span class="bn-regular tiny">সফলভাবে কোর্স সম্পন্নের পর থাকছে সেই বিষয়ে ইন্টার্নের সুযোগ</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="index-reviews" style="display: none;">
+    <div class="text">
+        <span class="bn-regular extra-tiny orange">দেখে নিন কি বলছেন ওস্তাদ গ্র্যাজুয়েটরা</span>
+        <h2>দেখে নিন কি বলছেন ওস্তাদ গ্র্যাজুয়েটরা</h2>
+    </div>
+    <div class="wrapper-fold">
+        <div class="wrapper">
+            <i class="fas fa-angle-left" id="left"></i>
+            <ul class="carousel">
+              <li class="card">
+                <div class="review">
+                    <img src="{% static 'images/others/votka.png' %}" alt="" width="175px" height="175px">
+                    <div class="name-batch-text">
+                        <span class="bn-bold tiny">Shafayet Rana</span>
+                        <span class="en-light tiny">UX/UI - Batch 6</span>
+                        <span class="bn-regular tiny">Ostad এর বিশেষত্ত্ব হচ্ছে ওনারা  ডিজাইনের চেয়েও ডিজাইন সাইকোলজিতে ফোকাস বেশি দেয়। যা একজন শিক্ষার্তীর চাকরির ক্ষেত্রে খুব কাজে দেয় ও অন্য দশজন থেকে নিজেকে আলাদা করা যায়। ইন্ডাস্ট্রি ফোকাসড এই প্র্যাক্টিস আমাকে প্রোফেশনালি অনেক হেল্প করেছে।</span>
+                    </div>
+                </div>
+              </li>
+              <li class="card">
+                <div class="review">
+                    <img src="{% static 'images/others/votka.png' %}" alt="" width="175px" height="175px">
+                    <div class="name-batch-text">
+                        <span class="bn-bold tiny">He is Rana</span>
+                        <span class="en-light tiny">UX/UI - Batch 6</span>
+                        <span class="bn-regular tiny">Ostad এর বিশেষত্ত্ব হচ্ছে ওনারা  ডিজাইনের চেয়েও ডিজাইন সাইকোলজিতে ফোকাস বেশি দেয়। যা একজন শিক্ষার্তীর চাকরির ক্ষেত্রে খুব কাজে দেয় ও অন্য দশজন থেকে নিজেকে আলাদা করা যায়। ইন্ডাস্ট্রি ফোকাসড এই প্র্যাক্টিস আমাকে প্রোফেশনালি অনেক হেল্প করেছে।</span>
+                    </div>
+                </div>
+              </li>
+              <li class="card">
+                <div class="review">
+                    <img src="{% static 'images/others/votka.png' %}" alt="" width="175px" height="175px">
+                    <div class="name-batch-text">
+                        <span class="bn-bold tiny">He is not Rana</span>
+                        <span class="en-light tiny">UX/UI - Batch 6</span>
+                        <span class="bn-regular tiny">Ostad এর বিশেষত্ত্ব হচ্ছে ওনারা  ডিজাইনের চেয়েও ডিজাইন সাইকোলজিতে ফোকাস বেশি দেয়। যা একজন শিক্ষার্তীর চাকরির ক্ষেত্রে খুব কাজে দেয় ও অন্য দশজন থেকে নিজেকে আলাদা করা যায়। ইন্ডাস্ট্রি ফোকাসড এই প্র্যাক্টিস আমাকে প্রোফেশনালি অনেক হেল্প করেছে।</span>
+                    </div>
+                </div>
+              </li>
+              <li class="card">
+                <div class="review">
+                    <img src="{% static 'images/others/votka.png' %}" alt="" width="175px" height="175px">
+                    <div class="name-batch-text">
+                        <span class="bn-bold tiny">Again Rana</span>
+                        <span class="en-light tiny">UX/UI - Batch 6</span>
+                        <span class="bn-regular tiny">Ostad এর বিশেষত্ত্ব হচ্ছে ওনারা  ডিজাইনের চেয়েও ডিজাইন সাইকোলজিতে ফোকাস বেশি দেয়। যা একজন শিক্ষার্তীর চাকরির ক্ষেত্রে খুব কাজে দেয় ও অন্য দশজন থেকে নিজেকে আলাদা করা যায়। ইন্ডাস্ট্রি ফোকাসড এই প্র্যাক্টিস আমাকে প্রোফেশনালি অনেক হেল্প করেছে।</span>
+                    </div>
+                </div>
+              </li>
+            </ul>
+            <i class="fas fa-angle-right" id="right"></i>
+          </div>
+    </div>
+</div>
+
+<div class="index-blogs">
+    <div class="container">
+        <div class="text">
+            <span class="bn-regular extra-tiny orange">আমাদের ব্লগসমূহ</span>
+            <h2>আমাদের ব্লগসমূহ</h2>
+        </div>
+        <div class="blogs">
+            {% for blog in blogs %}
+            <div class="blog">
+                <div class="category">
+                    <span class="en-bold extra-tiny category1">{{ blog.tag }}</span>
+                </div>
+                <img src="{{ blog.banner.url }}" alt="">
+                <span class="bn-bold small">{{ blog.title }}</span>
+                <span class="bn-light tiny">{{ blog.preface }}</span>
+                <div>
+                    <a href="{% url 'blog' pk=blog.blogid %}">
+                        <span class="bn-regular tiny">বিস্তারিত দেখি</span>
+                        <img src="{% static 'images/icons/arrow-right-blue.png' %}" alt="">
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="index-partner">
+    <h2 style="text-align: center;">আমাদের পার্টনার</h2>
+    <div class="partner-bg">
+        <div class="container">
+            <div class="partners">
+                <img src="{% static 'images/others/sonarbangla.jpg' %}" alt="">
+                <img src="{% static 'images/others/kahasales.png' %}" alt="">
+                <img src="{% static 'images/others/card.png' %}" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="index-faqs">
+    <h2 style="text-align: center;padding-bottom: 20px;">প্রায়ই জিজ্ঞেস করা প্রশ্ন</h2>
+    <div class="container">
+        <div class="faqs">
+            <details>
+                <summary class="bn-bold tiny">১। সব কোর্স কি প্রি রেকর্ডেড নাকি লাইভ কোর্স আছে?</summary>
+                <div>
+                    <span class="bn-regular tiny">কিছু লেকচার ক্লাস প্রি-রেকর্ডেড, সেগুলো নমুনা ক্লাসে পাবেন। আর কিছু ইন্ট্রোডাক্টরি ক্লাস লাইভও পাবেন।</span>
+                </div>
+            </details>
+            <details>
+                <summary class="bn-bold tiny">২।  ⁠প্রি রেকর্ডেড কোর্স করার সময় কোনো সমস্যা হলে আমি কি আপনাদের থেকে কোনো সাহায্য নিতে পারব?</summary>
+                <div>
+                    <span class="bn-regular tiny">প্রি-রেকর্ডেড কিংবা লাইভ ক্লাস, কিংবা পেইড কোর্স যেকোনো ক্ষেত্রেই তাৎক্ষনিক সমস্যা সমাধানের জন্য আমাদের স্টুডেন্ট এদ্ভাইজর থাকবেন। তারাই যেকোনো সমস্যা সমাধানের ক্ষেত্রে দ্রুত আপনাদের সাথে যোগাযোগ করবেন।</span>
+                </div>
+            </details>
+            <details>
+                <summary class="bn-bold tiny">৩। ⁠কোর্সের এক্সেস কি লাইফটাইম থাকবে?</summary>
+                <div>
+                    <span class="bn-regular tiny">না। পেইড কোনো কোর্সের এক্সেসই লাইফটাইম থাকবে না। তবে নির্দিষ্ট কোর্স আর সেই কোর্সের আওতাধীন পরীক্ষাসমূহ চলাকালীন সময় অব্দি ক্লাসগুলো করার সুযোগ থাকবে, সেক্ষেত্রে একটি লেকচার ক্লাস মিস করলে পরে সেই ক্লাসের লাইভ রেকর্ড দেখে নিতে পারবেন।</span>
+                </div>
+            </details>
+            <details>
+                <summary class="bn-bold tiny">৪। আমি কি কোর্সের ভিডিওগুলো ডাউনলোড করতে পারবো?</summary>
+                <div>
+                    <span class="bn-regular tiny">কোর্সের ভিডিও কিংবা নমুনা ক্লাসের ভিডিও ডাউনলোড করার অপশন নেই।</span>
+                </div>
+            </details>
+            <details>
+                <summary class="bn-bold tiny">৫। ⁠কোর্স শেষ করে কি আপনাদের পক্ষ থেকে চাকরির সুবিধা/ গাইডলাইন পাওয়া যাবে?</summary>
+                <div>
+                    <span class="bn-regular tiny">স্কিলবেজড কোর্সগুলোর ক্ষেত্রে আমাদের কোর্স সম্পন্ন করার পর নির্দিষ্ট কিছু পরীক্ষা আর তার ফলাফলের উপর ভিত্তি করে এবং আমাদের ওয়ার্কিং-ডিপার্টমেন্টের উপর ভিত্তি করে সেইসব ডিপার্টমেন্টে ইন্টার্ন ও পরবর্তীতে পার্টটাইম/ফুলটাইম জবের সুবিধা রয়েছে। এছাড়াও অন্যান্য কোম্পানির ক্ষেত্রেও রেকমেন্ডেশনে সহায়তা দিয়ে থাকবে।</span>
+                </div>
+            </details>
+        </div>
+    </div>
+</div>
+
+<div class="index-callbook">
+    <div class="container">
+        <div class="text-inputs">
+            <h2>কল বুক করুন</h2>
+            <span class="bn-light tiny">প্রতিটা পদক্ষেপে নিজেকে সঠিকভাবে এগিয়ে নেওয়ার জন্য প্রয়োজনীয় তথ্য ও গাইডলাইন পেতে পারেন কোর্স গাইড এবং মেন্টর থেকে। শিক্ষা এবং ক্যারিয়ার নিয়ে আপনার যেকোনো পরামর্শে যোগাযোগ করুন-</span>
+            <form action="{% url 'home' %}" method="POST">
+                {% csrf_token %}
+                <input type="text" id="inputfield" class="inputfield" name="name" placeholder="আপনার নাম" required>
+                <input type="tel" id="inputfield" class="inputfield" name="phone" placeholder="ফোন নাম্বার" required>
+                <input type="text" id="inputfield" class="inputfield" name="msg" placeholder="কোর্স নির্বাচন করুন" required>
+                <input type="submit" id="inputfield" class="inputfield submit-btn" value="কল বুক করুন">
+            </form>
+            <div class="helps">
+                <div class="help">
+                    <div class="help-img">
+                        <img src="{% static 'images/icons/call-calling.png' %}" alt="">
+                    </div>
+                    <div class="help-text">
+                        <span class="en-bold extra-tiny">Phone</span>
+                        <span class="en-regular extra-tiny blue">01323314826</span>
+                    </div>
+                </div>
+                <div class="help">
+                    <div class="help-img">
+                        <img src="{% static 'images/icons/directbox-notif.png' %}" alt="">
+                    </div>
+                    <div class="help-text">
+                        <span class="en-bold extra-tiny">Help Desk</span>
+                        <span class="en-regular extra-tiny blue">01323314826</span>
+                    </div>
+                </div>
+                <div class="help">
+                    <div class="help-img">
+                        <img src="{% static 'images/icons/sms.png' %}" alt="">
+                    </div>
+                    <div class="help-text">
+                        <span class="en-bold extra-tiny">E-mail</span>
+                        <span class="en-regular extra-tiny blue">kamrulacademyofficial@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="map">
+            <img src="{% static 'images/others/officeinmap.png' %}" alt="">
+        </div>
+    </div>
+</div>
+{% endblock %}

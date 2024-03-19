@@ -1,0 +1,91 @@
+{% extends 'ka_main/base.html' %}
+{% load static %}
+
+{% block title %}
+{{ blog.title }}
+{% endblock %}
+
+{% block body %}
+<div class="blogpage">
+    <div class="bbg">
+        <div class="container">
+            <div class="details">
+                <div class="detail">
+                    <div><span class="en-bold tiny category">{{ blog.tag }}</span></div>
+                    <span class="bn-bold large">{{ blog.title }}</span>
+                    <div class="date-time">
+                        <div class="date">
+                            <img src="{% static 'images/icons/calendar.png' %}" alt="">
+                            <span class="en-regular tiny">{{ blog.created }}</span>
+                        </div>
+                        <div class="date">
+                            <img src="{% static 'images/icons/clock.png' %}" alt="">
+                            <span class="en-regular tiny">{{ blog.minutecount }}</span>
+                        </div>
+                    </div>
+                    <span class="en-regular tiny">{{ blog.author }}</span>
+                </div>
+                <div class="img">
+                    <img src="{{ blog.banner.url }}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="blog-body">
+            <p class="bn-regular tiny">
+                {{ blog.body|safe }}
+            </p>
+        </div>
+        <div class="share">
+            <span class="en-bold tiny">Share this article</span>
+            <div class="links">
+                <a href=""onclick="CopyLink()"><img src="{% static 'images/icons/Facebook.png' %}" alt=""></a>
+                <a href=""onclick="CopyLink()"><img src="{% static 'images/icons/WhatsApp.png' %}" alt=""></a>
+                <a href=""onclick="CopyLink()"><img src="{% static 'images/icons/LinkedIn.png' %}" alt=""></a>
+                <a href=""><button onclick="CopyLink()"><img src="{% static 'images/icons/share.png' %}" alt=""></button></a>
+            </div>
+        </div>
+        <div class="share">
+            <span class="en-bold tiny">Leave a comment</span>
+            <div class="counts">
+                <div class="likes">
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'like' pk=blog.blogid %}" method="POST">
+                        {% csrf_token %}
+                        <button><img src="{% static 'images/icons/like.png' %}" alt="" width="20px" height="20px"></button>
+                    </form>
+                    {% endif %}
+                    <span class="en-bold extra-tiny" style="color: var(--primary-color);">{{ blog.totallikes }}</span>
+                </div>
+                <div class="likes">
+                    <img src="{% static 'images/icons/messages-2.png' %}" alt="" width="20px" height="20px">
+                    <span class="en-regular extra-tiny">Comments(<span class="en-bold" style="color: var(--primary-color);">{{ blog.totalcomments }}</span> )</span>
+                </div>
+            </div>
+            {% if user.is_authenticated %}
+            <div class="commentbox">
+                <img src="{% static 'images/others/Oval.png' %}" alt="" width="40px" height="40px">
+                <form action="{% url 'blog' pk=blog.blogid %}" method="POST">
+                    {% csrf_token %}
+                    <input type="text" id="inputfield" class="inputfield"name="comment" placeholder="Add a comment..." required>
+                    <input type="submit" id="inputfield" class="btn" value="Send">
+                </form>
+            </div>
+            {% endif %}
+            {% for comment in comments %}
+            <div class="comment">
+                <div class="name-date">
+                    <img src="{% static 'images/others/dp.png' %}" alt="" width="40px" height="40px">
+                    <span class="bn-bold tiny">{{ comment.username }}</span>
+                    <span class="bn-regular tiny" style="color: rgba(60,60,59,0.5);">{{ comment.created }}</span>
+                </div>
+                <div class="main-comment">
+                    <p class="bn-regular tiny">{{ comment.comment }}</p>
+                </div>
+            </div>
+            {% endfor%}
+        </div>
+    </div>
+</div>
+{% endblock %}

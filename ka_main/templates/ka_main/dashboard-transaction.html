@@ -1,0 +1,34 @@
+{% extends 'ka_main/dashboard.html' %}
+{% load static %}
+
+{% block title %}
+Dashboard - Transactions
+{% endblock title %}
+
+{% block body %}
+
+<div class="dashboard-block">
+
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>কোর্স</th>
+                <th>সময়</th>
+                <th>পেমেন্টের মাধ্যম</th>
+                <th>এমাউন্ট</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trans in alltrans %}
+            <tr>
+                <td>{{ trans.courseid }}</td>
+                <td>{{ trans.issuetime }}</td>
+                <td>{{ trans.way }}</td>
+                <td>{{ trans.amount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

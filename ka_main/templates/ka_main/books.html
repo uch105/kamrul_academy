@@ -1,0 +1,30 @@
+{% extends 'ka_main/base.html' %}
+{% load static %}
+
+{% block title %}
+All books
+{% endblock %}
+
+{% block body %}
+<h4 style="text-align: center;padding: 20px 0;background-color: rgba(0,139,252,0.1);">বই পড়ুন</h4>
+
+<div class="books-academic">
+    <h2 style="text-align: center;padding: 20px 0;">আমাদের বইসমূহ</h2>
+    <div class="container">
+        <div class="books">
+            {% for book in books %}
+            <div class="book">
+                <img src="{{ book.bookimage.url }}" alt="">
+                <a href="{% url 'book' pk=book.bookid %}">
+                    <span class="bn-bold tiny">{{ book.title }}</span>
+                </a>
+                <span class="en-light tiny">{{ book.bookauthor }}</span>
+                <span class="en-bold tiny blue">৳  {{ book.fee }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

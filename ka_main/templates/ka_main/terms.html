@@ -1,4 +1,4 @@
-{% extends 'ka_main/web/base.html' %}
+{% extends 'ka_main/base.html' %}
 {% load static %}
 
 {% block title %}
@@ -6,11 +6,151 @@ Terms and Conditions
 {% endblock title %}
 
 {% block body %}
-    <div class="container" style="margin-top: 200px;">
-        {% for t in text %}
-        <p class="en-regular">
-        {{ t.text|safe }}
+    <div class="container">
+        <p class="tiny" style="padding: 30px;font-family: 'EnglishMedium',sans-serif;margin-bottom: 20px;">
+            <b>Welcome to Kamrul Academy!</b> These Terms and Conditions ("Terms") govern your access to and use of the Kamrul Academy website (the "Website") and the services offered thereon, including purchasing and enrolling in online courses ("Courses").
+            <ol type="1" style="padding-left: 80px;">
+                <li>
+                    <b>User Accounts:</b>
+                    <br>
+                    <ul style="padding-left: 80px;">
+                        <li>
+                            <b>Simple Sign-up: </b>
+                            Create an account ("Account") quickly and easily using only your mobile number and name. Verification is done through a one-time passcode (OTP) sent to your phone.
+                        </li>
+                        <li>
+                            <b>Convenient Login: </b>
+                            After initial login, the Website will remember your progress and redirect you to where you left off when you return.
+                        </li>
+                        <li>
+                            <b>Account Management: </b>
+                            You can update your personal information (email address, profile picture, and address) directly from your account dashboard.
+                        </li>
+                    </ul>
+                    <b>Please note:</b> Deleting your user account is not currently available. However, you can edit your information to maintain account security and privacy.
+                </li>
+
+                <li>
+                    <b>User Data and Privacy:</b>
+                    <br>
+                    <ul style="padding-left: 80px;">
+                        <li>
+                            <b>Limited Data Collection:</b>
+                            We prioritize user privacy and only collect essential data – your name, photo, phone number, and email address (if provided).
+                        </li>
+                        <li>
+                            <b>Location Tracking (Limited): </b>
+                            We may track your location for security purposes, primarily to identify and block unusual login attempts or prevent unauthorized access.
+                        </li>
+                        <li>
+                            <b>VPN Usage: </b>
+                            Certain functionalities may be limited when using a Virtual Private Network (VPN) due to security protocols.
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <b>Content and Use:</b>
+                    <br>
+                    <ul style="padding-left: 80px;">
+                        <li>
+                            <b>Safe and Legal Content: </b>
+                            The Website is committed to providing adult-proof and legally compliant content suitable for all users.
+                        </li>
+                        <li>
+                            <b>Respect for Intellectual Property: </b>
+                            Downloading, copying, distributing, modifying, or creating derivative works of Website content for illegal purposes, including intellectual property theft, is strictly prohibited. We reserve the right to take appropriate legal action in such cases.
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <b>Course Content and Delivery:</b>
+                    <br>
+                    <ul style="padding-left: 80px;">
+                        <li>
+                            <b>Course Accuracy: </b>
+                            While Kamrul Academy strives to provide accurate and up-to-date information in its Courses, we cannot guarantee the complete absence of errors.
+                        </li>
+                        <li>
+                            <b>Intellectual Property Rights: </b>
+                            All Course materials, including lectures, notes, and assignments, are the intellectual property of Kamrul Academy or its licensors. You may not share these materials with anyone else without our express written permission.
+                        </li>
+                        <li>
+                            <b>Course Completion and Certificates: </b>
+                            Completion of a Course may require passing quizzes or assignments. Upon successful completion, you may receive a digital certificate of completion. You will find all of your certificates on your Dashboard in PDF format and you will be able to download your certificate once. If you lost your certificates or need to download them again, you will need to apply for a re-issue from the Dashboard.
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <b>User Conduct and Community:</b>
+                    <br>
+                    <ul style="padding-left: 80px;">
+                        <li>
+                            <b>Respectful Interaction: </b>
+                            You agree to interact with other users and instructors respectfully and professionally.
+                        </li>
+                        <li>
+                            <b>Prohibited Activities: </b>
+                            You are prohibited from posting any discriminatory content, harassing, hateful, or otherwise violating these Terms or applicable law.
+                        </li>
+                        <li>
+                            <b>Community Guidelines: </b>
+                            Kamrul Academy may establish separate community guidelines that further define acceptable behavior on the Website. You agree to comply with these guidelines.
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <b>Disclaimer of Warranties:</b>The Website and Courses are provided "as is" and without warranties of any kind, express or implied. Kamrul Academy disclaims all warranties, including but not limited to:
+                    <br>
+                    <ul style="padding-left: 80px;">
+                        <li>Warranties of merchantability</li>
+                        <li>Fitness for a particular purpose</li>
+                        <li>Accuracy or completeness of course content</li>
+                        <li>Uninterrupted or error-free operation of the Website</li>
+                        <li>Security of the Website or your data</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <b>Limitation of Liability:</b>Kamrul Academy shall not be liable for any damages arising out of or in any way connected with your access to or use of the Website or Courses, including but not limited to:
+                    <br>
+                    <ul style="padding-left: 80px;">
+                        <li>Direct, indirect, incidental, consequential, or special damages</li>
+                        <li>Lost profits</li>
+                        <li>Business interruption</li>
+                        <li>Personal Injury</li>
+                        <li>Property Damage</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <b>Term and Termination:</b>These Terms will remain in effect until terminated by you or Kamrul Academy. We may terminate your access to the Website and Courses at any time, with or without cause, and with or without notice.
+                </li>
+
+                <li>
+                    <b>Governing Law and Dispute Resolution:</b>These Terms shall be governed by and construed under the laws of Bangladesh. Any dispute arising out of or relating to these Terms will be settled through binding arbitration.
+                </li>
+
+                <li>
+                    <b>Entire Agreement:</b>These Terms constitute the entire agreement between you and Kamrul Academy regarding your use of the Website and Courses.
+                </li>
+
+                <li>
+                    <b>Severability:</b>If any provision of these Terms is held to be invalid or unenforceable, such provision shall be struck and the remaining provisions shall remain in full force and effect.
+                </li>
+
+                <li>
+                    <b>Updates to Terms:</b>Kamrul Academy may update these Terms at any time. We will post any changes on the Website. Your continued use of the Website after any changes are posted constitutes your acceptance of the revised Terms.
+                </li>
+
+                <li>
+                    <b>Contact Us:</b>If you have any questions about these Terms, please contact us at kamrulacademyofficial@gmail.com or +8801323314826.
+                </li>
+
+            </ol>
         </p>
-        {% endfor %}
     </div>
 {% endblock %}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/icons/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/main_web.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body  class="dashboard-body">
+    <header class="dashboard-header">
+        <nav>
+            <div class="main">
+                <a href="{% url 'home' %}"><img src="{% static 'images/icons/LogoLight.png' %}" alt=""></a>
+            </div>
+            <div class="links">
+                <a href="{% url 'dashboard' %}">
+                    <img src="{% static 'images/icons/note-2.png' %}" alt="">
+                    <span class="en-bold tiny text">My Courses</span>
+                </a>
+                <a href="{% url 'dashboard-live-courses' %}">
+                    <img src="{% static 'images/icons/video.png' %}" alt="">
+                    <span class="en-bold tiny text">Live Courses</span>
+                </a>
+                <a href="{% url 'dashboard-transaction' %}">
+                    <img src="{% static 'images/icons/receipt-text.png' %}" alt="">
+                    <span class="en-bold tiny text">Transactions History</span>
+                </a>
+                <a href="{% url 'dashboard-certificate' %}">
+                    <img src="{% static 'images/icons/teacher.png' %}" alt="">
+                    <span class="en-bold tiny text">Certificates</span>
+                </a>
+                <a href="{% url 'dashboard-profile' %}">
+                    <img src="{% static 'images/icons/profile-circle.png' %}" alt="">
+                    <span class="en-bold tiny text">Update Profile</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+    {% block body %}
+    {% endblock %}
+</body>
+</html>

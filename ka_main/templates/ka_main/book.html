@@ -1,0 +1,56 @@
+{% extends 'ka_main/base.html' %}
+{% load static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+<div class="book-details">
+    <div class="container">
+        <div class="book">
+            <div class="book-pic">
+                <img src="{{ book.bookimage.url }}" alt="" width="300px" height="auto">
+            </div>
+            <div class="book-info">
+                <span class="bn-bold small">{{ book.title }}</span>
+                <span class="en-light tiny">{{ book.bookauthor }}</span>
+                <span class="en-regular small blue">৳{{ book.fee }}</span>
+                {% if purchased %}
+                <a href="{{ book.bookpdf.url }}" download>
+                    <div><span class="bn-regular tiny white">
+                        বইটি পড়ুন
+                    </span></div>
+                </a>
+                {% else %}
+                <a href="{% url 'checkout' pk=book.bookid %}">
+                    <div><span class="bn-bold tiny white">
+                        বইটি কিনুন
+                    </span></div>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="book-description">
+            <span class="bn-bold small">বইটি সম্পর্কে</span>
+            <span class="bn-regular tiny">{{ book.bookdescription }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="index-faqs">
+    <h2 style="text-align: center;padding-bottom: 20px;">প্রায়ই জিজ্ঞেস করা প্রশ্ন</h2>
+    <div class="container">
+        <div class="faqs">
+            {% for faq in faqs %}
+            <details>
+                <summary class="bn-bold tiny">{{ faq.question }}</summary>
+                <div>
+                    <span class="bn-regular tiny">{{ faq.answer }}</span>
+                </div>
+            </details>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
