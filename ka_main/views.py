@@ -49,7 +49,11 @@ def get_user_id(request):
     return request.user.id
 
 def get_username(request):
-    return User.objects.get(id=get_user_id(request)).username
+    if logged_in(request):
+        username = User.objects.get(id=get_user_id(request)).username
+    else:
+        username = "None"
+    return username
 
 def logged_in(request):
     return request.user.is_authenticated
@@ -190,7 +194,7 @@ def sign_out(request):
     logout(request)
     return redirect("home")
 
-@login_required
+@login_required(login_url="/sign-up/")
 def dashboard_my_courses(request):
     enrolls = Enrolled.objects.filter(username=get_username(request))
     recordedclass = []
@@ -212,7 +216,7 @@ def dashboard_my_courses(request):
     }
     return render(request,"ka_main/dashboard-my-courses.html",context)
 
-@login_required
+@login_required(login_url="/sign-up/")
 def dashboard_live_courses(request):
     enrolls = Enrolled.objects.filter(username=get_username(request))
     classes = []
@@ -230,7 +234,7 @@ def dashboard_live_courses(request):
     }
     return render(request,"ka_main/dashboard-live-courses.html",context)
 
-@login_required
+@login_required(login_url="/sign-up/")
 def dashboard_certificate(request):
     certificates = Certificate.objects.filter(username=get_username(request))
     yes = True if len(certificates)!=0 else False
@@ -239,7 +243,7 @@ def dashboard_certificate(request):
     }
     return render(request,"ka_main/dashboard-certificate.html",context)
 
-@login_required
+@login_required(login_url="/sign-up/")
 def dashboard_profile(request):
     instance = MemberDetails.objects.get_or_create(username=get_username(request))
     if request.method == 'POST':
@@ -256,7 +260,7 @@ def dashboard_profile(request):
     }
     return render(request,"ka_main/dashboard-profile.html",context)
 
-@login_required
+@login_required(login_url="/sign-up/")
 def dashboard_transaction(request):
     alltrans = Enrolled.objects.filter(username=get_username(request))
     context={
@@ -363,7 +367,7 @@ def blog(request,pk):
     return render(request,"ka_main/blog.html",context)
 
 @require_POST
-@login_required
+@login_required(login_url="/sign-up/")
 def like(request,pk):
     instance = Blog.objects.get(blogid=pk)
     instance.totallikes+=1
@@ -372,7 +376,7 @@ def like(request,pk):
     return redirect("blog",pk)
 
 
-@login_required
+@login_required(login_url="/sign-up/")
 @require_POST
 def blog_comment(request,pk):
     instance = Blog.objects.get(blogid=pk)
@@ -413,7 +417,7 @@ QUERY_PAYMENT_URL = 'https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized/checkout
 CALL_BACK_URL = 'kamrulacademy.com'
 
 
-@login_required
+@login_required(login_url="/sign-up/")
 def checkout(request,pk):
     try:
         try:
