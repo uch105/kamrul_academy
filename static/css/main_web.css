@@ -121,7 +121,7 @@ html{
     color: var(--dark-color);
 }
 b,i,ul,ol,li{
-    font-family: 'EnglishMedium',sans-serif;
+    font-family: 'BanglaMedium',sans-serif;
 }
 a{
     text-decoration: none;
