@@ -21,11 +21,11 @@
                 <form action="{% url 'otp' pk=phone %}" class="otp-form" autocomplete="off" method="POST">
                     {% csrf_token %}
                     <div class="otps">
-                        <input type="number" name="1" id="inputfield digit1" class="inputfield" oninput="shiftFocus(this, 'digit2')" maxlength="1" required>
-                        <input type="number" name="2" id="inputfield digit2" class="inputfield" oninput="shiftFocus(this, 'digit3')" maxlength="1" required>
-                        <input type="number" name="3" id="inputfield digit3" class="inputfield" oninput="shiftFocus(this, 'digit4')" maxlength="1" required>
-                        <input type="number" name="4" id="inputfield digit4" class="inputfield" oninput="shiftFocus(this, 'digit5')" maxlength="1" required>
-                        <input type="number" name="5" id="inputfield digit5" class="inputfield" oninput="shiftFocus(this, null)" maxlength="1" required>
+                        <input type="number" name="1" id="inputfield digit1" class="inputfield" oninput="shiftFocus(this, 'digit2')" min="0" max="9" maxlength="1" required autofocus>
+                        <input type="number" name="2" id="inputfield digit2" class="inputfield" oninput="shiftFocus(this, 'digit3')" min="0" max="9" maxlength="1" required>
+                        <input type="number" name="3" id="inputfield digit3" class="inputfield" oninput="shiftFocus(this, 'digit4')" min="0" max="9" maxlength="1" required>
+                        <input type="number" name="4" id="inputfield digit4" class="inputfield" oninput="shiftFocus(this, 'digit5')" min="0" max="9" maxlength="1" required>
+                        <input type="number" name="5" id="inputfield digit5" class="inputfield" oninput="shiftFocus(this, null)" min="0" max="9" maxlength="1" required>
                     </div>
                     <input type="submit" value="সাইন ইন" id="inputfield" class="inputfield btn">
                 </form>
@@ -37,10 +37,23 @@
 </div>
 
 <script>
-    function shiftFocus(currentInput, nextInputId) {
-        if (currentInput.value.length === 1 && nextInputId) {
-            document.getElementById(nextInputId).focus();
-        }
-    }
-</script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const otpInputs = document.querySelectorAll('.inputfield');
+    
+        otpInputs.forEach(function(input, index) {
+            input.addEventListener('input', function() {
+                const nextIndex = index + 1;
+                if (nextIndex < otpInputs.length && input.value !== '') {
+                    otpInputs[nextIndex].focus();
+                }
+            });
+    
+            input.addEventListener('keydown', function(event) {
+                if (event.key === 'Backspace' && input.value === '' && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            });
+        });
+    });
+    </script>
 {% endblock %}

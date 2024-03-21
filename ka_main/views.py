@@ -555,6 +555,14 @@ def execute_payment(paymentID):
         coursepurchase = Enrolled.objects.get(courseid=invoice.relatedid,username=invoice.username)
         coursepurchase.status = True
         coursepurchase.save()
+        if invoice.relatedid[:4]=="live":
+            course = LiveCourse.objects.get(courseid=invoice.relatedid)
+            course.total_enrolled = course.total_enrolled + 1
+            course.save()
+        else:
+            course = RecordedCourse.objects.get(courseid=invoice.relatedid)
+            course.total_enrolled = course.total_enrolled + 1
+            course.save()
     execute_json_data = json.loads(execute_json)
     invoice.trxID = execute_json_data["trxID"]
     invoice.save()

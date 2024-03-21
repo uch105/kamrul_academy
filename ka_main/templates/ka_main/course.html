@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    
+    কোর্স - {{ course.title }}
 {% endblock %}
 
 {% block body %}
@@ -34,8 +34,14 @@
                         <span class="blue bn-bold extra-tiny">{{ course.classday }}</span>
                     </div>
                 </div>
+                <div class="info">
+                    <div class="infoo">
+                        <span class="bn-bold extra-tiny">কোর্সটি করেছেন</span>
+                        <span class="blue bn-bold extra-tiny">{{ course.total_enrolled }}</span>
+                    </div>
+                </div>
                 <p class="bn-regular tiny">
-                    {{ course.description }}
+                    {{ course.description|safe }}
                 </p>
                 <div class="faqs">
                     {% for faq in faqs %}
@@ -48,7 +54,13 @@
             </div>
             <div class="sticky">
                 <div class="course-sticky">
-                    <iframe class="img" src="{{ course.utubelink }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    {% if course.showlink %}
+                    <iframe class="imgutube" src="{{ course.utubelink }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    {% else %}
+                    <div class="img">
+                        <img src="{{ course.banner.url }}" alt="">
+                    </div>
+                    {% endif %}
                     <div class="bullets">
                         <span class="bullet">
                             <img src="{% static 'images/icons/calendar.png' %}" alt="">
@@ -56,7 +68,7 @@
                         </span>
                         <span class="bullet">
                             <img src="{% static 'images/icons/people.png' %}" alt="">
-                            <span class="bn-regular tiny">{{ course.seatremaining }} সিট বাকি</span>
+                            <span class="bn-regular tiny">{{ course.seatremaining }} সিট</span>
                         </span>
                         <span class="bullet">
                             <img src="{% static 'images/icons/clock.png' %}" alt="">
@@ -64,7 +76,7 @@
                         </span>
                     </div>
                     <div style="text-align: center;padding: 10px;margin-bottom: 10px;">
-                        <span class="blue en-bold standard"><span><del>&#2547; {{ course.saving }}</del></span>&#2547; {{ course.fee }}</span>
+                        <span class="blue en-bold standard">{% if course.offer %}<span><del>&#2547; {{ course.savingfrom }}</del>  </span>{% endif %}&#2547; {{ course.fee }}</span>
                     </div>
                     {% if enrolled %}
                     {% else %}
@@ -105,8 +117,14 @@
                         <span class="blue bn-bold extra-tiny">{{ course.total_duration }} minutes</span>
                     </div>
                 </div>
+                <div class="info">
+                    <div class="infoo">
+                        <span class="bn-bold extra-tiny">কোর্সটি করেছেন</span>
+                        <span class="blue bn-bold extra-tiny">{{ course.total_enrolled }}</span>
+                    </div>
+                </div>
                 <p class="bn-regular tiny">
-                    {{ course.description }}
+                    {{ course.description|safe }}
                 </p>
                 <div class="faqs">
                     {% for faq in faqs %}
@@ -121,7 +139,7 @@
                 <div class="course-sticky">
                     <img src="{{ course.banner.url }}" alt="">
                     <div style="text-align: center;padding: 10px;margin-bottom: 10px;">
-                        <span class="blue en-bold standard"><span><del>&#2547; {{ course.saving }}</del></span>&#2547; {{ course.fee }}</span>
+                        <span class="blue en-bold standard">{% if course.offer %}<span><del>&#2547; {{ course.savingfrom }}</del>  </span>{% endif %}&#2547; {{ course.fee }}</span>
                     </div>
                     {% if enrolled %}
                     <a href="{% url 'checkout' pk=course.courseid %}"><span class="bn-bold tiny white">ভর্তি হোন</span></a>
