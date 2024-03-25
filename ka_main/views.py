@@ -330,7 +330,10 @@ def books(request):
 
 def book(request,pk):
     book = Book.objects.get(bookid=pk)
-    purchased = Purchased.objects.get(bookid=pk,userid=get_username(request)).status
+    try:
+        purchased = Purchased.objects.get(bookid=pk,userid=get_username(request)).status
+    except:
+        purchased = False
     faqs = Faq.objects.filter(relatedid=pk)
     context={
         'book':book,
