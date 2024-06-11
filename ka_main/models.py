@@ -12,7 +12,7 @@ class Mentor(models.Model):
     def __str__(self):
         return self.name
 class RecordedCourse(models.Model):
-    id = models.CharField(max_length=30,primary_key=True)
+    id = models.CharField(max_length=30,primary_key=True,default="0")
     title = models.CharField(max_length=50,null=True,blank=True)
     preface = models.CharField(max_length=100,null=True,blank=True)
     description = models.TextField(null=True,blank=True)
@@ -23,7 +23,7 @@ class RecordedCourse(models.Model):
     total_pdfs = models.CharField(max_length=4,null=True,blank=True)
     days_remain = models.CharField(max_length=4,null=True,blank=True)
     total_student = models.CharField(max_length=10,null=True,blank=True)
-    mentor = models.ForeignKey(Mentor,on_delete=models.CASCADE)
+    mentor = models.ForeignKey(Mentor,on_delete=models.CASCADE,null=True)
     for_index = models.BooleanField(default=False)
     softwares = models.TextField(null=True,blank=True)
     learningoutcome1 = models.TextField(null=True,blank=True)
@@ -40,7 +40,7 @@ class RecordedCourse(models.Model):
 
 class RecordedCourseModule(models.Model):
     id = models.CharField(primary_key=True,max_length=50)
-    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE)
+    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE,null=True)
     module_name = models.CharField(max_length=150,blank=True,null=True)
     class_one_valid = models.BooleanField(default=False)
     class_one_name = models.CharField(max_length=150,blank=True,null=True)
@@ -65,15 +65,15 @@ class RecordedCourseModule(models.Model):
 
 
 class RecordedCourseAssignmentSubmission(models.Model):
-    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE)
-    module = models.ForeignKey(RecordedCourseModule,on_delete=models.CASCADE)
+    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE,null=True)
+    module = models.ForeignKey(RecordedCourseModule,on_delete=models.CASCADE,null=True)
     username = models.CharField(max_length=100,null=True,blank=True)
     file = models.FileField(upload_to="media/recorded/assignments/",blank=True,null=True)
 
 
 class Question(models.Model):
-    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE)
-    module = models.ForeignKey(RecordedCourseModule,on_delete=models.CASCADE)
+    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE,null=True)
+    module = models.ForeignKey(RecordedCourseModule,on_delete=models.CASCADE,null=True)
     serial = models.CharField(max_length=15,null=True,blank=True)
     serial_text = models.CharField(max_length=15,null=True,blank=True)
     text = models.TextField(null=True,blank=True)
@@ -85,8 +85,8 @@ class Question(models.Model):
 
 
 class QuizResult(models.Model):
-    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE)
-    module = models.ForeignKey(RecordedCourseModule,on_delete=models.CASCADE)
+    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE,null=True)
+    module = models.ForeignKey(RecordedCourseModule,on_delete=models.CASCADE,null=True)
     username = models.CharField(max_length=100,null=True,blank=True)
     score = models.CharField(max_length=100,null=True,blank=True)
 
@@ -99,15 +99,15 @@ class RecordedCourseProgressTracking(models.Model):
     calc = models.FloatField(default=0.0)
 
 class ClassPermissionTracking(models.Model):
-    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE)
-    module = models.ForeignKey(RecordedCourseModule,on_delete=models.CASCADE)
+    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE,null=True)
+    module = models.ForeignKey(RecordedCourseModule,on_delete=models.CASCADE,null=True)
     username = models.CharField(max_length=100,blank=True,null=True)
     quiz_marks = models.FloatField(default=0.0)
     allow_next = models.BooleanField(default=False)
 
 class RecordedCourseNotification(models.Model):
     username = models.CharField(max_length=100,blank=True,null=True)
-    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE)
+    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE,null=True)
     frequency = models.IntegerField(default=0)
     alert = models.BooleanField(default=False)
 
@@ -127,7 +127,7 @@ class LiveCourse(models.Model):
     total_hours = models.CharField(max_length=4,null=True,blank=True)
     total_pdfs = models.CharField(max_length=4,null=True,blank=True)
     total_quizes = models.CharField(max_length=4,null=True,blank=True)
-    mentor = models.ForeignKey(Mentor,on_delete=models.CASCADE)
+    mentor = models.ForeignKey(Mentor,on_delete=models.CASCADE,null=True)
     softwares = models.TextField(null=True,blank=True)
     learningoutcome1 = models.TextField(null=True,blank=True)
     learningoutcome2 = models.TextField(null=True,blank=True)
@@ -143,11 +143,11 @@ class LiveCourse(models.Model):
 
 class LiveCourseModule(models.Model):
     id = models.CharField(primary_key=True,max_length=50)
-    course = models.ForeignKey(LiveCourse,on_delete=models.CASCADE)
+    course = models.ForeignKey(LiveCourse,on_delete=models.CASCADE,null=True)
     module_name = models.CharField(max_length=150,blank=True,null=True)
 
 class LiveCourseModuleClass(models.Model):
-    module = models.ForeignKey(LiveCourseModule,on_delete=models.CASCADE)
+    module = models.ForeignKey(LiveCourseModule,on_delete=models.CASCADE,null=True)
     class_serial = models.CharField(max_length=200,null=True,blank=True)
     class_done = models.BooleanField(default=False)
     class_ongoing = models.BooleanField(default=False)
