@@ -56,10 +56,10 @@
 
     async function sendDataToServer(data) {
         const formData = new FormData();
-        formData.append('file', data, '{{ live_class_name }}.webm');
+        formData.append('file', data, 'demo.webm');
 
         try {
-            await fetch('/live-data-upload', {
+            await fetch('/live-data-upload/', {
                 method: 'POST',
                 body: formData
             });
