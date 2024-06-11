@@ -5,68 +5,72 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <h2 style="text-align: center;">Start streaming</h2>
-    <video id="video" autoplay></video>
-    <button id="start">Start Capture</button>
-    <button id="stop">Stop Capture</button>
-</div>
 
-<script>
-    const videoElement = document.getElementById('video');
-    const startButton = document.getElementById('start');
-    const stopButton = document.getElementById('stop');
 
-    let mediaStream = null;
-    let mediaRecorder = null;
+    <h1>Teacher Stream</h1>
+    <video id="teacherVideo" autoplay muted></video>
+    <button id="startStream">Start Stream</button>
+    <button id="shareScreen">Share Screen</button>
+    <button id="stopStream">Stop Streaming</button>
+    <script>
+        const videoElement = document.getElementById('teacherVideo');
+        const startStreamButton = document.getElementById('startStream');
+        const shareScreenButton = document.getElementById('shareScreen');
+        const stopStreamButton = document.getElementById('stopStream');
+        let mediaRecorder;
+        let ws;
 
-    startButton.addEventListener('click', async () => {
-        if (mediaStream) return;
+        startStreamButton.addEventListener('click', async () => {
+            if (ws) {
+                ws.close();
+            }
 
-        try {
-            mediaStream = await navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: true
-            });
-            
-            videoElement.srcObject = mediaStream;
+            ws = new WebSocket('ws://' + window.location.host + '/ws/live/');
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            videoElement.srcObject = stream;
+            mediaRecorder = new MediaRecorder(stream);
 
-            mediaRecorder = new MediaRecorder(mediaStream);
-            
-            mediaRecorder.ondataavailable = async (event) => {
-                if (event.data.size > 0) {
-                    // Send the captured data to the server
-                    await sendDataToServer(event.data);
+            mediaRecorder.ondataavailable = function(e) {
+                if (ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({ message: e.data }));
                 }
             };
+
+            mediaRecorder.start(1000); // Send data in chunks every second
+        });
+
+        shareScreenButton.addEventListener('click', async () => {
+            if (mediaRecorder) {
+                mediaRecorder.stop();
+            }
             
-            mediaRecorder.start(1000); // Collect 1-second chunks
-        } catch (error) {
-            console.error('Error accessing media devices.', error);
-        }
-    });
+            const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+            videoElement.srcObject = stream;
+            mediaRecorder = new MediaRecorder(stream);
 
-    stopButton.addEventListener('click', () => {
-        if (mediaRecorder) {
-            mediaRecorder.stop();
-            mediaStream.getTracks().forEach(track => track.stop());
-            mediaStream = null;
-        }
-    });
+            mediaRecorder.ondataavailable = function(e) {
+                if (ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({ message: e.data }));
+                }
+            };
 
-    async function sendDataToServer(data) {
-        const formData = new FormData();
-        formData.append('file', data, 'demo.webm');
+            mediaRecorder.start(1000); // Send data in chunks every second
 
-        try {
-            await fetch('/live-data-upload/', {
-                method: 'POST',
-                body: formData
+            // Stop screen share and switch back to webcam if stream ends
+            stream.getVideoTracks()[0].addEventListener('ended', () => {
+                startStreamButton.click();
             });
-        } catch (error) {
-            console.error('Error sending data to server.', error);
-        }
-    }
+        });
 
-</script>
+        stopStreamButton.addEventListener('click', () => {
+            if (mediaRecorder) {
+                mediaRecorder.stop();
+            }
+            if (ws) {
+                ws.close();
+            }
+        });
+    </script>
+
+
 {% endblock %}
