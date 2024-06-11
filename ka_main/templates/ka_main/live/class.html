@@ -1,0 +1,43 @@
+{% extends 'ka_main/live/base.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h2 style="text-align: center;">Enjoy streaming</h2>
+    <video id="videoPlayer" controls autoplay></video>
+</div>
+
+<script>
+    const video = document.getElementById('videoPlayer');
+    if (window.MediaSource) {
+        const mediaSource = new MediaSource();
+        video.src = URL.createObjectURL(mediaSource);
+
+        mediaSource.addEventListener('sourceopen', sourceOpen);
+
+        function sourceOpen() {
+            const sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vp8, vorbis"');
+            fetchVideoChunk(sourceBuffer);
+        }
+
+        async function fetchVideoChunk(sourceBuffer) {
+            const response = await fetch('/media/videos/{{ live_class_name }}.webm');
+            const chunk = await response.arrayBuffer();
+
+            sourceBuffer.appendBuffer(chunk);
+
+            sourceBuffer.addEventListener('updateend', () => {
+                if (mediaSource.readyState === 'open') {
+                    setTimeout(() => fetchVideoChunk(sourceBuffer), 1000); // Fetch next chunk every second
+                }
+            });
+        }
+    } else {
+        console.error('MediaSource API is not supported on this browser.');
+    }
+
+</script>
+{% endblock %}

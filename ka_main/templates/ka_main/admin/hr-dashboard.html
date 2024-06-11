@@ -1,0 +1,200 @@
+{% extends 'ka_main/admin/base.html' %}
+{% load static %}
+
+{% block title %}
+HR - Dashboard
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="hr-dashboard">
+        <div class="studentcount-graph">
+            <div>
+                <canvas id="myChart" width="600px" height="300px"></canvas>
+            </div>
+        </div>
+
+        <div class="course-table">
+            <table>
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <tr>
+                    <th class="th1 bold">Course</th>
+                    <th class="bold">Enrolled Students</th>
+                    <th class="bold">Total Earnings</th>
+                    <th class="th4 bold">Instructor %</th>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course009</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="course-table">
+            <table>
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <tr>
+                    <th colspan="4" class="bold th0">Teacher</th>
+                </tr>
+                <tr>
+                    <th class="bold">Name</th>
+                    <th class="bold">Enrolled Students</th>
+                    <th class="bold">Phone no</th>
+                    <th class="bold">Email</th>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course001</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+                <tr>
+                    <td class="regular">Course009</td>
+                    <td class="regular">80</td>
+                    <td class="regular">7000</td>
+                    <td class="regular">700</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June','July','August','September','October','November','December'],
+        datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3,23,41,3,8,9,11,],
+        borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+        y: {
+            beginAtZero: true
+        }
+        }
+    }
+    });
+</script>
+{% endblock %}

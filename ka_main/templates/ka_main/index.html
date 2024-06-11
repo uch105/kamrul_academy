@@ -49,21 +49,21 @@ Home Page - Kamrul Academy
                 <div class="bullets">
                     <span class="bullet">
                         <img src="{% static 'images/icons/calendar.png' %}" alt="">
-                        <span class="bn-regular tiny">ব্যাচ {{ course.batchno }}</span>
+                        <span class="bn-regular tiny">ব্যাচ {{ course.batch_no }}</span>
                     </span>
                     <span class="bullet">
                         <img src="{% static 'images/icons/people.png' %}" alt="">
-                        <span class="bn-regular tiny">{{ course.seatremaining }} সিট বাকি</span>
+                        <span class="bn-regular tiny">{{ course.seats_remain }} সিট বাকি</span>
                     </span>
                     <span class="bullet">
                         <img src="{% static 'images/icons/clock.png' %}" alt="">
-                        <span class="bn-regular tiny">{{ course.daysremaining }} দিন বাকি</span>
+                        <span class="bn-regular tiny">{{ course.days_remain }} দিন বাকি</span>
                     </span>
                 </div>
                 <div class="bullets">
                     <span class="bullet">
                         <img src="{% static 'images/icons/people.png' %}" alt="">
-                        <span class="bn-regular tiny">{{ course.total_enrolled }} জন এনরোল করেছেন</span>
+                        <span class="bn-regular tiny">{{ course.total_student }} জন এনরোল করেছেন</span>
                     </span>
                 </div>
                 <hr>
@@ -72,7 +72,7 @@ Home Page - Kamrul Academy
                 </div>
                 <div class="details">
                     <span>
-                        <a href="{% url 'parentcourse' pk=course.courseid %}" class="bn-regular tiny">বিস্তারিত দেখুন</a>
+                        <a href="{% url 'livecourse' pk=course.id %}" class="bn-regular tiny">বিস্তারিত দেখুন</a>
                         <img src="{% static 'images/icons/arrow-right.png' %}" alt="">
                     </span>
                 </div>
@@ -132,21 +132,21 @@ Home Page - Kamrul Academy
                 <div class="bullets">
                     <span class="bullet">
                         <img src="{% static 'images/icons/folder-open.png' %}" alt="">
-                        <span class="bn-regular tiny">{{ course.total_class }} classes</span>
+                        <span class="bn-regular tiny">{{ course.total_modules }} classes</span>
                     </span>
                     <span class="bullet">
                         <img src="{% static 'images/icons/note-2.png' %}" alt="">
-                        <span class="bn-regular tiny">{{ course.total_exam }} exams</span>
+                        <span class="bn-regular tiny">{{ course.total_exams }} exams</span>
                     </span>
                     <span class="bullet">
                         <img src="{% static 'images/icons/clock.png' %}" alt="">
-                        <span class="bn-regular tiny">{{ course.total_duration }} minutes</span>
+                        <span class="bn-regular tiny">{{ course.total_hours }} minutes</span>
                     </span>
                 </div>
                 <div class="bullets">
                     <span class="bullet">
                         <img src="{% static 'images/icons/people.png' %}" alt="">
-                        <span class="bn-regular tiny">{{ course.total_enrolled }} জন এনরোল করেছেন</span>
+                        <span class="bn-regular tiny">{{ course.total_student }} জন এনরোল করেছেন</span>
                     </span>
                 </div>
                 <hr>
@@ -155,7 +155,7 @@ Home Page - Kamrul Academy
                 </div>
                 <div class="details">
                     <span>
-                        <a href="{% url 'parentcourse' pk=course.courseid %}" class="bn-regular tiny">বিস্তারিত দেখুন</a>
+                        <a href="{% url 'recordedcourse' pk=course.id %}" class="bn-regular tiny">বিস্তারিত দেখুন</a>
                         <img src="{% static 'images/icons/arrow-right.png' %}" alt="">
                     </span>
                 </div>

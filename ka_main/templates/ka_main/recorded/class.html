@@ -1,0 +1,65 @@
+{% extends 'ka_main/recorded/base.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="rc">
+        <div class="title">
+            <a href="{% url 'recordedcourse' pk=course.id %}"><img src="{% static 'images/icons/goback.png' %}" alt=""></a>
+            <a href="{% url 'recordedcourse' pk=course.id %}"><h4 class="small">কোর্স</h4></a>
+            <h4 class="small">।</h4>
+            <h4 class="small">{{ module.module_name }}</h4>
+        </div>
+        <div class="classcontainer">
+            <div class="linkcontainer">
+                <a href="{% url 'rclass' pk=course.id pk2=prev_pk2 %}"><img src="{% static 'images/icons/goback2.png' %}" alt=""><span class="bn-bold tiny">পূর্ববর্তী</span></a>
+                {% if module.class_one_valid %}
+                <a onclick="PlayModuleVideo('one')"><img src="{% static 'images/icons/videoplay.png' %}" alt=""><span class="bn-bold tiny">ভিডিও</span></a>
+                {% endif %}
+                {% if module.class_two_valid %}
+                <a onclick="PlayModuleVideo('two')"><img src="{% static 'images/icons/videoplay.png' %}" alt=""><span class="bn-bold tiny">ভিডিও</span></a>
+                {% endif %}
+                {% if module.class_three_valid %}
+                <a onclick="PlayModuleVideo('three')"><img src="{% static 'images/icons/videoplay.png' %}" alt=""><span class="bn-bold tiny">ভিডিও</span></a>
+                {% endif %}
+                {% if module.class_four_valid %}
+                <a onclick="PlayModuleVideo('four')"><img src="{% static 'images/icons/videoplay.png' %}" alt=""><span class="bn-bold tiny">ভিডিও</span></a>
+                {% endif %}
+                {% if module.class_five_valid %}
+                <a onclick="PlayModuleVideo('five')"><img src="{% static 'images/icons/videoplay.png' %}" alt=""><span class="bn-bold tiny">ভিডিও</span></a>
+                {% endif %}
+                <a href="{% url 'rassignment' pk=course.id pk2=this_pk2 %}"><img src="{% static 'images/icons/assignment.png' %}" alt=""><span class="bn-bold tiny">এসাইনমেন্ট</span></a>
+                <a href="{% url 'rquiz' pk=course.id pk2=this_pk2 %}"><img src="{% static 'images/icons/quiz2.png' %}" alt=""><span class="bn-bold tiny">কুইজ</span></a>
+                <a href="{% url 'rclass' pk=course.id pk2=next_pk2 %}"><span class="bn-bold tiny">পরবর্তী</span><img src="{% static 'images/icons/next.png' %}" alt=""></a>
+            </div>
+            <h4 class="tiny" style="margin: 20px 10px;" id="vdoname">{{ module.class_one_name }}</h4>
+
+
+
+
+
+            <div class="videocontainer">
+                <video class="video" controls controlslist="nodownload">
+                    <source src="{{ module.class_one_video.url }}" id="vdosrc" type="video/mp4" />
+                </video>
+            </div>
+
+
+
+
+
+            <div class="notes">
+                <div class="text">
+                    <img src="{% static 'images/icons/download.png' %}" alt="">
+                    <span class="bn-bold small">ডাউনলোড করুন</span>
+                </div>
+                <a href="{{ module.note.url }}" class="bn-regular tiny" download>লেকচার শীট</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

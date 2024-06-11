@@ -1,19 +1,26 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect,request,HttpRequest,JsonResponse
+from django.http.response import StreamingHttpResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth import authenticate,logout
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User 
 from user_agents import parse
 from requests import request
 import requests
 import datetime
+from django.http import FileResponse, Http404
+import os
 from django.core.mail import send_mail
 from django.http.request import HttpRequest
 from .models import *
 from .forms import *
+from .bn_nums import to_bn,to_num
 import random,string,json,time
+from django.conf import settings
+#from .camera import VideoCamera,IPWebCam,MaskDetect,LiveWebCam
 
 
 ALPHA_NET_SMS_API_KEY = "qoIgUE6G3h395x1Ud6Swa6Y2Y9hgTqj41DAr2lje"
@@ -220,12 +227,6 @@ def dashboard_my_courses(request):
 def dashboard_live_courses(request):
     enrolls = Enrolled.objects.filter(username=get_username(request))
     classes = []
-    for enroll in enrolls :
-        try:
-            theclasses = LiveClass.objects.get(courseid=enroll.courseid)
-            classes.append(theclasses)
-        except:
-            pass
     
     yes = False if len(classes)==0 else True
     context={
@@ -269,57 +270,214 @@ def dashboard_transaction(request):
     return render(request,"ka_main/dashboard-transaction.html",context)
 
 
-def live_parentcourses(request):
+def live_courses(request):
     courses = LiveCourse.objects.all()
     context={
         'courses': courses,
     }
-    return render(request,"ka_main/livecourses.html",context)
+    return render(request,"ka_main/live/list.html",context)
 
-def recorded_parentcourses(request):
+def recorded_courses(request):
     courses = RecordedCourse.objects.all()
     context={
         'courses': courses,
     }
-    return render(request,"ka_main/recordedcourses.html",context)
+    return render(request,"ka_main/recorded/list.html",context)
 
-def parentcourse(request,pk):
-
-    if pk[:4]=="live":
-        course = LiveCourse.objects.get(courseid=pk)
-        islive = True
-        enrolleds = Enrolled.objects.filter(username=get_username(request),courseid=pk)
-        enrolled = False if len(enrolleds)==0 else True
-        faqs = Faq.objects.filter(relatedid = pk)
-        
+def livecourse(request,pk):
+    course = LiveCourse.objects.get(id=pk)
+    modules = LiveCourseModule.objects.filter(course=course)
+    enrolled_check = Enrolled.objects.filter(username=get_username(request),courseid=pk)
+    if len(enrolled_check) == 0:
+        enrolled = False
     else:
-        course = RecordedCourse.objects.get(courseid=pk)
-        islive = False
-        enrolleds = Enrolled.objects.filter(username=get_username(request),courseid=pk)
-        enrolled = True if len(enrolleds)==0 else False
-        faqs = Faq.objects.filter(relatedid = pk)
-        
+        enrolled = True
 
     context={
-        'course': course,
-        'islive': islive,
-        'enrolled': enrolled,
-        'faqs': faqs,
+        'enrolled':enrolled,
+        'course':course,
+        'modules':modules,
     }
-    return render(request,"ka_main/course.html",context)
+    return render(request,"ka_main/live/course.html",context)
 
-
-def course_class(request,pk,pk2):
-
-    classes = RecordedClass.objects.filter(courseid=pk)
-    theclass = RecordedClass.objects.get(classid=pk2)
-    courseid = pk
+def recordedcourse(request,pk):
+    course = RecordedCourse.objects.get(id=pk)
+    modules = RecordedCourseModule.objects.filter(course=course)
+    rcpt = []
+    enrolled_check = Enrolled.objects.filter(username=get_username(request),courseid=pk)
+    if len(enrolled_check) == 0:
+        enrolled = False
+    else:
+        enrolled = True
+        rcpt = RecordedCourseProgressTracking.objects.filter(username=get_username(request),course=course)
     context = {
-        'classes': classes,
-        'theclass': theclass,
-        'courseid': courseid,
+        'course':course,
+        'enrolled':enrolled,
+        'modules':modules,
+        'rcpt':rcpt,
     }
-    return render(request,"ka_main/class.html",context)
+    return render(request,"ka_main/recorded/course.html",context)
+
+@require_POST
+def recordedcoursenoti(request,pk):
+    course = RecordedCourse.objects.get(id=pk)
+    rcn_instance = RecordedCourseNotification.objects.get_or_create(username=get_username(request),course=course)
+    rcn_instance.alert = True
+    rcn_instance.save()
+
+def recordedcoursenotif(request,pk,pk2):
+    course = RecordedCourse.objects.get(id=pk)
+    rcn_instance = RecordedCourseNotification.objects.get_or_create(username=get_username(request),course=course)
+    rcn_instance.frequency = int(pk2)
+    rcn_instance.save()
+
+def recordedclass(request,pk,pk2):
+    course = RecordedCourse.objects.get(id=pk)
+    modules = RecordedCourseModule.objects.filter(course=course)
+    pk2 = int(to_num(pk2))
+    prev_pk2 = pk2-1
+    if prev_pk2<0:
+        prev_pk2 = "১"
+    else:
+        prev_pk2 = to_bn(str(prev_pk2))
+    next_pk2 = to_bn(str(pk2+1))
+    module = modules[pk2]
+    context = {
+        'course':course,
+        'modules':modules,
+        'module':module,
+        'next_pk2':next_pk2,
+        'this_pk2':to_bn(str(pk2)),
+        'prev_pk2':prev_pk2,
+    }
+    return render(request,"ka_main/recorded/class.html",context)
+
+def liveclass(request):
+    live_class_name = "demolive"
+    
+    context = {
+        'live_class_name': live_class_name,
+    }
+    return render(request,"ka_main/live/class.html",context)
+
+def livestream(request):
+    live_class_name = "demolive"
+    
+    context = {
+        'live_class_name': live_class_name,
+    }
+    return render(request,"ka_main/live/stream.html",context)
+
+@csrf_exempt
+def upload_capture(request):
+    if request.method == 'POST' and request.FILES.get('file'):
+        uploaded_file = request.FILES['file']
+        with open(f'media/captures/{uploaded_file.name}', 'wb+') as destination:
+            for chunk in uploaded_file.chunks():
+                destination.write(chunk)
+        return JsonResponse({'message': 'File uploaded successfully'}, status=200)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+def stream_video_chunk(request, chunk_name):
+    file_path = os.path.join(settings.MEDIA_ROOT, 'video_chunks', chunk_name)
+
+    if not os.path.exists(file_path):
+        raise Http404("Chunk not found")
+
+    return FileResponse(open(file_path, 'rb'), content_type='video/webm')
+
+def recordedassignment(request,pk,pk2):
+    if request.method == "POST":
+        ass = request.FILES["ass"]
+        course = RecordedCourse.objects.get(id=pk)
+        modules = RecordedCourseModule.objects.filter(course=course)
+        pk2 = int(to_num(pk2))
+        module = modules[pk2]
+        assignment = RecordedCourseAssignmentSubmission.objects.get_or_create(course=course,module=module,username=get_username(request),file=ass)
+        assignment.save()
+        return redirect("rquiz",pk=course.id,pk2=to_bn(str(pk2)))
+    course = RecordedCourse.objects.get(id=pk)
+    modules = RecordedCourseModule.objects.filter(course=course)
+    pk2 = int(to_num(pk2))
+    prev_pk2 = pk2-1
+    if prev_pk2<0:
+        prev_pk2 = "১"
+    else:
+        prev_pk2 = to_bn(str(prev_pk2))
+    next_pk2 = to_bn(str(pk2+1))
+    module = modules[pk2]
+    context = {
+        'course':course,
+        'modules':modules,
+        'module':module,
+        'next_pk2':next_pk2,
+        'this_pk2':to_bn(str(pk2)),
+        'prev_pk2':prev_pk2,
+    }
+    return render(request,"ka_main/recorded/assignment.html",context)
+
+def recordedquiz(request,pk,pk2):
+    if request.method == "POST":
+        course = RecordedCourse.objects.get(id=pk)
+        modules = RecordedCourseModule.objects.filter(course=course)
+        pk2 = int(to_num(pk2))
+        module = modules[pk2]
+        questions = Question.objects.filter(course=course,module=module)
+        score = 0
+        for ques in questions:
+            ans = request.POST.get(str(ques.serial))
+            if ans == ques.answer5:
+                score += 1
+            else:
+                score = score
+        score = (score/len(questions))*100
+        score = to_bn(str(score))+"%"
+        quiz_result = QuizResult.objects.get_or_create(course=course,module=module,username=get_username(request),score=score)
+        quiz_result.save()
+        prev_pk2 = pk2-1
+        if prev_pk2<0:
+            prev_pk2 = "১"
+        else:
+            prev_pk2 = to_bn(str(prev_pk2))
+        next_pk2 = to_bn(str(pk2+1))
+        context = {
+            'course':course,
+            'modules':modules,
+            'module':module,
+            'next_pk2':next_pk2,
+            'this_pk2':to_bn(str(pk2)),
+            'prev_pk2':prev_pk2,
+            'questions':questions,
+        }
+        return redirect("rquiz",pk=course.id,pk2=to_bn(str(pk2)))
+
+    course = RecordedCourse.objects.get(id=pk)
+    modules = RecordedCourseModule.objects.filter(course=course)
+    pk2 = int(to_num(pk2))
+    prev_pk2 = pk2-1
+    if prev_pk2<0:
+        prev_pk2 = "১"
+    else:
+        prev_pk2 = to_bn(str(prev_pk2))
+    next_pk2 = to_bn(str(pk2+1))
+    module = modules[pk2]
+    questions = Question.objects.filter(course=course,module=module)
+    try:
+        quiz_result = QuizResult.objects.filter(course=course,module=module,username=get_username(request))
+        score = quiz_result[0].score
+    except:
+        score = "০%"
+    context = {
+        'course':course,
+        'modules':modules,
+        'module':module,
+        'next_pk2':next_pk2,
+        'this_pk2':to_bn(str(pk2)),
+        'prev_pk2':prev_pk2,
+        'questions':questions,
+        'score':score,
+    }
+    return render(request,"ka_main/recorded/quiz.html",context)
 
 def books(request):
     books = Book.objects.all()
@@ -570,3 +728,39 @@ def execute_payment(paymentID):
     invoice.trxID = execute_json_data["trxID"]
     invoice.save()
     return True
+
+# ----------------------- admin panel ------------------------ #
+def admin_login(request):
+    context = {}
+    return render(request,"ka_main/admin/admin-login.html",context)
+
+def admin_join(request):
+    context = {}
+    return render(request,"ka_main/admin/admin-join.html",context)
+
+def hr_dashboard(request):
+    context = {}
+    return render(request,"ka_main/admin/hr-dashboard.html",context)
+
+
+
+# ----------------------------------- camera stream ----------- #
+'''
+def gen(camera):
+    while True:
+        frame = camera.get_frame()
+        yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n'+ frame + b'\r\n\r\n')
+
+def video_feed(request):
+    return StreamingHttpResponse(gen(VideoCamera()),content_type='multipart/x-mixed-replace; boundary=frame')
+
+def webcam_feed(request):
+    return StreamingHttpResponse(gen(IPWebCam()),content_type='multipart/x-mixed-replace; boundary=frame')
+
+def mask_feed(request):
+    return StreamingHttpResponse(gen(MaskDetect()),content_type='multipart/x-mixed-replace; boundary=frame')
+
+def livecam_feed(request):
+    return StreamingHttpResponse(gen(LiveWebCam()),content_type='multipart/x-mixed-replace; boundary=frame')
+
+    '''

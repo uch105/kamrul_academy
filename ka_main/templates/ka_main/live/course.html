@@ -1,0 +1,132 @@
+{% extends 'ka_main/live/base.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock %}
+
+{% block body %}
+
+{% if enrolled %}
+<div class="container">
+    <div class="rclass1">
+        <div class="one">
+            <div class="card">
+                <h4><span class="small bn-bold">{{ course.title }}</span></h4>
+                <a href="" class="startcoursebtn"><span class="bn-regular tiny">আজকেই আপনার কোর্সটি শুরু করুন</span> <span class="bn-bold tiny bluespan">শুরু করুন</span></a>
+                <p class="tiny bn-regular">{{ course.description|safe }}</p>
+            </div>
+            <div class="card">
+                <h4 class="small">যা শেখানো হবে</h4>
+                <p>
+                    {% for module in modules %}
+                    <details>
+                        <summary class="bn-bold tiny">{{ module.module_name }}</summary>
+                        {% for class in module.classes.all %}
+                        {% if class.done %}
+                        <p class="classwithlink"><span class="tiny bn-bold">&#x27B1; {{ class.class_name }}</span><span><a href="" class="white primary-bg tiny bn-bold">রেকর্ডেড ক্লাস দেখুন</a></span></p>
+                        <p class="classwithlink"><span class="tiny bn-bold">&#x27B1; {{ class.class_name }}</span><span><a href="" class="white primary-bg tiny bn-bold">লাইভে যুক্ত হোন</a></span></p>
+                        {% else %}
+                        <p class="classwithlink"><span class="tiny bn-bold">&#x27B1; {{ class.class_name }}</span><span>{{ class.class_date }}</span></p>
+                        {% endif %}
+                        <p class="classwithlink"><span class="tiny bn-bold">&#x27B1; কুইজ</span><span><a href="" class="white primary-bg tiny bn-bold">অংশগ্রহণ করুন</a></span></p>
+                        {% endfor %}
+                    </details>
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container">
+    <div class="rclass">
+        <div class="one">
+            <div class="card">
+                <h4><span class="small bn-bold design">{{ course.title }}</span></h4>
+                <p class="tiny bn-regular">{{ course.description|safe }}</p>
+            </div>
+            <div class="card">
+                <h4 class="small">কোর্স ইন্সট্রাক্টর</h4>
+                <p class="bn-bold tiny blue" id="mentor">{{ course.mentor.name }} <br> <span class="bn-bold extra-tiny">{{ course.mentor.designation }}</span></p>
+            </div>
+            <div class="card">
+                <h4 class="small">প্রয়োজনীয় সফটওয়্যার</h4>
+                <p class="bn-bold tiny">
+                    {{ course.softwares|safe }}
+                </p>
+            </div>
+            <div class="card">
+                <h4 class="small">যা শেখানো হবে</h4>
+                <p>
+                    <div class="set">
+                        <div class="set1 bn-bold tiny">
+                            {{ course.learningoutcome1|safe }}
+                        </div>
+                        <div class="set1 bn-bold tiny">
+                            {{ course.learningoutcome2|safe }}
+                        </div>
+                    </div>
+                </p>
+            </div>
+            <div class="card">
+                <h4 class="small">কোর্সটি যাদের জন্য</h4>
+                <p>
+                    <div class="set">
+                        <div class="set1 bn-regular tiny">
+                            {{ course.forwhom1|safe }}
+                        </div>
+                        <div class="set1 bn-regular tiny">
+                            {{ course.forwhom2|safe }}
+                        </div>
+                    </div>
+                </p>
+            </div>
+            <div class="card">
+                <h4 class="small">কোর্স শেষে চাকুরীর সুযোগ</h4>
+                <p class="bn-bold tiny">
+                    {{ course.opportunities|safe }}
+                </p>
+            </div>
+            <div class="card">
+                <h4 class="small">আমাদের বিশেষত্ব</h4>
+                <p class="bn-bold tiny">
+                    <div class="images">
+                        <img src="{% static 'images/icons/thatone.png' %}" alt="">
+                        <img src="{% static 'images/icons/thattwo.png' %}" alt="">
+                        <img src="{% static 'images/icons/thatthree.png' %}" alt="">
+                        <img src="{% static 'images/icons/thatfour.png' %}" alt="">
+                    </div>
+                </p>
+            </div>
+        </div>
+
+        <div class="one">
+            <img src="{% static 'images/others/web.jpg' %}" alt="" width="100%" height="auto" style="border-radius: 6px;">
+            <div class="card">
+                <h4 class="small">কোর্সটিতে যা যা থাকছে</h4>
+                <p class="bn-bold tiny">
+                    <div class="features"><img src="{% static 'images/icons/thisseven.png' %}" alt=""><span class="bn-bold tiny">{{ course.total_modules }} টি মডিউল</span></div>
+                    <div class="features"><img src="{% static 'images/icons/thiseight.png' %}" alt=""><span class="bn-bold tiny">{{ course.total_classes }} টি লাইভ ক্লাস</span></div>
+                    <div class="features"><img src="{% static 'images/icons/thisnine.png' %}" alt=""><span class="bn-bold tiny">{{ course.total_classes }} টি রেকর্ডেড ক্লাস</span></div>
+                    <div class="features"><img src="{% static 'images/icons/thistwo.png' %}" alt=""><span class="bn-bold tiny">{{ course.total_hours }} ঘন্টা</span></div>
+                    <div class="features"><img src="{% static 'images/icons/thisthree.png' %}" alt=""><span class="bn-bold tiny">{{ course.total_pdfs }} পিডিএফ</span></div>
+                    <div class="features"><img src="{% static 'images/icons/thisfour.png' %}" alt=""><span class="bn-bold tiny">{{ course.total_quizes }} সেট কুইজ</span></div>
+                    <div class="features"><img src="{% static 'images/icons/thisfive.png' %}" alt=""><span class="bn-bold tiny">ফাইনাল পরীক্ষা</span></div>
+                    <div class="features"><img src="{% static 'images/icons/thissix.png' %}" alt=""><span class="bn-bold tiny">কোর্স সার্টিফিকেট</span></div>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="stickcard">
+        <p class="bn-bold small">{{ course.title }}</p>
+        <p class="bn-bold small">&#x09F3; {{ course.fee_bangla }}</p>
+        <a href="{% url 'checkout' pk=course.fee %}" class="tiny buy">কোর্সটি কিনুন</a><br>
+        <p class="bn-bold tiny">অথবা,</p><br>
+        <p class="bn-bold small">বেসিক লোগো ডিজাইন (প্রতিমাসে)</p>
+        <p class="bn-bold small">&#x09F3; {{ course.fee_per_month_bangla }}</p>
+        <a href="{% url 'checkout' pk=course.fee_per_month %}" class="tiny buy">সাবস্ক্রিপশন কিনুন</a>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

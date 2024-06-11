@@ -1,0 +1,72 @@
+{% extends 'ka_main/live/base.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h2 style="text-align: center;">Start streaming</h2>
+    <video id="video" autoplay></video>
+    <button id="start">Start Capture</button>
+    <button id="stop">Stop Capture</button>
+</div>
+
+<script>
+    const videoElement = document.getElementById('video');
+    const startButton = document.getElementById('start');
+    const stopButton = document.getElementById('stop');
+
+    let mediaStream = null;
+    let mediaRecorder = null;
+
+    startButton.addEventListener('click', async () => {
+        if (mediaStream) return;
+
+        try {
+            mediaStream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: true
+            });
+            
+            videoElement.srcObject = mediaStream;
+
+            mediaRecorder = new MediaRecorder(mediaStream);
+            
+            mediaRecorder.ondataavailable = async (event) => {
+                if (event.data.size > 0) {
+                    // Send the captured data to the server
+                    await sendDataToServer(event.data);
+                }
+            };
+            
+            mediaRecorder.start(1000); // Collect 1-second chunks
+        } catch (error) {
+            console.error('Error accessing media devices.', error);
+        }
+    });
+
+    stopButton.addEventListener('click', () => {
+        if (mediaRecorder) {
+            mediaRecorder.stop();
+            mediaStream.getTracks().forEach(track => track.stop());
+            mediaStream = null;
+        }
+    });
+
+    async function sendDataToServer(data) {
+        const formData = new FormData();
+        formData.append('file', data, '{{ live_class_name }}.webm');
+
+        try {
+            await fetch('/live-data-upload', {
+                method: 'POST',
+                body: formData
+            });
+        } catch (error) {
+            console.error('Error sending data to server.', error);
+        }
+    }
+
+</script>
+{% endblock %}

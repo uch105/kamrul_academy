@@ -1,0 +1,63 @@
+{% extends 'ka_main/recorded/base.html' %}
+{% load static %}
+
+{% block title %}
+All recorded class!
+{% endblock %}
+
+{% block body %}
+
+    <div class="bluebg">
+        <div class="container">
+            <h3 class="small" style="text-align: center;padding: 10px 0px;">আমাদের কোর্সসমূহ</h3>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="courses">
+            <div class="l-r">
+                <a href="{% url 'livecourses' %}" class="small bn-bold">লাইভ কোর্স</a>
+                <a href="{% url 'recordedcourses' %}" class="small bn-bold" id="active">রেকর্ডেড কোর্স</a>
+            </div>
+            <div class="list">
+                {% for course in courses %}
+                <div class="course">
+                    <img src="{{ course.banner.url }}" alt="">
+                    <div class="texts">
+                        <h3 class="bn-bold small">{{ course.title }}</h3>
+                        <p class="bn-regular tiny">{{ course.preface }}</p>
+                        <div class="info">
+                            <div class="infoo">
+                                <div class="infooo">
+                                    <img src="{% static 'images/icons/batch.png' %}" alt="">
+                                    <span class="bn-regular tiny">{{ course.total_modules }} ক্লাস</span>
+                                </div>
+                                <div class="infooo">
+                                    <img src="{% static 'images/icons/quiz.png' %}" alt="">
+                                    <span class="bn-regular tiny">{{ course.total_exams }} কুইজ</span>
+                                </div>
+                                <div class="infooo">
+                                    <img src="{% static 'images/icons/clock.png' %}" alt="">
+                                    <span class="bn-regular tiny">{{ course.days_remain }} দিন বাকি</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rating">
+                            <img src="{% static 'images/icons/star.svg' %}" alt="">
+                            <img src="{% static 'images/icons/star.svg' %}" alt="">
+                            <img src="{% static 'images/icons/star.svg' %}" alt="">
+                            <img src="{% static 'images/icons/star.svg' %}" alt="">
+                            <img src="{% static 'images/icons/star.svg' %}" alt="">
+                            <span class="bn-regular tiny">({{ course.total_student }} সদস্য)</span>
+                        </div>
+                        <div>
+                            <a href="{% url 'recordedcourse' pk=course.id %}" class="bn-regular white tiny aro-dekhun">আরো দেখুন</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

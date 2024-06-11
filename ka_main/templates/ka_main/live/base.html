@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/live.css' %}">
+</head>
+<body>
+
+    {% include 'ka_main/navbar.html' %}
+    {% block body %}
+    {% endblock %}
+    {% include 'ka_main/footer.html' %}
+
+    <script src="{% static 'js/lscript.js' %}"></script>
+</body>
+</html>

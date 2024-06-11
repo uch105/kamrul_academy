@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -8,19 +8,25 @@ urlpatterns = [
     path("",views.home,name="home"),
     #path("<str:pk>",views.callbackhome,name="callbackhome"),
     #path("parentcourses/",views.parentcourses,name="courses"),
-    path("parentcourses/all-live",views.live_parentcourses,name="livecourses"),
-    path("parentcourses/all-recorded",views.recorded_parentcourses,name="recordedcourses"),
+    path("parentcourses/all-live",views.live_courses,name="livecourses"),
+    path("parentcourses/all-recorded",views.recorded_courses,name="recordedcourses"),
     path("books/",views.books,name="books"),
     path("blogs/",views.blogs,name="blogs"),
     #path("course/<str:pk>/",views.course,name="course"),
     path("book/<str:pk>/",views.book,name="book"),
     path("blog/<str:pk>/",views.blog,name="blog"),
     path("like/<str:pk>/",views.like,name="like"),
-    path("class/<str:pk>/<str:pk2>/",views.course_class,name="class"),
+    path("recorded/class/<str:pk>/<str:pk2>/",views.recordedclass,name="rclass"),
+    path("live/class/join/",views.liveclass,name="lclass"),
+    path("live/class/stream/",views.livestream,name="lstream"),
+    path("recorded/assignment/<str:pk>/<str:pk2>/",views.recordedassignment,name="rassignment"),
+    path("recorded/quiz/<str:pk>/<str:pk2>/",views.recordedquiz,name="rquiz"),
     #path("dislike/<str:pk>/",views.blog_dislike_count,name="dislike"),
     #path("courselike/<str:pk>/",views.course_like_count,name="courselike"),
     #path("coursedislike/<str:pk>/",views.course_dislike_count,name="coursedislike"),
     path("about/",views.about,name="about"),
+    path("live-data-upload/",views.upload_capture,name="upload_capture"),
+    path("media/videos/chunk/<str:chunk_name>/",views.stream_video_chunk,name="stream_video_chunk"),
     #path("sign-in/",views.sign_in,name="sign-in"),
     path("sign-out/",views.sign_out,name="sign-out"),
     path("sign-up/",views.sign_up,name="sign-up"),
@@ -39,6 +45,17 @@ urlpatterns = [
     path("refund-policy/",views.refund,name="refund"),
     path("terms-and-conditions/",views.terms,name="terms"),
     path("checkout/<str:pk>",views.checkout,name="checkout"),
-    path("parentcourse/<str:pk>/",views.parentcourse,name="parentcourse"),
-    #path("enroll/<str:pk>/",views.enrolling,name="enroll")
+    path("livecourse/<str:pk>/",views.livecourse,name="livecourse"),
+    path("recordedcourse/<str:pk>/",views.recordedcourse,name="recordedcourse"),
+    path("recordedcourse/<str:pk>/notification/alert/",views.recordedcoursenoti,name="recordedcoursenoti"),
+    path("recordedcourse/<str:pk>/notification/alert/<str:pk2>",views.recordedcoursenotif,name="recordedcoursenotif"),
+    #path("enroll/<str:pk>/",views.enrolling,name="enroll"),
+    #path('video-feed',views.video_feed,name="video_feed"),
+    #path('webcam-feed',views.webcam_feed,name="webcam_feed"),
+    #path('mask-feed',views.mask_feed,name="mask_feed"),
+    #path('livecam-feed',views.livecam_feed,name="livecam_feed"),
+] + [
+    path("admin/log-in/",views.admin_login,name="admin-log-in"),
+    path("admin/sign-in/",views.admin_join,name="admin-sign-in"),
+    path("admin/hr-dashboard/",views.hr_dashboard,name="hr-dashboard"),
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,228 @@
+{% extends 'ka_main/recorded/base.html' %}
+{% load static %}
+
+{% block title %}
+{{ course.title }}
+{% endblock %}
+
+{% block body %}
+    {% if enrolled %}
+    {% if rcpt.started %}
+    <div class="container">
+        <div class="rclass">
+            <div class="one">
+                <div class="card">
+                    <h4><span class="small bn-bold design">{{ course.title }}</span></h4>
+                    <a href="{% url 'rclass' pk=course.id pk2=rcpt.done %}" class="startcoursebtn"><span class="bn-regular tiny">যেখানে রেখেছেন সেখান থেকে শুরু করুন</span> <span class="bn-bold tiny bluespan">চালিয়ে যান</span></a>
+                    <p class="tiny bn-regular">{{ course.description|safe }}</p>
+                </div>
+                <div class="card">
+                    <h4 class="small">যা শেখানো হবে</h4>
+                    <p>
+                        {% for module in modules %}
+                        <details>
+                            <summary class="bn-bold tiny">{{ module.module_name }}</summary>
+                            {% if module.class_one_valid %}
+                            <p class="bn-regular tiny">&#x27B1; {{ module.class_one_name }}</p>
+                            {% endif %}
+                            {% if module.class_two_valid %}
+                            <p class="bn-regular tiny">&#x27B1; {{ module.class_two_name }}</p>
+                            {% endif %}
+                            {% if module.class_three_valid %}
+                            <p class="bn-regular tiny">&#x27B1; {{ module.class_three_name }}</p>
+                            {% endif %}
+                            {% if module.class_four_valid %}
+                            <p class="bn-regular tiny">&#x27B1; {{ module.class_four_name }}</p>
+                            {% endif %}
+                            {% if module.class_five_valid %}
+                            <p class="bn-regular tiny">&#x27B1; {{ module.class_five_name }}</p>
+                            {% endif %}
+                        </details>
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="card">
+                    <h4 class="small">প্রয়োজনীয় সফটওয়্যার</h4>
+                    <p class="bn-bold tiny">
+                        {{ course.softwares|safe }}
+                    </p>
+                </div>
+                <div class="card">
+                    <h4 class="small">কোর্স ইন্সট্রাক্টর</h4>
+                    <p class="bn-bold tiny blue" id="mentor">{{ course.mentor.name }} <br> <span class="bn-bold extra-tiny">{{ course.mentor.designation }}</span></p>
+                </div>
+            </div>
+    
+            <div class="one targetone">
+                <p class="small bn-bold">সাপ্তাহিক লক্ষ্যমাত্রা নির্ধারণ করুন</p>
+                <hr>
+                <div class="targets">
+                    <a href="{% url 'recordednotif' pk=course.id pk2=4 %}"><img src="{% static 'images/icons/4days.png' %}" alt="" class="targetimage"></a>
+                    <a href="{% url 'recordednotif' pk=course.id pk2=2 %}"><img src="{% static 'images/icons/2days.png' %}" alt="" class="targetimage"></a>
+                    <a href="{% url 'recordednotif' pk=course.id pk2=6 %}"><img src="{% static 'images/icons/6days.png' %}" alt="" class="targetimage"></a>
+                </div>
+                <p class="switchholder">
+                    <form action="{% url 'recordednoti' pk=course.id %}" method="POST">
+                        {% csrf_token %}
+                        <label class="switch">
+                            <input type="checkbox" onchange="this.form.submit()">
+                            <span class="slider round"></span>
+                        </label>
+                    </form>
+                    <span class="bn-bold tiny">আমাকে মনে করিয়ে দিন</span>
+                </p>
+                <div class="card">
+                    <h4 class="small" style="text-align: center;">আপনার অগ্রগতি</h4>
+                    <div class="progressinfo"><span class="tiny bn-bold">{{ rcpt.done }}/{{ rcpt.total }}</span><span class="tiny bn-bold">৩০%</span></div>
+                    <div class="progressbarcontainer">
+                        <div class="progressbar" id="progressbar"></div>
+                        <input type="hidden" name="" value="{{ rcpt.calc }}" id="progress">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="container">
+        <div class="rclass">
+            <div class="one">
+                <div class="card">
+                    <h4><span class="small bn-bold design">{{ course.title }}</span></h4>
+                    <a href="{% url 'rclass' pk=course.id pk2=rcpt.done %}" class="startcoursebtn"><span class="bn-regular tiny">আজকেই আপনার কোর্সটি শুরু করুন</span> <span class="bn-bold tiny bluespan">শুরু করুন</span></a>
+                    <p class="tiny bn-regular">{{ course.description|safe }}</p>
+                </div>
+                <div class="card">
+                    <h4 class="small">যা শেখানো হবে</h4>
+                    <p>
+                        {% for module in modules %}
+                        <details>
+                            <summary class="bn-bold tiny">{{ module.module_name }}</summary>
+                            {% if module.class_one_valid %}
+                            <p class="bn-regular tiny">&#x27B1; {{ module.class_one_name }}</p>
+                            {% endif %}
+                            {% if module.class_two_valid %}
+                            <p class="bn-regular tiny">&#x27B1; {{ module.class_two_name }}</p>
+                            {% endif %}
+                            {% if module.class_three_valid %}
+                            <p class="bn-regular tiny">&#x27B1; {{ module.class_three_name }}</p>
+                            {% endif %}
+                            {% if module.class_four_valid %}
+                            <p class="bn-regular tiny">&#x27B1; {{ module.class_four_name }}</p>
+                            {% endif %}
+                            {% if module.class_five_valid %}
+                            <p class="bn-regular tiny">&#x27B1; {{ module.class_five_name }}</p>
+                            {% endif %}
+                        </details>
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="card">
+                    <h4 class="small">প্রয়োজনীয় সফটওয়্যার</h4>
+                    <p class="bn-bold tiny">
+                        {{ course.softwares|safe }}
+                    </p>
+                </div>
+                <div class="card">
+                    <h4 class="small">কোর্স ইন্সট্রাক্টর</h4>
+                    <p class="bn-bold tiny blue" id="mentor">{{ course.mentor.name }} <br> <span class="bn-bold extra-tiny">{{ course.mentor.designation }}</span></p>
+                </div>
+            </div>
+    
+            <div class="one targetone">
+                <p class="small bn-bold">সাপ্তাহিক লক্ষ্যমাত্রা নির্ধারণ করুন</p>
+                <hr>
+                <div class="targets">
+                    <a href="{% url 'recordednotif' pk=course.id pk2=4 %}"><img src="{% static 'images/icons/4days.png' %}" alt="" class="targetimage"></a>
+                    <a href="{% url 'recordednotif' pk=course.id pk2=2 %}"><img src="{% static 'images/icons/2days.png' %}" alt="" class="targetimage"></a>
+                    <a href="{% url 'recordednotif' pk=course.id pk2=6 %}"><img src="{% static 'images/icons/6days.png' %}" alt="" class="targetimage"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="container">
+        <div class="rclass">
+            <div class="one">
+                <div class="card">
+                    <h4><span class="small bn-bold design">{{ course.title }}</span></h4>
+                    <p class="tiny bn-regular">{{ course.description|safe }}</p>
+                </div>
+                <div class="card">
+                    <h4 class="small">কোর্স ইন্সট্রাক্টর</h4>
+                    <p class="bn-bold tiny blue" id="mentor">{{ course.mentor.name }} <br> <span class="bn-bold extra-tiny">{{ course.mentor.designation }}</span></p>
+                </div>
+                <div class="card">
+                    <h4 class="small">প্রয়োজনীয় সফটওয়্যার</h4>
+                    <p class="bn-bold tiny">
+                        {{ course.softwares|safe }}
+                    </p>
+                </div>
+                <div class="card">
+                    <h4 class="small">যা শেখানো হবে</h4>
+                    <p>
+                        <div class="set">
+                            <div class="set1 bn-bold tiny">
+                                {{ course.learningoutcome1|safe }}
+                            </div>
+                            <div class="set1 bn-bold tiny">
+                                {{ course.learningoutcome2|safe }}
+                            </div>
+                        </div>
+                    </p>
+                </div>
+                <div class="card">
+                    <h4 class="small">কোর্সটি যাদের জন্য</h4>
+                    <p>
+                        <div class="set">
+                            <div class="set1 bn-regular tiny">
+                                {{ course.forwhom1|safe }}
+                            </div>
+                            <div class="set1 bn-regular tiny">
+                                {{ course.forwhom1|safe }}
+                            </div>
+                        </div>
+                    </p>
+                </div>
+                <div class="card">
+                    <h4 class="small">কোর্স শেষে চাকুরীর সুযোগ</h4>
+                    <p class="bn-bold tiny">
+                        {{ course.opportunities|safe }}
+                    </p>
+                </div>
+                <div class="card">
+                    <h4 class="small">আমাদের বিশেষত্ব</h4>
+                    <p class="bn-bold tiny">
+                        <div class="images">
+                            <img src="{% static 'images/icons/thatone.png' %}" alt="">
+                            <img src="{% static 'images/icons/thattwo.png' %}" alt="">
+                            <img src="{% static 'images/icons/thatthree.png' %}" alt="">
+                            <img src="{% static 'images/icons/thatfour.png' %}" alt="">
+                        </div>
+                    </p>
+                </div>
+            </div>
+
+            <div class="one">
+                <img src="{% static 'images/others/web.jpg' %}" alt="" width="100%" height="auto" style="border-radius: 6px;">
+                <div class="card">
+                    <h4 class="small">কোর্সটিতে যা যা থাকছে</h4>
+                    <p class="bn-bold tiny">
+                        <div class="features"><img src="{% static 'images/icons/thisone.png' %}" alt=""><span class="bn-bold tiny">{{ course.total_modules }} টি ক্লাস</span></div>
+                        <div class="features"><img src="{% static 'images/icons/thistwo.png' %}" alt=""><span class="bn-bold tiny">{{ course.total_hours }} ঘন্টা</span></div>
+                        <div class="features"><img src="{% static 'images/icons/thisthree.png' %}" alt=""><span class="bn-bold tiny">{{ course.total_pdfs }} পিডিএফ</span></div>
+                        <div class="features"><img src="{% static 'images/icons/thisfour.png' %}" alt=""><span class="bn-bold tiny">{{ course.total_exams }} সেট কুইজ</span></div>
+                        <div class="features"><img src="{% static 'images/icons/thisfive.png' %}" alt=""><span class="bn-bold tiny">ফাইনাল পরীক্ষা</span></div>
+                        <div class="features"><img src="{% static 'images/icons/thissix.png' %}" alt=""><span class="bn-bold tiny">কোর্স সার্টিফিকেট</span></div>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div id="stickcard">
+            <p class="bn-bold small">{{ course.title }}</p>
+            <p class="bn-bold small">&#x09F3; {{ course.feebangla }}</p>
+            <a href="{% url 'checkout' pk=course.fee %}" class="tiny buy">কোর্সটি কিনুন</a>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

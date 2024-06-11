@@ -2,80 +2,161 @@ from django.db import models
 from django.db.models import Model
 from tinymce.models import HTMLField
 
+
+
+class Mentor(models.Model):
+    id = models.CharField(primary_key=True,max_length=30)
+    name = models.CharField(max_length=100,blank=True,null=True)
+    designation = models.CharField(max_length=100,blank=True,null=True)
+
+    def __str__(self):
+        return self.name
 class RecordedCourse(models.Model):
-    courseid = models.CharField(max_length=50,unique=True,primary_key=True)
-    title = models.TextField()
-    banner = models.ImageField(upload_to="media/images/recorded/",blank=True,null=True)
-    description = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    isitlive = models.BooleanField(default=False)
+    id = models.CharField(max_length=30,primary_key=True)
+    title = models.CharField(max_length=50,null=True,blank=True)
+    preface = models.CharField(max_length=100,null=True,blank=True)
+    description = models.TextField(null=True,blank=True)
+    banner = models.ImageField(upload_to="media/images/recorded/",null=True,blank=True)
+    total_modules = models.CharField(max_length=4,null=True,blank=True)
+    total_exams = models.CharField(max_length=4,null=True,blank=True)
+    total_hours = models.CharField(max_length=4,null=True,blank=True)
+    total_pdfs = models.CharField(max_length=4,null=True,blank=True)
+    days_remain = models.CharField(max_length=4,null=True,blank=True)
+    total_student = models.CharField(max_length=10,null=True,blank=True)
+    mentor = models.ForeignKey(Mentor,on_delete=models.CASCADE)
     for_index = models.BooleanField(default=False)
-    #for_top = models.BooleanField(default=False)
-    total_duration = models.IntegerField(default=0)
-    total_class = models.IntegerField(default=0)
-    total_exam = models.IntegerField(default=0)
-    total_enrolled = models.IntegerField(default=0)
-    offer = models.BooleanField(default=False)
-    promocode = models.CharField(max_length=10,blank=True,null=True)
-    saving = models.IntegerField(default=0)
-    savingfrom = models.IntegerField(default=0)
-    expiry_date = models.CharField(max_length=100)
-    fee = models.IntegerField(default=0)
-    firstclass = models.CharField(max_length=100,blank=True,null=True)
+    softwares = models.TextField(null=True,blank=True)
+    learningoutcome1 = models.TextField(null=True,blank=True)
+    learningoutcome2 = models.TextField(null=True,blank=True)
+    forwhom1 = models.TextField(null=True,blank=True)
+    forwhom2 = models.TextField(null=True,blank=True)
+    opportunities = models.TextField(null=True,blank=True)
+    fee = models.FloatField(default=0.0)
+    feebangla = models.CharField(max_length=10,null=True,blank=True)
 
     def __str__(self):
         return self.title
 
-class RecordedClass(models.Model):
-    classid = models.CharField(max_length=100,blank=True,null=True)
-    courseid = models.CharField(max_length=100,blank=True,null=True)
-    title = models.TextField()
-    notes = models.FileField(upload_to="media/notes/recorded/",blank=True,null=True)
-    video = models.FileField(upload_to="media/videos/recorded/",blank=True,null=True)
+
+class RecordedCourseModule(models.Model):
+    id = models.CharField(primary_key=True,max_length=50)
+    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE)
+    module_name = models.CharField(max_length=150,blank=True,null=True)
+    class_one_valid = models.BooleanField(default=False)
+    class_one_name = models.CharField(max_length=150,blank=True,null=True)
+    class_one_video = models.FileField(upload_to="media/recorded/videos/",null=True,blank=True)
+    class_two_valid = models.BooleanField(default=False)
+    class_two_name = models.CharField(max_length=150,blank=True,null=True)
+    class_two_video = models.FileField(upload_to="media/recorded/videos/",null=True,blank=True)
+    class_three_valid = models.BooleanField(default=False)
+    class_three_name = models.CharField(max_length=150,blank=True,null=True)
+    class_three_video = models.FileField(upload_to="media/recorded/videos/",null=True,blank=True)
+    class_four_valid = models.BooleanField(default=False)
+    class_four_name = models.CharField(max_length=150,blank=True,null=True)
+    class_four_video = models.FileField(upload_to="media/recorded/videos/",null=True,blank=True)
+    class_five_valid = models.BooleanField(default=False)
+    class_five_name = models.CharField(max_length=150,blank=True,null=True)
+    class_five_video = models.FileField(upload_to="media/recorded/videos/",null=True,blank=True)
+    note = models.FileField(upload_to="media/recorded/notes/",null=True,blank=True)
+    assignment_desc = models.TextField(blank=True,null=True)
 
     def __str__(self):
-        return self.title
+        return self.module_name
+
+
+class RecordedCourseAssignmentSubmission(models.Model):
+    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE)
+    module = models.ForeignKey(RecordedCourseModule,on_delete=models.CASCADE)
+    username = models.CharField(max_length=100,null=True,blank=True)
+    file = models.FileField(upload_to="media/recorded/assignments/",blank=True,null=True)
+
+
+class Question(models.Model):
+    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE)
+    module = models.ForeignKey(RecordedCourseModule,on_delete=models.CASCADE)
+    serial = models.CharField(max_length=15,null=True,blank=True)
+    serial_text = models.CharField(max_length=15,null=True,blank=True)
+    text = models.TextField(null=True,blank=True)
+    answer1 = models.CharField(max_length=100,null=True,blank=True)
+    answer2 = models.CharField(max_length=100,null=True,blank=True)
+    answer3 = models.CharField(max_length=100,null=True,blank=True)
+    answer4 = models.CharField(max_length=100,null=True,blank=True)
+    answer5 = models.CharField(max_length=10,null=True,blank=True)
+
+
+class QuizResult(models.Model):
+    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE)
+    module = models.ForeignKey(RecordedCourseModule,on_delete=models.CASCADE)
+    username = models.CharField(max_length=100,null=True,blank=True)
+    score = models.CharField(max_length=100,null=True,blank=True)
+
+class RecordedCourseProgressTracking(models.Model):
+    username = models.CharField(max_length=100,null=True,blank=True)
+    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE)
+    started = models.BooleanField(default=False)
+    done = models.CharField(max_length=10,null=True,blank=True)
+    total = models.CharField(max_length=10,null=True,blank=True)
+    calc = models.FloatField(default=0.0)
+
+class ClassPermissionTracking(models.Model):
+    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE)
+    module = models.ForeignKey(RecordedCourseModule,on_delete=models.CASCADE)
+    username = models.CharField(max_length=100,blank=True,null=True)
+    quiz_marks = models.FloatField(default=0.0)
+    allow_next = models.BooleanField(default=False)
+
+class RecordedCourseNotification(models.Model):
+    username = models.CharField(max_length=100,blank=True,null=True)
+    course = models.ForeignKey(RecordedCourse,on_delete=models.CASCADE)
+    frequency = models.IntegerField(default=0)
+    alert = models.BooleanField(default=False)
+
 
 class LiveCourse(models.Model):
-    courseid = models.CharField(max_length=50,unique=True,primary_key=True)
-    title = models.TextField()
-    utubelink = models.CharField(max_length=100,blank=True,null=True)
-    banner = models.ImageField(upload_to="media/images/live/",blank=True,null=True)
-    showlink = models.BooleanField(default=False)
-    description = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    total_enrolled = models.IntegerField(default=0)
-    isitlive = models.BooleanField(default=True)
-    for_index = models.BooleanField(default=False)
-    #for_top = models.BooleanField(default=False)
-    offer = models.BooleanField(default=False)
-    promocode = models.CharField(max_length=10,blank=True,null=True)
-    saving = models.IntegerField(default=0)
-    savingfrom = models.IntegerField(default=0)
-    expiry_date = models.CharField(max_length=100,blank=True,null=True)
-    fee = models.IntegerField(default=0)
-    startdate = models.CharField(max_length=100,blank=True,null=True)
-    classtime = models.CharField(max_length=100,blank=True,null=True)
-    classday = models.CharField(max_length=100,blank=True,null=True)
-    batchno = models.CharField(max_length=20,blank=True,null=True)
-    seatremaining = models.IntegerField(default=50)
-    daysremaining =models.IntegerField(default=50)
+    id = models.CharField(max_length=30,primary_key=True,default="001")
+    title = models.CharField(max_length=50,null=True,blank=True)
+    preface = models.CharField(max_length=100,null=True,blank=True)
+    description = models.TextField(null=True,blank=True)
+    banner = models.ImageField(upload_to="media/images/recorded/",null=True,blank=True)
+    batch_no = models.CharField(max_length=4,null=True,blank=True)
+    seats_remain = models.CharField(max_length=4,null=True,blank=True)
+    days_remain = models.CharField(max_length=4,null=True,blank=True)
+    total_student = models.CharField(max_length=10,null=True,blank=True)
+    total_modules = models.CharField(max_length=4,null=True,blank=True)
+    total_classes = models.CharField(max_length=4,null=True,blank=True)
+    total_hours = models.CharField(max_length=4,null=True,blank=True)
+    total_pdfs = models.CharField(max_length=4,null=True,blank=True)
+    total_quizes = models.CharField(max_length=4,null=True,blank=True)
+    mentor = models.ForeignKey(Mentor,on_delete=models.CASCADE)
+    softwares = models.TextField(null=True,blank=True)
+    learningoutcome1 = models.TextField(null=True,blank=True)
+    learningoutcome2 = models.TextField(null=True,blank=True)
+    forwhom1 = models.TextField(null=True,blank=True)
+    forwhom2 = models.TextField(null=True,blank=True)
+    opportunities = models.TextField(null=True,blank=True)
+    fee = models.FloatField(default=0.0)
+    fee_per_month = models.FloatField(default=0.0)
+    fee_bangla = models.CharField(max_length=20,null=True,blank=True)
+    fee_per_month_bangla = models.CharField(max_length=20,null=True,blank=True)
 
-    def __str__(self):
-        return self.title
-    
-class LiveClass(models.Model):
-    classid = models.CharField(max_length=100,blank=True,null=True)
-    courseid = models.CharField(max_length=100,blank=True,null=True)
-    title = models.CharField(max_length=100,blank=True,null=True)
-    name = models.CharField(max_length=100,blank=True,null=True)
-    startdate = models.CharField(max_length=100,blank=True,null=True)
-    link = models.CharField(max_length=100,blank=True,null=True)
-    date = models.CharField(max_length=100,blank=True,null=True)
-    schedule = models.CharField(max_length=100,blank=True,null=True)
-    
+
+
+class LiveCourseModule(models.Model):
+    id = models.CharField(primary_key=True,max_length=50)
+    course = models.ForeignKey(LiveCourse,on_delete=models.CASCADE)
+    module_name = models.CharField(max_length=150,blank=True,null=True)
+
+class LiveCourseModuleClass(models.Model):
+    module = models.ForeignKey(LiveCourseModule,on_delete=models.CASCADE)
+    class_serial = models.CharField(max_length=200,null=True,blank=True)
+    class_done = models.BooleanField(default=False)
+    class_ongoing = models.BooleanField(default=False)
+    class_link = models.CharField(max_length=200,null=True,blank=True)
+    class_date = models.CharField(max_length=200,null=True,blank=True)
+    class_name = models.CharField(max_length=150,blank=True,null=True)
+
+
+
 class Enrolled(models.Model):
     username = models.CharField(max_length=100,blank=True,null=True)
     courseid = models.CharField(max_length=100,blank=True,null=True)
