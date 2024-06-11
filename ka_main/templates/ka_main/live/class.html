@@ -24,7 +24,7 @@
         }
 
         async function fetchVideoChunk(sourceBuffer) {
-            const response = await fetch('/media/videos/demo.webm');
+            const response = await fetch('/media/captures/demo.webm');
             const chunk = await response.arrayBuffer();
 
             sourceBuffer.appendBuffer(chunk);
