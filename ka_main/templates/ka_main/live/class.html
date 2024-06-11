@@ -11,7 +11,7 @@
     <video id="studentVideo" autoplay controls></video>
     <script>
         const videoElement = document.getElementById('studentVideo');
-        const ws = new WebSocket('ws://' + window.location.host + '/ws/live/');
+        const ws = new WebSocket('wss://' + window.location.host + '/ws/live/');
         const mediaSource = new MediaSource();
 
         videoElement.src = URL.createObjectURL(mediaSource);
