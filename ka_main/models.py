@@ -128,6 +128,7 @@ class LiveCourse(models.Model):
     total_pdfs = models.CharField(max_length=4,null=True,blank=True)
     total_quizes = models.CharField(max_length=4,null=True,blank=True)
     mentor = models.ForeignKey(Mentor,on_delete=models.CASCADE,null=True)
+    for_index = models.BooleanField(default=False)
     softwares = models.TextField(null=True,blank=True)
     learningoutcome1 = models.TextField(null=True,blank=True)
     learningoutcome2 = models.TextField(null=True,blank=True)
