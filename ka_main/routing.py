@@ -1,7 +1,6 @@
-# your_app_name/routing.py
-from django.urls import re_path
-from . import consumers
+from django.urls import path
+from ka_main.consumers import StreamConsumer
 
 websocket_urlpatterns = [
-    re_path(r'ws/live/$', consumers.LiveStreamConsumer.as_asgi()),
+    path('ws/stream/', StreamConsumer.as_asgi()),
 ]

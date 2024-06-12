@@ -20,6 +20,8 @@ from .forms import *
 from .bn_nums import to_bn,to_num
 import random,string,json,time
 from django.conf import settings
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 #from .camera import VideoCamera,IPWebCam,MaskDetect,LiveWebCam
 
 
@@ -368,6 +370,7 @@ def livestream(request):
     }
     return render(request,"ka_main/live/stream.html",context)
 
+'''
 @csrf_exempt
 def upload_capture(request):
     if request.method == 'POST' and request.FILES.get('file'):
@@ -377,6 +380,15 @@ def upload_capture(request):
                 destination.write(chunk)
         return JsonResponse({'message': 'File uploaded successfully'}, status=200)
     return JsonResponse({'error': 'Invalid request'}, status=400)
+'''
+@csrf_exempt
+def upload_capture(request):
+    if request.method == 'POST':
+        file = request.FILES['file']
+        file_name = default_storage.save('recordings/' + file.name, file)
+        return JsonResponse({'message': 'File uploaded successfully', 'file_name': file_name})
+    return JsonResponse({'message': 'Only POST method is allowed'}, status=405)
+
 
 def stream_video_chunk(request, chunk_name):
     file_path = os.path.join(settings.MEDIA_ROOT, 'video_chunks', chunk_name)

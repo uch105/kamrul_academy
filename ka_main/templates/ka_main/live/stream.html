@@ -8,68 +8,60 @@
 
 
     <h1>Teacher Stream</h1>
-    <video id="teacherVideo" autoplay muted></video>
-    <button id="startStream">Start Stream</button>
+    <video id="videoElement" autoplay playsinline></video>
+    <button id="startCapture">Start Capture</button>
     <button id="shareScreen">Share Screen</button>
-    <button id="stopStream">Stop Streaming</button>
+    <button id="stopCapture">Stop Capture</button>
     <script>
-        const videoElement = document.getElementById('teacherVideo');
-        const startStreamButton = document.getElementById('startStream');
+        const videoElement = document.getElementById('videoElement');
+        const startCaptureButton = document.getElementById('startCapture');
         const shareScreenButton = document.getElementById('shareScreen');
-        const stopStreamButton = document.getElementById('stopStream');
+        const stopCaptureButton = document.getElementById('stopCapture');
+
         let mediaRecorder;
-        let ws;
+        let stream;
 
-        startStreamButton.addEventListener('click', async () => {
-            if (ws) {
-                ws.close();
-            }
+        let protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        let socket = new WebSocket(protocol + '//' + window.location.host + '/ws/stream/');
 
-            ws = new WebSocket('wss://' + window.location.host + '/ws/live/');
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        socket.onopen = () => console.log('WebSocket connection opened');
+        socket.onclose = () => console.log('WebSocket connection closed');
+
+        startCaptureButton.addEventListener('click', async () => {
+            stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
             videoElement.srcObject = stream;
-            mediaRecorder = new MediaRecorder(stream);
-
-            mediaRecorder.ondataavailable = function(e) {
-                if (ws.readyState === WebSocket.OPEN) {
-                    ws.send(JSON.stringify({ message: e.data }));
-                }
-            };
-
-            mediaRecorder.start(1000); // Send data in chunks every second
+            startSendingFrames(stream);
         });
 
         shareScreenButton.addEventListener('click', async () => {
-            if (mediaRecorder) {
-                mediaRecorder.stop();
-            }
-            
-            const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+            stopSendingFrames();
+            stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
             videoElement.srcObject = stream;
-            mediaRecorder = new MediaRecorder(stream);
+            startSendingFrames(stream);
+        });
 
-            mediaRecorder.ondataavailable = function(e) {
-                if (ws.readyState === WebSocket.OPEN) {
-                    ws.send(JSON.stringify({ message: e.data }));
+        stopCaptureButton.addEventListener('click', () => {
+            stopSendingFrames();
+            stream.getTracks().forEach(track => track.stop());
+        });
+
+        function startSendingFrames(stream) {
+            mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp9' });
+
+            mediaRecorder.ondataavailable = function (event) {
+                if (event.data.size > 0) {
+                    socket.send(event.data);
                 }
             };
 
-            mediaRecorder.start(1000); // Send data in chunks every second
+            mediaRecorder.start(100); // Send data every 100ms
+        }
 
-            // Stop screen share and switch back to webcam if stream ends
-            stream.getVideoTracks()[0].addEventListener('ended', () => {
-                startStreamButton.click();
-            });
-        });
-
-        stopStreamButton.addEventListener('click', () => {
-            if (mediaRecorder) {
+        function stopSendingFrames() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
                 mediaRecorder.stop();
             }
-            if (ws) {
-                ws.close();
-            }
-        });
+        }
     </script>
 
 

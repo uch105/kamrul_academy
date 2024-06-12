@@ -24,16 +24,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-nk1th4_92k2u#mg-ve%torq1j=dc!weqo!kl&5cbv=9$8ys5lq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1',]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'ka_main.apps.KaMainConfig',
-    'tinymce',
+    #'sage_stream',
+    'rest_framework',
+    'channels',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -74,9 +76,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'kamrulacademy.wsgi.application'
 
+#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+#SECURE_SSL_REDIRECT = True
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
+
+
+ASGI_APPLICATION = 'kamrulacademy.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
+
 
 # --------------- tinymce configuration ---------------- #
-
+'''
 TINYMCE_DEFAULT_CONFIG = {
     'height': 360,
     'width': 800,
@@ -84,31 +100,35 @@ TINYMCE_DEFAULT_CONFIG = {
     'custom_undo_redo_levels': 20,
     'selector': 'textarea',
     'theme': 'silver',
-    'plugins': '''
+    'plugins': 
         textcolor save link image media preview codesample contextmenu 
         table code lists fullscreen insertdatetime nonbreaking 
         contextmenu directionality searchreplace wordcount visualblocks
         visualchars code fullscreen autolink lists charmap print hr
         anchor pagebreak
-    ''',
-    'toolbar1': '''
+    ,
+    'toolbar1': 
         fullscreen preview bold italic underline | fontselect fontsizeselect | 
         forecolor backcolor | alignleft alignright | aligncenter alignjustify | 
         indent outdent | bullist numlist table | link image media | codesample |
-    ''',
-    'toolbar2': '''
+    ,
+    'toolbar2': 
         visualblocks visualchars | charmap hr pagebreak nonbreaking anchor | code |
-    ''',
+    ,
 }
-
+'''
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'kamrulacademy',
+        "USER": "uch",
+        "PASSWORD": "15539053",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
 
@@ -166,7 +186,8 @@ if DEBUG:
     os.path.join(BASE_DIR, 'static')
     ]
 else:
-    STATIC_ROOT = BASE_DIR / 'static'
+    #STATIC_ROOT = BASE_DIR / 'static'
+    STATIC_ROOT = os.path.join(BASE_DIR,'static/')
 
 MEDIA_URL = '/media/'
 
@@ -176,3 +197,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+ALPHA_NET_SMS_API_KEY = "qoIgUE6G3h395x1Ud6Swa6Y2Y9hgTqj41DAr2lje"
