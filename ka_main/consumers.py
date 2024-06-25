@@ -1,3 +1,4 @@
+'''
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 
@@ -36,3 +37,4 @@ class StreamConsumer(AsyncWebsocketConsumer):
 
         # Send video data to WebSocket
         await self.send(bytes_data=bytes_data)
+'''

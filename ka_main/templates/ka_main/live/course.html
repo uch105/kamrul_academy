@@ -120,11 +120,11 @@
     <div id="stickcard">
         <p class="bn-bold small">{{ course.title }}</p>
         <p class="bn-bold small">&#x09F3; {{ course.fee_bangla }}</p>
-        <a href="{% url 'checkout' pk=course.fee %}" class="tiny buy">কোর্সটি কিনুন</a><br>
+        <a href="{% url 'checkout' pk=course.id %}" class="tiny buy">কোর্সটি কিনুন</a><br>
         <p class="bn-bold tiny">অথবা,</p><br>
         <p class="bn-bold small">বেসিক লোগো ডিজাইন (প্রতিমাসে)</p>
         <p class="bn-bold small">&#x09F3; {{ course.fee_per_month_bangla }}</p>
-        <a href="{% url 'checkout' pk=course.fee_per_month %}" class="tiny buy">সাবস্ক্রিপশন কিনুন</a>
+        <a href="{% url 'checkout' pk=course.id %}" class="tiny buy">সাবস্ক্রিপশন কিনুন</a>
     </div>
 </div>
 {% endif %}

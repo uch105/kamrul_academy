@@ -221,7 +221,7 @@
         <div id="stickcard">
             <p class="bn-bold small">{{ course.title }}</p>
             <p class="bn-bold small">&#x09F3; {{ course.feebangla }}</p>
-            <a href="{% url 'checkout' pk=course.fee %}" class="tiny buy">কোর্সটি কিনুন</a>
+            <a href="{% url 'checkout' pk=course.id %}" class="tiny buy">কোর্সটি কিনুন</a>
         </div>
     </div>
     {% endif %}

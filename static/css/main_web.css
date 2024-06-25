@@ -768,6 +768,9 @@ input[type="number"]::-webkit-scrollbar {
     border: none;
     border-radius: 8px;
     padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 .index-courses > .container > .courses > .course > hr{
     border: 0.3px solid rgba(60, 60, 59, 0.1);

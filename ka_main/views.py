@@ -594,10 +594,10 @@ CALL_BACK_URL = 'kamrulacademy.com'
 def checkout(request,pk):
     try:
         try:
-            instance = RecordedCourse.objects.get(courseid=pk)
+            instance = RecordedCourse.objects.get(id=pk)
             bookinstance = False
         except:
-            instance = LiveCourse.objects.get(courseid=pk)
+            instance = LiveCourse.objects.get(id=pk)
             bookinstance = False
     except:
         instance = Book.objects.get(bookid=pk)
