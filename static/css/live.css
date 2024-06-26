@@ -148,16 +148,6 @@ a{
 .white{
     color: var(--light-color);
 }
-input:invalid{
-    border: 2px solid red;
-}
-input:invalid::after{
-    content: attr(title);
-    display: block;
-    color: red;
-    font-size: 10px;
-    font-family: 'EnglishBold',sans-serif;
-}
 .container{
     margin: 0px 100px;
 }
@@ -174,6 +164,44 @@ input[type="number"]::-webkit-outer-spin-button {
 /* Hide scrollbar */
 input[type="number"]::-webkit-scrollbar {
     display: none;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+::-webkit-file-upload-button{
+    color: var(--light-color);
+    font-family: 'EnglishBold',sans-serif;
+    background-color: var(--primary-color);
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+::-webkit-file-upload-button:hover{
+    background-color: var(--dark-color);
+}
+.inputfield{
+    font-family: 'EnglishLight',sans-serif;
+    width: 300px;
+    background-color: var(--light-color);
+    padding: 15px;
+    border: 0.3px solid rgba(60, 60, 59, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+#submit-btn{
+    font-family: 'EnglishBold',sans-serif;
+    width: 300px;
+    color: var(--light-color);
+    background-color: var(--primary-color);
+    border: 0.3px solid rgba(60, 60, 59, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.23);
+    cursor: pointer;
 }
 
 @media screen and (max-width:1300px){

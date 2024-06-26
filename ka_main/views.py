@@ -229,6 +229,14 @@ def dashboard_my_courses(request):
 def dashboard_live_courses(request):
     enrolls = Enrolled.objects.filter(username=get_username(request))
     classes = []
+    for enroll in enrolls:
+        try:
+            course = LiveCourse.objects.get(courseid=enroll.courseid)
+            modules = LiveCourseModule.objects.filter(course=course)
+            for module in modules:
+                classes.append(LiveCourseModuleClass.objects.filter(module=module,class_ongoing=True))
+        except:
+            pass
     
     yes = False if len(classes)==0 else True
     context={
@@ -243,6 +251,7 @@ def dashboard_certificate(request):
     yes = True if len(certificates)!=0 else False
     context={
         'certificates': certificates,
+        'yes':yes,
     }
     return render(request,"ka_main/dashboard-certificate.html",context)
 
@@ -355,18 +364,30 @@ def recordedclass(request,pk,pk2):
     return render(request,"ka_main/recorded/class.html",context)
 
 def liveclass(request):
-    live_class_name = "demolive"
     
     context = {
-        'live_class_name': live_class_name,
+        
     }
     return render(request,"ka_main/live/class.html",context)
 
 def livestream(request):
-    live_class_name = "demolive"
-    
+    if request.method == "POST":
+        moduleid = request.POST.get("module")
+        class_serial = request.POST.get("serial")
+        done = True if request.POST.get("done") == 'on' else False
+        ongoing = True if request.POST.get("ongoing") == 'on' else False
+        link = request.POST.get("link")
+        date_time = request.POST.get("datetime")
+        module = LiveCourseModule(id=moduleid)
+        instance = LiveCourseModuleClass.objects.get_or_create(module=module,class_serial=class_serial)
+        instance.class_done = done
+        instance.class_link = link
+        instance.class_date = date_time
+        instance.class_ongoing = ongoing
+        instance.save()
+        return redirect("lstream")
     context = {
-        'live_class_name': live_class_name,
+        
     }
     return render(request,"ka_main/live/stream.html",context)
 
