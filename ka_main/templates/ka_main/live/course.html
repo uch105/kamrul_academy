@@ -12,7 +12,7 @@
         <div class="one">
             <div class="card">
                 <h4><span class="small bn-bold">{{ course.title }}</span></h4>
-                <a href="" class="startcoursebtn"><span class="bn-regular tiny">আজকেই আপনার কোর্সটি শুরু করুন</span> <span class="bn-bold tiny bluespan">শুরু করুন</span></a>
+                <a href="{% url 'dashboard-live-courses' %}" class="startcoursebtn"><span class="bn-regular tiny">আজকেই আপনার কোর্সটি শুরু করুন</span> <span class="bn-bold tiny bluespan">শুরু করুন</span></a>
                 <p class="tiny bn-regular">{{ course.description|safe }}</p>
             </div>
             <div class="card">
@@ -101,7 +101,7 @@
         </div>
 
         <div class="one">
-            <img src="{% static 'images/others/web.jpg' %}" alt="" width="100%" height="auto" style="border-radius: 6px;">
+            <img src="{{ course.banner.url }}" alt="" width="100%" height="auto" style="border-radius: 6px;">
             <div class="card">
                 <h4 class="small">কোর্সটিতে যা যা থাকছে</h4>
                 <p class="bn-bold tiny">
@@ -122,7 +122,7 @@
         <p class="bn-bold small">&#x09F3; {{ course.fee_bangla }}</p>
         <a href="{% url 'checkout' pk=course.id %}" class="tiny buy">কোর্সটি কিনুন</a><br>
         <p class="bn-bold tiny">অথবা,</p><br>
-        <p class="bn-bold small">বেসিক লোগো ডিজাইন (প্রতিমাসে)</p>
+        <p class="bn-bold small">{{ course.title }}</p>
         <p class="bn-bold small">&#x09F3; {{ course.fee_per_month_bangla }}</p>
         <a href="{% url 'checkout' pk=course.id %}" class="tiny buy">সাবস্ক্রিপশন কিনুন</a>
     </div>

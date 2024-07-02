@@ -14,26 +14,16 @@ Dashboard - Live Courses
         <div class="live-classes">
             {% for class in classes %}
             <div class="class">
-                <img src="{{ course.banner.url }}" alt="">
-                <span class="bn-bold tiny text">{{ class.title }}</span>
-                <span class="bn-regular tiny">{{ class.name }}</span>
-                <div class="timer">
-                    <img src="{% static 'images/icons/timer.png' %}" alt="">
-                    <div style="display: none;" id="expirydate">{{ class.startdate }}</div>
-                    <span class="en-bold extra-tiny">Starts in <span class=" en-bold extra-tiny orange"><span id="days"></span> দিন <span id="hours" ></span> ঘন্টা <span id="minutes"></span> মিনিট</span></span>
-                </div>
+                <span class="bn-bold tiny text">{{ class.module.module_name }}</span>
+                <span class="bn-regular tiny">{{ class.class_name }}</span>
                 <div class="date-time">
                     <div class="date">
                         <img src="{% static 'images/icons/calendar.png' %}" alt="">
-                        <span class="en-bold extra-tiny">{{ class.date }}</span>
-                    </div>
-                    <div class="date">
-                        <img src="{% static 'images/icons/clock.png' %}" alt="">
-                        <span class="en-bold extra-tiny">{{ class.schedule }}</span>
+                        <span class="en-bold extra-tiny">{{ class.class_date }}</span>
                     </div>
                 </div>
                 <div class="class-join-link">
-                    <a href="{{ class.link }}">
+                    <a href="{{ class.class_link }}">
                         <span>JOIN CLASS : </span>
                         <img src="{% static 'images/icons/video-white.png' %}" alt="">
                     </a>

@@ -6,6 +6,24 @@
 
 {% block body %}
 
-
+<div class="container">
+<h3 style="text-align: center; margin: 30px 0px;">Scedule Class</h3>
+<form action="{% url 'lstream' %}" method="POST" style="margin-bottom: 30px;">
+    {% csrf_token %}
+    <input type="text" class="inputfield"  placeholder="Enter Module ID" name="module" required>
+    <input type="text" class="inputfield" placeholder="Enter class serial" name="serial" required>
+    <div style="display: flex;gap: 20px;align-items: center;">
+        <span class="en-bold tiny">Class completed?</span>
+        <input type="checkbox" name="done">
+    </div>
+    <div style="display: flex;gap: 20px;align-items: center;">
+        <span class="en-bold tiny">Class ongoing?</span>
+        <input type="checkbox" name="done">
+    </div>
+    <input type="text" class="inputfield"  placeholder="Enter Class Link" name="link" required>
+    <input type="text" class="inputfield"  placeholder="Enter Class Date & Time" name="datetime" required>
+    <input type="submit" class="inputfield" id="submit-btn" value="Create Session">
+</form>
+</div>
 
 {% endblock %}
