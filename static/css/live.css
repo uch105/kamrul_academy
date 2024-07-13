@@ -282,6 +282,10 @@ form{
     font-weight: 800;
     font-size: 16px;
   }
+  .logo-container > a > img{
+    width: 220px;
+    height: auto;
+  }
   .navigation-items {
     display: flex;
     gap: 40px;
@@ -354,6 +358,10 @@ form{
     flex-direction: row;
     justify-content: space-evenly;
     align-items: start;
+}
+.first-footer > div > img{
+    width: 220px;
+    height: auto;
 }
 .first-footer,.second-footer,.third-footer,.fourth-footer{
     display: flex;
