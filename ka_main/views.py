@@ -210,10 +210,10 @@ def dashboard_my_courses(request):
     liveclass =[]
     for enroll in enrolls:
         try:
-            theclasses = LiveCourse.objects.get(courseid=enroll.courseid)
+            theclasses = LiveCourse.objects.get(id=enroll.courseid)
             liveclass.append(theclasses)
         except:
-            theclasses = RecordedCourse.objects.get(courseid=enroll.courseid)
+            theclasses = RecordedCourse.objects.get(id=enroll.courseid)
             recordedclass.append(theclasses)
 
     yes = True if (len(recordedclass)+len(liveclass))!=0 else False
@@ -231,7 +231,7 @@ def dashboard_live_courses(request):
     classes = []
     for enroll in enrolls:
         try:
-            course = LiveCourse.objects.get(courseid=enroll.courseid)
+            course = LiveCourse.objects.get(id=enroll.courseid)
             modules = LiveCourseModule.objects.filter(course=course)
             for module in modules:
                 classes.append(LiveCourseModuleClass.objects.filter(module=module,class_ongoing=True))
@@ -657,8 +657,10 @@ def checkout(request,pk):
                         coursepurchase = Enrolled.objects.create(username=get_username(request),courseid=id,way=payment_type,amount=amount)
                 
                 id_token = grant_payment(invoice_no)
+                print(id_token)
                 return create_payment(amount,id_token,invoice_no)
             except:
+                print("not create payment")
                 return render(request,"ka_main/checkout.html",context)
 
         else:
@@ -690,6 +692,7 @@ def grant_payment(invoice_no):
     invoice.id_token = id_token
     invoice.refresh_token = refresh_token
     invoice.save()
+    print(id_token)
 
     return id_token
 
