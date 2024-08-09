@@ -17,15 +17,15 @@ Dashboard - My Courses
                 <div class="counts">
                     <span>
                         <img src="{% static 'images/icons/video2.png' %}" alt="">
-                        <span class="en-regular extra-tiny">{{ class.total_class }} Live Class</span>
+                        <span class="en-regular extra-tiny">{{ class.total_modules }} Live Class</span>
                     </span>
                     <span>
                         <img src="{% static 'images/icons/folder-open.png' %}" alt="">
-                        <span class="en-regular extra-tiny">{{ class.total_exam }} Assignments</span>
+                        <span class="en-regular extra-tiny">{{ class.total_exams }} Assignments</span>
                     </span>
                 </div>
                 <hr>
-                <a href="{% url 'parentcourse' pk=class.courseid %}"><span class="bn-bold tiny" style="padding: 10px;">{{ class.title }}</span></a>
+                <a href="{% url 'recordedcourse' pk=class.id %}"><span class="bn-bold tiny" style="padding: 10px;">{{ class.title }}</span></a>
                 <a href="" onclick="alert('Sorry! Attendance functionality is not available right now!')"><span class="en-bold tiny">See Attendance Sheet</span></a>
             </div>
             {% endfor %}
@@ -44,15 +44,15 @@ Dashboard - My Courses
                 <div class="counts">
                     <span>
                         <img src="{% static 'images/icons/clock.png' %}" alt="">
-                        <span class="en-regular extra-tiny">{{ class.classtime }}</span>
+                        <span class="en-regular extra-tiny">{{ class.total_hours }}</span>
                     </span>
                     <span>
                         <img src="{% static 'images/icons/clock.png' %}" alt="">
-                        <span class="en-regular extra-tiny">{{ class.classday }}</span>
+                        <span class="en-regular extra-tiny">{{ class.days_remain }}</span>
                     </span>
                 </div>
                 <hr>
-                <a href="{% url 'parentcourse' pk=class.courseid %}"><span class="bn-bold tiny" style="padding: 10px;">{{ class.title }}</span></a>
+                <a href="{% url 'livecourse' pk=class.id %}"><span class="bn-bold tiny" style="padding: 10px;">{{ class.title }}</span></a>
                 <a href="" onclick="alert('Sorry! Attendance not available right now!')"><span class="en-bold tiny">See Attendance Sheet</span></a>
             </div>
             {% endfor %}

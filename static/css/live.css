@@ -534,6 +534,12 @@ form{
     gap: 30px;
     align-items: center;
 }
+@media screen and (max-width: 600px){
+    #one-image{
+        width: 300px;
+        height: auto;
+    }
+}
 .rclass > .one > .card{
     width: 100%;
     padding: 30px;
@@ -590,6 +596,17 @@ form{
     display: grid;
     grid-template-columns: 200px 200px;
     gap: 30px;
+}
+@media screen and (max-width:768px){
+    .rclass .images {
+        padding-left: 10px;
+        grid-template-columns: auto auto;
+        gap: 10px;
+    }
+    .rclass .images img{
+        width: 100px;
+        height: auto;
+    }
 }
 .buy{
     margin-top: 10px;

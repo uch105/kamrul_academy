@@ -12,7 +12,8 @@ Dashboard - Live Courses
     <div class="enrolled" >
         <span class="en-bold small">Enrolled Live Courses</span>
         <div class="live-classes">
-            {% for class in classes %}
+            {% for c in classes %}
+            {% for class in c %}
             <div class="class">
                 <span class="bn-bold tiny text">{{ class.module.module_name }}</span>
                 <span class="bn-regular tiny">{{ class.class_name }}</span>
@@ -29,6 +30,7 @@ Dashboard - Live Courses
                     </a>
                 </div>
             </div>
+            {% endfor %}
             {% endfor %}
         </div>
     </div>

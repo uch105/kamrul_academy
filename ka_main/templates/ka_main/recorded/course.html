@@ -88,7 +88,7 @@
             <div class="one">
                 <div class="card">
                     <h4><span class="small bn-bold design">{{ course.title }}</span></h4>
-                    <a href="{% url 'rclass' pk=course.id pk2=rcpt.done %}" class="startcoursebtn"><span class="bn-regular tiny">আজকেই আপনার কোর্সটি শুরু করুন</span> <span class="bn-bold tiny bluespan">শুরু করুন</span></a>
+                    <a href="{% url 'rclass' pk=course.id pk2='১' %}" class="startcoursebtn"><span class="bn-regular tiny">আজকেই আপনার কোর্সটি শুরু করুন</span> <span class="bn-bold tiny bluespan">শুরু করুন</span></a>
                     <p class="tiny bn-regular">{{ course.description|safe }}</p>
                 </div>
                 <div class="card">
@@ -132,9 +132,9 @@
                 <p class="small bn-bold">সাপ্তাহিক লক্ষ্যমাত্রা নির্ধারণ করুন</p>
                 <hr>
                 <div class="targets">
-                    <a href="{% url 'recordednotif' pk=course.id pk2=4 %}"><img src="{% static 'images/icons/4days.png' %}" alt="" class="targetimage"></a>
-                    <a href="{% url 'recordednotif' pk=course.id pk2=2 %}"><img src="{% static 'images/icons/2days.png' %}" alt="" class="targetimage"></a>
-                    <a href="{% url 'recordednotif' pk=course.id pk2=6 %}"><img src="{% static 'images/icons/6days.png' %}" alt="" class="targetimage"></a>
+                    <a href="{% url 'recordedcoursenotif' pk=course.id pk2='4' %}"><img src="{% static 'images/icons/4days.png' %}" alt="" class="targetimage"></a>
+                    <a href="{% url 'recordedcoursenotif' pk=course.id pk2='2' %}"><img src="{% static 'images/icons/2days.png' %}" alt="" class="targetimage"></a>
+                    <a href="{% url 'recordedcoursenotif' pk=course.id pk2='6' %}"><img src="{% static 'images/icons/6days.png' %}" alt="" class="targetimage"></a>
                 </div>
             </div>
         </div>

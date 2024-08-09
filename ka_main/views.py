@@ -341,6 +341,7 @@ def recordedcoursenotif(request,pk,pk2):
     rcn_instance = RecordedCourseNotification.objects.get_or_create(username=get_username(request),course=course)
     rcn_instance.frequency = int(pk2)
     rcn_instance.save()
+    return redirect('rclass',pk=pk,pk2="১")
 
 def recordedclass(request,pk,pk2):
     course = RecordedCourse.objects.get(id=pk)
@@ -351,7 +352,10 @@ def recordedclass(request,pk,pk2):
         prev_pk2 = "১"
     else:
         prev_pk2 = to_bn(str(prev_pk2))
-    next_pk2 = to_bn(str(pk2+1))
+    if pk2+1 == len(modules):
+        next_pk2 = to_bn(str(pk2))
+    else:
+        next_pk2 = to_bn(str(pk2+1))
     module = modules[pk2]
     context = {
         'course':course,
@@ -754,11 +758,11 @@ def execute_payment(paymentID):
         coursepurchase.save()
         if invoice.relatedid[:4]=="live":
             course = LiveCourse.objects.get(courseid=invoice.relatedid)
-            course.total_enrolled = course.total_enrolled + 1
+            course.total_student = to_bn(to_num(course.total_student) + 1)
             course.save()
         else:
             course = RecordedCourse.objects.get(courseid=invoice.relatedid)
-            course.total_enrolled = course.total_enrolled + 1
+            course.total_student = to_bn(to_num(course.total_student) + 1)
             course.save()
     execute_json_data = json.loads(execute_json)
     invoice.trxID = execute_json_data["trxID"]

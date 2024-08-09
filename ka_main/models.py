@@ -148,7 +148,7 @@ class LiveCourseModule(models.Model):
     module_name = models.CharField(max_length=150,blank=True,null=True)
 
 class LiveCourseModuleClass(models.Model):
-    module = models.ForeignKey(LiveCourseModule,on_delete=models.CASCADE,null=True)
+    module = models.ForeignKey(LiveCourseModule,on_delete=models.CASCADE,null=True,related_name="classes")
     class_serial = models.CharField(max_length=200,null=True,blank=True)
     class_done = models.BooleanField(default=False)
     class_ongoing = models.BooleanField(default=False)

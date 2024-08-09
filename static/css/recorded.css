@@ -603,6 +603,17 @@ form{
     grid-template-columns: 200px 200px;
     gap: 30px;
 }
+@media screen and (max-width:768px){
+    .rclass .images {
+        padding-left: 10px;
+        grid-template-columns: auto auto;
+        gap: 10px;
+    }
+    .rclass .images img{
+        width: 100px;
+        height: auto;
+    }
+}
 .buy{
     margin-top: 10px;
     display: flex;
@@ -810,6 +821,17 @@ border-radius: 50%;
 }
 
 
+@media screen and (max-width:768px){
+    .linkcontainer > a > span{
+        display: none;
+    }
+    .videocontainer{
+        padding: 7px;
+    }
+    .video{
+        width: 100%;
+    }
+}
 
 
 .rc > .classcontainer > .notes{

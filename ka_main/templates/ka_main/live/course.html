@@ -21,12 +21,12 @@
                     {% for module in modules %}
                     <details>
                         <summary class="bn-bold tiny">{{ module.module_name }}</summary>
-                        {% for class in module.classes.all %}
-                        {% if class.done %}
-                        <p class="classwithlink"><span class="tiny bn-bold">&#x27B1; {{ class.class_name }}</span><span><a href="" class="white primary-bg tiny bn-bold">রেকর্ডেড ক্লাস দেখুন</a></span></p>
-                        <p class="classwithlink"><span class="tiny bn-bold">&#x27B1; {{ class.class_name }}</span><span><a href="" class="white primary-bg tiny bn-bold">লাইভে যুক্ত হোন</a></span></p>
+                        {% for c in module.classes.all %}
+                        {% if c.done %}
+                        <p class="classwithlink"><span class="tiny bn-bold">&#x27B1; {{ c.class_name }}</span><span><a href="" class="white primary-bg tiny bn-bold">রেকর্ডেড ক্লাস দেখুন</a></span></p>
+                        <p class="classwithlink"><span class="tiny bn-bold">&#x27B1; {{ c.class_name }}</span><span><a href="" class="white primary-bg tiny bn-bold">লাইভে যুক্ত হোন</a></span></p>
                         {% else %}
-                        <p class="classwithlink"><span class="tiny bn-bold">&#x27B1; {{ class.class_name }}</span><span>{{ class.class_date }}</span></p>
+                        <p class="classwithlink"><span class="tiny bn-bold">&#x27B1; {{ c.class_name }}</span><span>{{ c.class_date }}</span></p>
                         {% endif %}
                         <p class="classwithlink"><span class="tiny bn-bold">&#x27B1; কুইজ</span><span><a href="" class="white primary-bg tiny bn-bold">অংশগ্রহণ করুন</a></span></p>
                         {% endfor %}
@@ -101,7 +101,7 @@
         </div>
 
         <div class="one">
-            <img src="{{ course.banner.url }}" alt="" width="100%" height="auto" style="border-radius: 6px;">
+            <img src="{{ course.banner.url }}" alt="" width="100%" height="auto" style="border-radius: 6px;" id="one-image">
             <div class="card">
                 <h4 class="small">কোর্সটিতে যা যা থাকছে</h4>
                 <p class="bn-bold tiny">
@@ -121,10 +121,6 @@
         <p class="bn-bold small">{{ course.title }}</p>
         <p class="bn-bold small">&#x09F3; {{ course.fee_bangla }}</p>
         <a href="{% url 'checkout' pk=course.id %}" class="tiny buy">কোর্সটি কিনুন</a><br>
-        <p class="bn-bold tiny">অথবা,</p><br>
-        <p class="bn-bold small">{{ course.title }}</p>
-        <p class="bn-bold small">&#x09F3; {{ course.fee_per_month_bangla }}</p>
-        <a href="{% url 'checkout' pk=course.id %}" class="tiny buy">সাবস্ক্রিপশন কিনুন</a>
     </div>
 </div>
 {% endif %}
