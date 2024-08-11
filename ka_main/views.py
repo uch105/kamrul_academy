@@ -660,11 +660,21 @@ def checkout(request,pk):
                     else:
                         coursepurchase = Enrolled.objects.create(username=get_username(request),courseid=id,way=payment_type,amount=amount)
                 
+                msg1,msg2=""
                 id_token = grant_payment(invoice_no)
+                msg1+="id_token not gen"
                 print(id_token)
+                msg2+="leaving creating payment"
                 return create_payment(amount,id_token,invoice_no)
             except:
                 print("not create payment")
+                context={
+                    'amount': amount,
+                    #'invoice_no': invoice_no,
+                    'title': title,
+                    'id': id,
+                    'message':msg1+" . "+msg2
+                }
                 return render(request,"ka_main/checkout.html",context)
 
         else:
