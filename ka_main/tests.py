@@ -5,58 +5,49 @@ import json
 
 # Create your tests here.
 
-SANDBOX_APP_KEY = '4f6o0cjiki2rfm34kfdadl1eqq'
+SANDBOX_APP_KEY = '8o2NKRBt9DM3n0e6OXkO8eKftc'
 
-SANDBOX_APP_SECRET_KEY = '2is7hdktrekvrbljjh44ll3d9l1dtjo4pasmjvs5vl5qr3fug4b'
+SANDBOX_APP_SECRET_KEY = 'xYQO1NscWgNXL52P2pNRDvVFXtcm5IMi8Gx2BCJvFm2wLeV3LnFK'
 
-SANDBOX_USERNAME = 'sandboxTokenizedUser02'
+SANDBOX_USERNAME = '01323314826'
 
-SANDBOX_PASSWORD = 'sandboxTokenizedUser02@12345'
+SANDBOX_PASSWORD = '5<I|PK:xdWq'
 
-GRANT_TOKEN_URL = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/token/grant'
+GRANT_TOKEN_URL = 'https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized/checkout/token/grant'
 
-REFRESH_TOKEN_URL = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/token/refresh'
+REFRESH_TOKEN_URL = 'https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized/checkout/token/refresh'
 
-CREATE_PAYMENT_URL = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/create'
+CREATE_PAYMENT_URL = 'https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized/checkout/create'
 
-EXECUTE_PAYMENT_URL = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/execute'
+EXECUTE_PAYMENT_URL = 'https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized/checkout/execute'
 
-QUERY_PAYMENT_URL = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/payment/status'
+QUERY_PAYMENT_URL = 'https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized/checkout/payment/status'
 
-
-
-
-
-execute_payload = {
-    "paymentID" : 'TR0011i7bQhzX1710703649435',
-}
-execute_headers = {
-    "accept": "application/json",
-    "Authorization": 'eyJraWQiOiJvTVJzNU9ZY0wrUnRXQ2o3ZEJtdlc5VDBEcytrckw5M1NzY0VqUzlERXVzPSIsImFsZyI6IlJTMjU2In0',
-    "X-APP-Key": SANDBOX_APP_KEY,
-    "content-type": "application/json"
-}
-
-execute_response = requests.post(EXECUTE_PAYMENT_URL , json=execute_payload, headers=execute_headers)
-
-execute_json = execute_response.text
-print(execute_json)
+CALL_BACK_URL = 'kamrulacademy.com'
 
 
-'''
-execute_json_data = json.loads(execute_json)
+def grant_payment():
 
-    trxID = execute_json_data["trxID"]
-    try:
-        invoice.trxID = trxID
-    except:
-        return False
-    
-    transaction_status = execute_json_data["transactionStatus"]
-    if transaction_status == "Completed":
-        invoice.status = True
-        invoice.save()
-        return True
-    else:
-        return False
-'''
+    grant_payload = {
+        "app_key": SANDBOX_APP_KEY,
+        "app_secret": SANDBOX_APP_SECRET_KEY
+        }
+    grant_headers = {
+        "accept": "application/json",
+        "username": SANDBOX_USERNAME,
+        "password": SANDBOX_PASSWORD,
+        "content-type": "application/json"
+        }
+    grant_response = requests.post(GRANT_TOKEN_URL , json=grant_payload, headers=grant_headers)
+
+    grant_json = grant_response.text
+    grant_json_data = json.loads(grant_json)
+
+    id_token = grant_json_data['id_token']
+    refresh_token = grant_json_data['refresh_token']
+
+    print(id_token)
+
+    return id_token
+
+grant_payment()
