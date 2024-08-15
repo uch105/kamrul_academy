@@ -8,13 +8,13 @@ HR - Dashboard
 {% block body %}
 <div class="container">
     <div class="hr-dashboard">
-        <div class="studentcount-graph">
+        <div class="studentcount-graph" style="display: none;">
             <div>
                 <canvas id="myChart" width="600px" height="300px"></canvas>
             </div>
         </div>
 
-        <div class="course-table">
+        <div class="course-table" style="display: none;">
             <table>
                 <colgroup>
                     <col>
@@ -91,7 +91,7 @@ HR - Dashboard
             </table>
         </div>
 
-        <div class="course-table">
+        <div class="course-table" style="display: none;">
             <table>
                 <colgroup>
                     <col>
@@ -170,6 +170,34 @@ HR - Dashboard
                 </tr>
             </table>
         </div>
+
+        <div class="manualpay course-table">
+            <table>
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <tr>
+                    <th class="th1 bold">Title</th>
+                    <th class="bold">Phone(user)</th>
+                    <th class="bold">trxID</th>
+                    <th class="bold">Issue Time</th>
+                    <th class="th4 bold">Status</th>
+                </tr>
+                {% for e in elist %}
+                <tr>
+                    <td class="regular">{{ e.title }}</td>
+                    <td class="regular">{{ e.phone }}</td>
+                    <td class="regular">{{ e.trxID }}</td>
+                    <td class="regular">{{ e.issuetime }}</td>
+                    <td class="regular">{% if e.status %}Approved{% else %} <a class="bold approve" href="{% url 'manualpayap' pk=e.rid pk2=e.username %}">Approve</a> {% endif %}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
 </div>
 
@@ -183,7 +211,7 @@ HR - Dashboard
     data: {
         labels: ['January', 'February', 'March', 'April', 'May', 'June','July','August','September','October','November','December'],
         datasets: [{
-        label: '# of Votes',
+        label: 'Number of Students',
         data: [12, 19, 3, 5, 2, 3,23,41,3,8,9,11,],
         borderWidth: 1
         }]

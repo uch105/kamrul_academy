@@ -25,10 +25,8 @@ Checkout
                 <span class="bn-bold small">পেমেন্ট মেথড সিলেক্ট করুন</span>
                 <form action="{% url 'checkout' pk=id %}" method="POST">
                     {% csrf_token %}
-                    <input type="radio" name="payment" id="inputfield 1" class="inputfieldd" value="bkash" placeholder="বিকাশ">
-                    <label for="1">বিকাশ</label>
                     <input type="radio" name="payment" id="inputfield 2" class="inputfieldd" value="others" placeholder="অন্যান্য">
-                    <label for="2">অন্যান্য</label>
+                    <label for="2">বিকাশ / নগদ / রকেট</label>
                     <input type="submit" value="এগিয়ে যান" id="inputfield" class="inputfield btn">
                 </form>
             </div>

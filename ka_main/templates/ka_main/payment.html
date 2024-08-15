@@ -10,16 +10,27 @@ Checkout
         <div class="payment-instructions">
             <p class="bn-bold small">পেমেন্ট মেথড: <br><br>
                 বিকাশে পেমেন্ট করুন 01323314826 <br><br>
-                অথবা সেন্ড মানি করুন বিকাশ/নগদ - 01590038009 (পার্সোনাল)<br><br>
+                নগদে পেমেন্ট করুন - 01323314826 <br><br>
                 রকেট - 01712823092 (পার্সোনাল)<br><br>
-                পেমেন্ট সম্পন্ন করে ট্রানজেকশন আইডি ইনবক্স করুন 
-                অথবা পেমেন্ট করে ফর্ম টা পূর্ণ করুন
-                <a href="https://forms.gle/j5zL47Wwq47z6AFR7" class="bn-bold small blue">https://forms.gle/j5zL47Wwq47z6AFR7</a><br><br>
+                পেমেন্ট সম্পন্ন করে ট্রানজেকশন আইডি সহ নিচের ফর্ম টা পূর্ণ করুন
+                <br><br>
                 বিস্তারিত জানতে কল করুন : +880 1323-314826<br><br>
                 
                 পেমেন্ট সম্পন্ন হলেই আমাদের ব্যাচের প্রাইভেট গ্রুপে আপনাকে এড করে দিবো ইনশাআল্লাহ
                 </p>
         </div>
+        <form action="{% url 'manualpay' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" class="inputfield" value="{{ id }}" name="id">
+            <input type="text" class="inputfield" value="{{ title }}" name="title">
+            <select name="way" id="" class="inputfield" placeholder="Select payment method" required>
+                <option value="bkash">Bkash</option>
+                <option value="nagad">Nagad</option>
+                <option value="rocket">Rocket</option>
+            </select>
+            <input type="text" class="inputfield" placeholder="Enter transaction id" name="trxID" required>
+            <input type="submit" value="Submit" id="submit-btn">
+        </form>
     </div>
     <style>
         .payment-instructions{

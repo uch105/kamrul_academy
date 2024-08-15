@@ -268,3 +268,12 @@ nav > .container > .logo > img{
     color: var(--light-color);
     background-color: var(--dark-color);
 }
+.hr-dashboard > .course-table > table > tr > td > a{
+    text-decoration: none;
+}
+.hr-dashboard .approve{
+    padding: 7px;
+    border-radius: 7px;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+}

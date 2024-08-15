@@ -5,6 +5,7 @@ from django.apps import apps
 admin.site.register(Member)
 admin.site.register(MemberDetails)
 admin.site.register(Mentor)
+admin.site.register(ManualEnrollment)
 admin.site.register(RecordedCourse)
 admin.site.register(RecordedCourseAssignmentSubmission)
 admin.site.register(RecordedCourseModule)

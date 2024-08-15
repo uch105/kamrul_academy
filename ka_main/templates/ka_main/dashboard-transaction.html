@@ -15,16 +15,16 @@ Dashboard - Transactions
                 <th>কোর্স</th>
                 <th>সময়</th>
                 <th>পেমেন্টের মাধ্যম</th>
-                <th>এমাউন্ট</th>
+                <th>স্ট্যাটাস</th>
             </tr>
         </thead>
         <tbody>
             {% for trans in alltrans %}
             <tr>
-                <td>{{ trans.courseid }}</td>
+                <td>{{ trans.title }}</td>
                 <td>{{ trans.issuetime }}</td>
                 <td>{{ trans.way }}</td>
-                <td>{{ trans.amount }}</td>
+                <td>{% if trans.status %}Approved{% else %}Waiting...{% endif %}</td>
             </tr>
             {% endfor %}
         </tbody>

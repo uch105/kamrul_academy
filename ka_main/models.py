@@ -255,6 +255,16 @@ class Invoice(models.Model):
 
     def __str__(self):
         return self.invoice
+
+class ManualEnrollment(models.Model):
+    rid = models.CharField(max_length=255,blank=True,null=True)
+    username = models.CharField(max_length=255,blank=True,null=True)
+    phone = models.CharField(max_length=255,blank=True,null=True)
+    title = models.CharField(max_length=255,blank=True,null=True)
+    way = models.CharField(max_length=255,blank=True,null=True)
+    trxID = models.CharField(max_length=255,blank=True,null=True)
+    issuetime = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(default=False)
     
 class Certificate(models.Model):
     certificateid = models.CharField(max_length=100,unique=True,primary_key=True)

@@ -206,15 +206,15 @@ def sign_out(request):
 
 @login_required(login_url="/sign-up/")
 def dashboard_my_courses(request):
-    enrolls = Enrolled.objects.filter(username=get_username(request))
+    enrolls = ManualEnrollment.objects.filter(username=get_username(request),status=True)
     recordedclass = []
     liveclass =[]
     for enroll in enrolls:
         try:
-            theclasses = LiveCourse.objects.get(id=enroll.courseid)
+            theclasses = LiveCourse.objects.get(id=enroll.rid)
             liveclass.append(theclasses)
         except:
-            theclasses = RecordedCourse.objects.get(id=enroll.courseid)
+            theclasses = RecordedCourse.objects.get(id=enroll.rid)
             recordedclass.append(theclasses)
 
     yes = True if (len(recordedclass)+len(liveclass))!=0 else False
@@ -228,11 +228,11 @@ def dashboard_my_courses(request):
 
 @login_required(login_url="/sign-up/")
 def dashboard_live_courses(request):
-    enrolls = Enrolled.objects.filter(username=get_username(request))
+    enrolls = ManualEnrollment.objects.filter(username=get_username(request),status=True)
     classes = []
     for enroll in enrolls:
         try:
-            course = LiveCourse.objects.get(id=enroll.courseid)
+            course = LiveCourse.objects.get(id=enroll.rid)
             modules = LiveCourseModule.objects.filter(course=course)
             for module in modules:
                 classes.append(LiveCourseModuleClass.objects.filter(module=module,class_ongoing=True))
@@ -275,7 +275,7 @@ def dashboard_profile(request):
 
 @login_required(login_url="/sign-up/")
 def dashboard_transaction(request):
-    alltrans = Enrolled.objects.filter(username=get_username(request))
+    alltrans = ManualEnrollment.objects.filter(username=get_username(request))
     context={
         'alltrans': alltrans,
     }
@@ -299,7 +299,7 @@ def recorded_courses(request):
 def livecourse(request,pk):
     course = LiveCourse.objects.get(id=pk)
     modules = LiveCourseModule.objects.filter(course=course)
-    enrolled_check = Enrolled.objects.filter(username=get_username(request),courseid=pk)
+    enrolled_check = ManualEnrollment.objects.filter(username=get_username(request),rid=pk)
     if len(enrolled_check) == 0:
         enrolled = False
     else:
@@ -316,7 +316,7 @@ def recordedcourse(request,pk):
     course = RecordedCourse.objects.get(id=pk)
     modules = RecordedCourseModule.objects.filter(course=course)
     rcpt = []
-    enrolled_check = Enrolled.objects.filter(username=get_username(request),courseid=pk)
+    enrolled_check = ManualEnrollment.objects.filter(username=get_username(request),rid=pk)
     if len(enrolled_check) == 0:
         enrolled = False
     else:
@@ -527,7 +527,7 @@ def books(request):
 def book(request,pk):
     book = Book.objects.get(bookid=pk)
     try:
-        purchased = Purchased.objects.get(bookid=pk,userid=get_username(request)).status
+        purchased = ManualEnrollment.objects.filter(rid=pk,username=get_username(request))[0].status
     except:
         purchased = False
     faqs = Faq.objects.filter(relatedid=pk)
@@ -651,9 +651,15 @@ def checkout(request,pk):
                 return render(request,"ka_main/checkout.html",context)
 
         else:
-            return render(request,"ka_main/payment.html")
+            return render(request,"ka_main/payment.html",context)
 
     return render(request,"ka_main/checkout.html",context)
+
+@require_POST
+def manualpay(request):
+    instance = ManualEnrollment.objects.create(rid=request.POST.get("id"),title=request.POST.get("title"),way=request.POST.get("way"),trxID=request.POST.get("trxID"),username=get_username(request),phone=Member.objects.filter(username=get_username(request))[0].phone,issuetime=datetime.datetime.now())
+    instance.save()
+    return redirect("home")
 
 # ----------------------- admin panel ------------------------ #
 def admin_login(request):
@@ -665,8 +671,15 @@ def admin_join(request):
     return render(request,"ka_main/admin/admin-join.html",context)
 
 def hr_dashboard(request):
-    context = {}
+    elist = ManualEnrollment.objects.all()
+    context = {
+        "elist":elist,
+    }
     return render(request,"ka_main/admin/hr-dashboard.html",context)
+
+def manualpayap(request,pk,pk2):
+    instance = ManualEnrollment.objects.filter(rid=pk,username=pk2).update(status=True)
+    return redirect("hr-dashboard")
 
 
 
