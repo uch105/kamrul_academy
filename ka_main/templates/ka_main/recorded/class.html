@@ -18,18 +18,28 @@
                 <a href="{% url 'rclass' pk=course.id pk2=prev_pk2 %}"><img src="{% static 'images/icons/goback2.png' %}" alt=""><span class="bn-bold tiny">পূর্ববর্তী</span></a>
                 {% if module.class_one_valid %}
                 <a onclick="PlayModuleVideo('one')"><img src="{% static 'images/icons/videoplay.png' %}" alt=""><span class="bn-bold tiny">ভিডিও</span></a>
+                <div id="class_one_name" style="display: none;">{{ module.class_one_name }}</div>
+                <div id="class_one_video" style="display: none;">{{ module.class_one_video.url }}</div>
                 {% endif %}
                 {% if module.class_two_valid %}
                 <a onclick="PlayModuleVideo('two')"><img src="{% static 'images/icons/videoplay.png' %}" alt=""><span class="bn-bold tiny">ভিডিও</span></a>
+                <div id="class_two_name" style="display: none;">{{ module.class_two_name }}</div>
+                <div id="class_two_video" style="display: none;">{{ module.class_two_video.url }}</div>
                 {% endif %}
                 {% if module.class_three_valid %}
                 <a onclick="PlayModuleVideo('three')"><img src="{% static 'images/icons/videoplay.png' %}" alt=""><span class="bn-bold tiny">ভিডিও</span></a>
+                <div id="class_three_name" style="display: none;">{{ module.class_three_name }}</div>
+                <div id="class_three_video" style="display: none;">{{ module.class_three_video.url }}</div>
                 {% endif %}
                 {% if module.class_four_valid %}
                 <a onclick="PlayModuleVideo('four')"><img src="{% static 'images/icons/videoplay.png' %}" alt=""><span class="bn-bold tiny">ভিডিও</span></a>
+                <div id="class_four_name" style="display: none;">{{ module.class_four_name }}</div>
+                <div id="class_four_video" style="display: none;">{{ module.class_four_video.url }}</div>
                 {% endif %}
                 {% if module.class_five_valid %}
                 <a onclick="PlayModuleVideo('five')"><img src="{% static 'images/icons/videoplay.png' %}" alt=""><span class="bn-bold tiny">ভিডিও</span></a>
+                <div id="class_five_name" style="display: none;">{{ module.class_five_name }}</div>
+                <div id="class_five_video" style="display: none;">{{ module.class_five_video.url }}</div>
                 {% endif %}
                 <a href="{% url 'rassignment' pk=course.id pk2=this_pk2 %}"><img src="{% static 'images/icons/assignment.png' %}" alt=""><span class="bn-bold tiny">এসাইনমেন্ট</span></a>
                 <a href="{% url 'rquiz' pk=course.id pk2=this_pk2 %}"><img src="{% static 'images/icons/quiz2.png' %}" alt=""><span class="bn-bold tiny">কুইজ</span></a>
