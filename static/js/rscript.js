@@ -26,4 +26,5 @@ function PlayModuleVideo(s){
     class_video = "class_"+s+"_video"
     document.getElementById("vdosrc").src = document.getElementById(class_video).innerText;
     document.getElementById("vdoname").innerHTML = document.getElementById(class_name).innerText;
+    document.getElementsByTagName("video")[0].load();
 }
