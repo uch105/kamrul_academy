@@ -384,12 +384,12 @@ def livestream(request):
         link = request.POST.get("link")
         date_time = request.POST.get("datetime")
         module = LiveCourseModule(id=moduleid)
-        instance = LiveCourseModuleClass.objects.filter(module=module,class_serial=class_serial)
-        instance[0].class_done = done
-        instance[0].class_link = link
-        instance[0].class_date = date_time
-        instance[0].class_ongoing = ongoing
-        instance[0].save()
+        instance = LiveCourseModuleClass.objects.filter(module=module,class_serial=class_serial)[0]
+        instance.class_done = done
+        instance.class_link = link
+        instance.class_date = date_time
+        instance.class_ongoing = ongoing
+        instance.save()
         return redirect("lstream")
     context = {
         

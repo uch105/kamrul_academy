@@ -22,7 +22,7 @@
                     <details>
                         <summary class="bn-bold tiny">{{ module.module_name }}</summary>
                         {% for c in module.classes.all %}
-                        {% if c.done|c.ongoing %}
+                        {% if c.done or c.ongoing %}
                         {% if c.done %}
                         <p class="classwithlink"><span class="tiny bn-bold">&#x27B1; {{ c.class_name }}</span><span><a href="{{ c.class_link }}" class="white primary-bg tiny bn-bold">রেকর্ডেড ক্লাস দেখুন</a></span></p>
                         {% endif %}
