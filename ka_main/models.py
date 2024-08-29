@@ -282,7 +282,7 @@ class Certificate(models.Model):
 class Cert(models.Model):
     id = models.CharField(max_length=100,primary_key=True)
     name = models.CharField(max_length=100,blank=True,null=True)
-    d = models.CharField(max_length=100,blank=True,Null=True)
+    d = models.CharField(max_length=100,blank=True,null=True)
     course_name = models.CharField(max_length=255,null=True,blank=True)
     image = models.ImageField(upload_to="certificate/")
 
