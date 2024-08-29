@@ -279,6 +279,16 @@ class Certificate(models.Model):
     def __str__(self):
         return  self.username
 
+class Cert(models.Model):
+    id = models.CharField(max_length=100,primary_key=True)
+    name = models.CharField(max_length=100,blank=True,null=True)
+    d = models.CharField(max_length=100,blank=True,Null=True)
+    course_name = models.CharField(max_length=255,null=True,blank=True)
+    image = models.ImageField(upload_to="certificate/")
+
+    def __str__(self):
+        return self.id
+
 class Inquiry(models.Model):
     name = models.CharField(max_length=100,blank=True,null=True)
     phone = models.CharField(max_length=100,blank=True,null=True)

@@ -1,0 +1,21 @@
+{% extends 'ka_main/admin/base.html' %}
+{% load static %}
+
+{% block title %}
+HR - Certificate
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div style="margin: 10px 0px;text-align: center;">{{ msg }}</div>
+    <form action="{% url 'certissue' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="phone" class="inputfield" placeholder="Enter student phone no" required>
+        <input type="text" name="course_name" class="inputfield" placeholder="Enter course name" required>
+        <input type="text" name="date" class="inputfield" placeholder="Enter issue date" required>
+        <input type="text" name="tn" class="inputfield" placeholder="Enter teacher name" required>
+        <input type="text" name="tp" class="inputfield" placeholder="Enter teacher position" required>
+        <input type="submit" value="Issue" class="submit-btn">
+    </form>
+</div>
+{% endblock %}

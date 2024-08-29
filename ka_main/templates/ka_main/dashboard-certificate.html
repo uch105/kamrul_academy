@@ -12,20 +12,20 @@ Dashboard - Certificate
     <div class="enrolled" style="align-items: flex-start;">
         {% for certificate in certificates %}
         <div class="certificate">
-            <div class="poster">
+            <div class="poster" style="display: none;">
                 <img src="{{ certificate.banner.url }}" alt="">
             </div>
             <div class="details">
-                <span class="bn-bold tiny">{{ certificate.title }}</span>
+                <span class="bn-bold tiny">{{ certificate.course_name }}</span>
                 <div class="issue-date">
-                    <span class="en-regular extra-tiny">This certificate was issued on {{ certificate.issuedate }}</span>
+                    <span class="en-regular extra-tiny">This certificate was issued on {{ certificate.d }}</span>
                     <img src="{% static 'images/icons/green-tick.png' %}" alt="">
                 </div>
                 <div class="download">
-                    <a href="{{ certificate.zippednotes.url }}">
+                    <a href="{{ certificate.zippednotes.url }}" style="display: none;">
                         <span class="bn-bold extra-tiny orange">DOWNLOAD RESOURCE &#10515;</span>
                     </a>
-                    <a href="{{ certificate.certificate.url }}">
+                    <a href="{{ certificate.image.url }}" download="certificate.png">
                         <span class="bn-bold extra-tiny white">DOWNLOAD CERTIFICATE &#10515;</span>
                     </a>
                 </div>

@@ -60,4 +60,5 @@ urlpatterns = [
     path("admin/log-in/",views.admin_login,name="admin-log-in"),
     path("admin/sign-in/",views.admin_join,name="admin-sign-in"),
     path("admin/hr-dashboard/",views.hr_dashboard,name="hr-dashboard"),
+    path("admin/certissue/",views.certissue,name="certissue"),
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

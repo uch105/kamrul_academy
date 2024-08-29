@@ -248,7 +248,7 @@ def dashboard_live_courses(request):
 
 @login_required(login_url="/sign-up/")
 def dashboard_certificate(request):
-    certificates = Certificate.objects.filter(username=get_username(request))
+    certificates = Cert.objects.filter(name=MemberDetails.objects.filter(username=get_username(request))[0].fullname)
     yes = True if len(certificates)!=0 else False
     context={
         'certificates': certificates,
@@ -679,6 +679,38 @@ def hr_dashboard(request):
         "elist":elist,
     }
     return render(request,"ka_main/admin/hr-dashboard.html",context)
+
+from .certificate import create_cretificate
+def certissue(request):
+    if request.method == "POST":
+        phone = request.POST.get("phone")
+        try:
+            name = MemberDetails.objects.filter(username=Member.objects.get(phone=phone).username)[0].fullname
+            course_name = request.POST.get("course_name")
+            d = request.POST.get("date")
+            id = "cert"+Member.objects.get(phone=phone).username
+            tn = request.POST.get("tn")
+            tp = request.POST.get("tp")
+            r = create_cretificate(name,course_name,d,id,tn,tp)
+            if r=="Success":
+                context = {
+                    'msg':"Certificate issued successfully",
+                }
+                return render(request,"ka_main/admin/certissue.html",context)
+            else:
+                context ={
+                    'msg': "Certificate not issued. Check again!",
+                }
+                return render(request,"ka_main/admin/certissue.html",context)
+        except:
+            context = {
+                'msg':"User details not found",
+            }
+            return render(request,"ka_main/admin/certissue.html",context)
+    context = {
+        'msg': "Issue a certificate now!",
+    }
+    return render(request,"ka_main/admin/certissue.html",context)
 
 def manualpayap(request,pk,pk2):
     instance = ManualEnrollment.objects.filter(rid=pk,username=pk2).update(status=True)
