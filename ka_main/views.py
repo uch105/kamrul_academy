@@ -23,6 +23,7 @@ import random,string,json,time
 from django.conf import settings
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from .certificate import create_cretificate
 #from .camera import VideoCamera,IPWebCam,MaskDetect,LiveWebCam
 
 
@@ -81,6 +82,19 @@ def generate_password():
     password.append(random.choice(lowercase_letters))
     password.append(random.choice(special_characters))
     for _ in range(9):
+        password.append(random.choice(string.ascii_letters+string.digits+special_characters))
+    random.shuffle(password)
+    return ''.join(password)
+
+def generate_id(n):
+    uppercase_letters = string.ascii_uppercase
+    lowercase_letters = string.ascii_lowercase
+    special_characters = '@$&'
+    password=[]
+    password.append(random.choice(uppercase_letters))
+    password.append(random.choice(lowercase_letters))
+    password.append(random.choice(special_characters))
+    for _ in range(int(n)):
         password.append(random.choice(string.ascii_letters+string.digits+special_characters))
     random.shuffle(password)
     return ''.join(password)
@@ -348,12 +362,14 @@ def recordedclass(request,pk,pk2):
     course = RecordedCourse.objects.get(id=pk)
     modules = RecordedCourseModule.objects.filter(course=course)
     pk2 = int(to_num(pk2))
+    course_done = False
     prev_pk2 = pk2-1
     if prev_pk2<0:
-        prev_pk2 = "১"
+        prev_pk2 = "০"
     else:
         prev_pk2 = to_bn(str(prev_pk2))
     if pk2+1 == len(modules):
+        course_done = True
         next_pk2 = to_bn(str(pk2))
     else:
         next_pk2 = to_bn(str(pk2+1))
@@ -365,8 +381,53 @@ def recordedclass(request,pk,pk2):
         'next_pk2':next_pk2,
         'this_pk2':to_bn(str(pk2)),
         'prev_pk2':prev_pk2,
+        'course_done':course_done,
     }
     return render(request,"ka_main/recorded/class.html",context)
+
+def recordedcert(request,pk):
+    name = MemberDetails.objects.get(username=get_username(request)).fullname
+    recordedcourse = RecordedCourse.objects.get(id=pk)
+    course_name = RecordedCourse.objects.get(id=pk).title
+    certificate = Cert.objects.filter(name=name,course_name=course_name)
+    if len(certificate) == 0:
+        today = datetime.datetime.now()
+        d = today.strftime("%d - %m - %Y")
+        id = "cert"+generate_id("7")
+        tn = RecordedCourse.objects.get(id=pk).mentor.name
+        tp = RecordedCourse.objects.get(id=pk).mentor.designation
+        cert = create_cretificate(name,course_name,d,id,tn,tp)
+        if cert == "Success":
+            certificate = Cert.objects.get(id=id)
+            context = {
+                'certificate': certificate,
+                'course':recordedcourse,
+            }
+            return render(request,"ka_main/recorded/cert.html",context)
+        elif cert == "Failed":
+            id = "cert"+generate_id("7")
+            cert = create_cretificate(name,course_name,d,id,tn,tp)
+            certificate = Cert.objects.get(id=id)
+            context = {
+                'certificate': certificate,
+                'course':recordedcourse,
+            }
+            return render(request,"ka_main/recorded/cert.html",context)
+        else:
+            id = "cert"+generate_id("7")
+            cert = create_cretificate(name,course_name,d,id,tn,tp)
+            certificate = Cert.objects.get(id=id)
+            context = {
+                'certificate': certificate,
+                'course':recordedcourse,
+            }
+            return render(request,"ka_main/recorded/cert.html",context)
+    else:
+        context = {
+            'certificate': certificate[0],
+            'course':recordedcourse,
+        }
+        return render(request,"ka_main/recorded/cert.html",context)
 
 def liveclass(request):
     
@@ -379,16 +440,19 @@ def livestream(request):
     if request.method == "POST":
         moduleid = request.POST.get("module")
         class_serial = request.POST.get("serial")
-        done = True if request.POST.get("done") == 'on' else False
-        ongoing = True if request.POST.get("ongoing") == 'on' else False
+        status = request.POST.get("status")
         link = request.POST.get("link")
         date_time = request.POST.get("datetime")
         module = LiveCourseModule(id=moduleid)
-        instance = LiveCourseModuleClass.objects.filter(module=module,class_serial=class_serial)[0]
-        instance.class_done = done
+        instance = LiveCourseModuleClass.objects.filter(module=module,class_serial=class_serial)[0] 
         instance.class_link = link
         instance.class_date = date_time
-        instance.class_ongoing = ongoing
+        if status == "done":
+            instance.class_done = True
+            instance.class_ongoing = False
+        else:
+            instance.class_done = False
+            instance.class_ongoing = True
         instance.save()
         return redirect("lstream")
     context = {
@@ -680,7 +744,6 @@ def hr_dashboard(request):
     }
     return render(request,"ka_main/admin/hr-dashboard.html",context)
 
-from .certificate import create_cretificate
 def certissue(request):
     if request.method == "POST":
         phone = request.POST.get("phone")

@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block title %}
+{{ module.module_name }}
 {% endblock %}
 
 {% block body %}
@@ -43,7 +44,11 @@
                 {% endif %}
                 <a href="{% url 'rassignment' pk=course.id pk2=this_pk2 %}"><img src="{% static 'images/icons/assignment.png' %}" alt=""><span class="bn-bold tiny">এসাইনমেন্ট</span></a>
                 <a href="{% url 'rquiz' pk=course.id pk2=this_pk2 %}"><img src="{% static 'images/icons/quiz2.png' %}" alt=""><span class="bn-bold tiny">কুইজ</span></a>
+                {% if course_done %}
+                <a href="{% url 'cert' pk=course.id %}"><span class="bn-bold tiny">পরবর্তী</span><img src="{% static 'images/icons/next.png' %}" alt=""></a>
+                {% else %}
                 <a href="{% url 'rclass' pk=course.id pk2=next_pk2 %}"><span class="bn-bold tiny">পরবর্তী</span><img src="{% static 'images/icons/next.png' %}" alt=""></a>
+                {% endif %}
             </div>
             <h4 class="tiny" style="margin: 20px 10px;" id="vdoname">{{ module.class_one_name }}</h4>
 

@@ -17,6 +17,7 @@ urlpatterns = [
     path("blog/<str:pk>/",views.blog,name="blog"),
     path("like/<str:pk>/",views.like,name="like"),
     path("recorded/class/<str:pk>/<str:pk2>/",views.recordedclass,name="rclass"),
+    path("recorded/cert/<str:pk>/",views.recordedcert,name="cert"),
     path("live/class/join/",views.liveclass,name="lclass"),
     path("live/class/stream/",views.livestream,name="lstream"),
     path("recorded/assignment/<str:pk>/<str:pk2>/",views.recordedassignment,name="rassignment"),

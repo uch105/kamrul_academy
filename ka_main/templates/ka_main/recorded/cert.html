@@ -1,0 +1,23 @@
+{% extends 'ka_main/recorded/base.html' %}
+{% load static %}
+
+{% block title %}
+Claim Certificate
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="rc">
+        <div class="title">
+            <a href="{% url 'recordedcourse' pk=course.id %}"><img src="{% static 'images/icons/goback.png' %}" alt=""></a>
+            <a href="{% url 'recordedcourse' pk=course.id %}"><h4 class="small">কোর্স</h4></a>
+            <h4 class="small">।</h4>
+            <h4 class="small">সার্টিফিকেট</h4>
+        </div>
+        <div class="classcontainer">
+            <h2 style="text-align: center; margin: 30px 0px;">Congratulations! Course Complete!</h2>
+            <div style="text-align: center; margin: 30px 0px;"><a href="{{ certificate.image.url }}" download style="text-decoration: none;"><span style="padding: 10px 25px;background-color: var(--primary-color);color: var(--light-color);border-radius: 7px;cursor: pointer; text-align: center;">Download Certificate</span></a></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
