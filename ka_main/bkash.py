@@ -4,14 +4,6 @@ from .models import Invoice,Purchased,Enrolled,RecordedCourse,LiveCourse
 from .bn_nums import to_bn,to_num
 from django.shortcuts import redirect
 
-SANDBOX_APP_KEY = '8o2NKRBt9DM3n0e6OXkO8eKftc'
-
-SANDBOX_APP_SECRET_KEY = 'xYQO1NscWgNXL52P2pNRDvVFXtcm5IMi8Gx2BCJvFm2wLeV3LnFK'
-
-SANDBOX_USERNAME = '01323314826'
-
-SANDBOX_PASSWORD = '5<I|PK:xdWq'
-
 GRANT_TOKEN_URL = 'https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized/checkout/token/grant'
 
 REFRESH_TOKEN_URL = 'https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized/checkout/token/refresh'
