@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models import Model
-from tinymce.models import HTMLField
+#from tinymce.models import HTMLField
 
 
 
