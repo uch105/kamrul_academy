@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from decopule import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-nk1th4_92k2u#mg-ve%torq1j=dc!weqo!kl&5cbv=9$8ys5lq'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -35,7 +36,7 @@ INSTALLED_APPS = [
     'ka_main.apps.KaMainConfig',
     #'sage_stream',
     'rest_framework',
-    'channels',
+    #'channels',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -125,8 +126,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'kamrulacademy',
-        "USER": "uch",
-        "PASSWORD": "15539053",
+        "USER": config('DB_USER'),
+        "PASSWORD": config('DB_PASSWORD'),
         "HOST": "127.0.0.1",
         "PORT": "5432",
     }
@@ -169,7 +170,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'
 
 USE_I18N = True
 
@@ -200,4 +201,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-ALPHA_NET_SMS_API_KEY = "qoIgUE6G3h395x1Ud6Swa6Y2Y9hgTqj41DAr2lje"
+ALPHA_NET_SMS_API_KEY = config('SMS_API_KEY')
