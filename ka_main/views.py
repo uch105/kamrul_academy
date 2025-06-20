@@ -24,10 +24,11 @@ from django.conf import settings
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from .certificate import create_cretificate
+from decouple import config
 #from .camera import VideoCamera,IPWebCam,MaskDetect,LiveWebCam
 
 
-ALPHA_NET_SMS_API_KEY = "qoIgUE6G3h395x1Ud6Swa6Y2Y9hgTqj41DAr2lje"
+ALPHA_NET_SMS_API_KEY = config('SMS_API_KEY')
 # global trackers and monitoring
 
 def identify_browser(request):
