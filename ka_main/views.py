@@ -5,6 +5,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth import authenticate,logout
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User 
 from user_agents import parse
@@ -16,8 +17,6 @@ import os
 from django.core.mail import send_mail
 from django.http.request import HttpRequest
 from .models import *
-from .forms import *
-from .bkash import grant_payment,create_payment,execute_payment
 from .bn_nums import to_bn,to_num
 import random,string,json,time
 from django.conf import settings
@@ -115,7 +114,7 @@ def home(request):
         paymentID = request.GET.get("paymentID")
         status = request.GET.get("status")
         if status == "success":
-            execute_payment(paymentID)
+            #execute_payment(paymentID)
             url = "https://api.sms.net.bd/sendsms"
             phone = Member.objects.get(username=get_username(request)).phone
             payload = {'api_key': ALPHA_NET_SMS_API_KEY,
@@ -663,7 +662,7 @@ def blog_comment(request,pk):
 
 # checkout process & payment section ............
 
-
+"""
 @login_required(login_url="/sign-up/")
 def checkout(request,pk):
     try:
@@ -722,6 +721,7 @@ def checkout(request,pk):
             return render(request,"ka_main/payment.html",context)
 
     return render(request,"ka_main/checkout.html",context)
+"""
 
 @require_POST
 def manualpay(request):
@@ -738,6 +738,7 @@ def admin_join(request):
     context = {}
     return render(request,"ka_main/admin/admin-join.html",context)
 
+@staff_member_required(login_url="/behind-the-desk/login/")
 def hr_dashboard(request):
     elist = ManualEnrollment.objects.all()
     context = {
@@ -745,6 +746,7 @@ def hr_dashboard(request):
     }
     return render(request,"ka_main/admin/hr-dashboard.html",context)
 
+@staff_member_required(login_url="/behind-the-desk/login/")
 def certissue(request):
     if request.method == "POST":
         phone = request.POST.get("phone")
@@ -779,26 +781,3 @@ def certissue(request):
 def manualpayap(request,pk,pk2):
     instance = ManualEnrollment.objects.filter(rid=pk,username=pk2).update(status=True)
     return redirect("hr-dashboard")
-
-
-
-# ----------------------------------- camera stream ----------- #
-'''
-def gen(camera):
-    while True:
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n'+ frame + b'\r\n\r\n')
-
-def video_feed(request):
-    return StreamingHttpResponse(gen(VideoCamera()),content_type='multipart/x-mixed-replace; boundary=frame')
-
-def webcam_feed(request):
-    return StreamingHttpResponse(gen(IPWebCam()),content_type='multipart/x-mixed-replace; boundary=frame')
-
-def mask_feed(request):
-    return StreamingHttpResponse(gen(MaskDetect()),content_type='multipart/x-mixed-replace; boundary=frame')
-
-def livecam_feed(request):
-    return StreamingHttpResponse(gen(LiveWebCam()),content_type='multipart/x-mixed-replace; boundary=frame')
-
-    '''

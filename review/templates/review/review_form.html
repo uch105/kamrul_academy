@@ -1,0 +1,206 @@
+{% extends 'review/base.html' %}
+
+{% block title %}Review: {{ review_model.name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Review Form Header -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2 class="mb-0">
+                        <i class="bi bi-clipboard-check me-2"></i>{{ review_model.name }}
+                    </h2>
+                    {% if review_model.description %}
+                    <p class="mb-0 mt-2">{{ review_model.description }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            {% if sub_models %}
+            <form method="post" id="reviewForm">
+                {% csrf_token %}
+
+                <!-- Name Input -->
+                <div class="mb-3">
+                    <label for="respondent_name" class="form-label">Your Name (Optional)</label>
+                    <input type="text" class="form-control" id="respondent_name" name="respondent_name">
+                </div>
+
+                {% for sub_model in sub_models %}
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0">
+                            <i class="bi bi-diagram-3 me-2"></i>{{ sub_model.name }}
+                        </h4>
+                        {% if sub_model.description %}
+                        <p class="mb-0 mt-2 small">{{ sub_model.description }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <!-- Radio Questions -->
+                        {% for question in sub_model.radio_questions.all %}
+                        <div class="mb-4">
+                            <h6 class="mb-3">
+                                {{ question.question_text }}
+                                {% if question.required %}
+                                <span class="text-danger">*</span>
+                                {% endif %}
+                            </h6>
+                            <div class="row">
+                                {% for option in question.answer_options %}
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" 
+                                               name="radio_{{ question.id }}" 
+                                               id="radio_{{ question.id }}_{{ forloop.counter }}"
+                                               value="{{ option.value }}"
+                                               {% if question.required %}required{% endif %}>
+                                        <label class="form-check-label" for="radio_{{ question.id }}_{{ forloop.counter }}">
+                                            {{ option.text }} ({{ option.value }} points)
+                                        </label>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                        <!-- Checkbox Questions -->
+                        {% for question in sub_model.checkbox_questions.all %}
+                        <div class="mb-4">
+                            <h6 class="mb-3">
+                                {{ question.question_text }}
+                                {% if question.required %}
+                                <span class="text-danger">*</span>
+                                {% endif %}
+                            </h6>
+                            <div class="row">
+                                {% for option in question.answer_options %}
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" 
+                                               name="checkbox_{{ question.id }}" 
+                                               value="{{ forloop.counter0 }}"
+                                               id="checkbox_{{ question.id }}_{{ forloop.counter }}">
+                                        <label class="form-check-label" for="checkbox_{{ question.id }}_{{ forloop.counter }}">
+                                            {{ option.text }}
+                                        </label>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                        <!-- Text Questions -->
+                        {% for question in sub_model.text_questions.all %}
+                        <div class="mb-4">
+                            <h6 class="mb-3">
+                                {{ question.question_text }}
+                                {% if question.required %}
+                                <span class="text-danger">*</span>
+                                {% endif %}
+                            </h6>
+                            <textarea class="form-control" name="text_{{ question.id }}" 
+                                      rows="4" placeholder="Enter your response here..."
+                                      {% if question.required %}required{% endif %}></textarea>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+                
+                <!-- Submit Button -->
+                <div class="card">
+                    <div class="card-body text-center">
+                        <button type="submit" class="btn btn-success btn-lg px-5">
+                            <i class="bi bi-send me-2"></i>Submit Review
+                        </button>
+                        <p class="text-muted mt-3 small">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Your responses are anonymous and will be used for evaluation purposes only.
+                        </p>
+                    </div>
+                </div>
+            </form>
+            {% else %}
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <i class="bi bi-clipboard-x display-1 text-muted mb-3"></i>
+                    <h4>Review Form Not Available</h4>
+                    <p class="text-muted">This review form doesn't have any active sub-categories.</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Form validation and submission handling
+    document.getElementById('reviewForm')?.addEventListener('submit', function(e) {
+        // Check required radio buttons
+        const requiredRadios = document.querySelectorAll('input[type="radio"][required]');
+        const radioGroups = new Set();
+        requiredRadios.forEach(radio => {
+            radioGroups.add(radio.name);
+        });
+        
+        let isValid = true;
+        radioGroups.forEach(groupName => {
+            const checkedRadio = document.querySelector(`input[name="${groupName}"]:checked`);
+            if (!checkedRadio) {
+                isValid = false;
+                // Highlight the question
+                const questionDiv = document.querySelector(`input[name="${groupName}"]`).closest('.mb-4');
+                if (questionDiv) {
+                    questionDiv.classList.add('border', 'border-danger', 'p-3', 'rounded');
+                }
+            }
+        });
+        
+        if (!isValid) {
+            e.preventDefault();
+            alert('Please answer all required questions (marked with *).');
+        }
+    });
+    
+    // Remove error highlighting when radio is selected
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const questionDiv = this.closest('.mb-4');
+            if (questionDiv) {
+                questionDiv.classList.remove('border', 'border-danger', 'p-3', 'rounded');
+            }
+        });
+    });
+</script>
+
+<style>
+    .form-check-input:checked {
+        background-color: #4361ee;
+        border-color: #4361ee;
+    }
+    .form-check-label {
+        cursor: pointer;
+    }
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .btn-success {
+        background-color: #2ecc71;
+        border-color: #2ecc71;
+        padding: 10px 40px;
+        font-size: 1.1rem;
+    }
+    .btn-success:hover {
+        background-color: #27ae60;
+        border-color: #27ae60;
+    }
+</style>
+{% endblock %}
+{% endblock %}

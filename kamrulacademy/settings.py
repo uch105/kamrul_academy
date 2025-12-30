@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True if config('DEBUG')=='True' else False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'ka_main.apps.KaMainConfig',
+    'review.apps.ReviewConfig',
     #'sage_stream',
     'rest_framework',
     #'channels',
@@ -122,16 +123,24 @@ TINYMCE_DEFAULT_CONFIG = {
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'kamrulacademy',
-        "USER": config('DB_USER'),
-        "PASSWORD": config('DB_PASSWORD'),
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'kamrulacademy',
+            "USER": config('DB_USER'),
+            "PASSWORD": config('DB_PASSWORD'),
+            "HOST": "127.0.0.1",
+            "PORT": "5432",
+        }
+    }
 
 
 #Email Host Configuration

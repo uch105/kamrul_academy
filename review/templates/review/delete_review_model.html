@@ -1,0 +1,125 @@
+{% extends 'review/base.html' %}
+
+{% block title %}Delete Review Form{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-exclamation-triangle me-2"></i>Delete Review Form
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <h5 class="alert-heading">
+                            <i class="bi bi-exclamation-circle me-2"></i>Warning!
+                        </h5>
+                        <p>You are about to delete the review form: <strong>{{ review_model.name }}</strong></p>
+                        <hr>
+                        <p class="mb-0">This action will permanently delete:</p>
+                        <ul class="mb-0">
+                            <li><strong>{{ review_model.sub_models.count }}</strong> sub-categories</li>
+                            <li>All questions and their responses</li>
+                            <li>All statistical data</li>
+                            <li>The shareable link will no longer work</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0">Review Form Details</h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-sm">
+                                <tr>
+                                    <th width="30%">Name:</th>
+                                    <td>{{ review_model.name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Description:</th>
+                                    <td>{{ review_model.description|default:"No description" }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Created:</th>
+                                    <td>{{ review_model.created_at|date:"F d, Y" }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Overall Rating:</th>
+                                    <td>
+                                        <span class="badge bg-primary">{{ review_model.overall_rating|floatformat:1 }}/5.0</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Status:</th>
+                                    <td>
+                                        {% if review_model.is_active %}
+                                            <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Inactive</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="confirm_name" class="form-label">
+                                Type the review form name to confirm deletion:
+                            </label>
+                            <input type="text" class="form-control" id="confirm_name" 
+                                   placeholder="Enter '{{ review_model.name }}'" required>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'review:admin_home' %}" class="btn btn-secondary me-md-2">
+                                <i class="bi bi-x-circle me-2"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-danger" id="deleteBtn" disabled>
+                                <i class="bi bi-trash me-2"></i>Delete Review Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Enable delete button only when confirmation text matches
+    const confirmInput = document.getElementById('confirm_name');
+    const deleteBtn = document.getElementById('deleteBtn');
+    const reviewName = "{{ review_model.name }}";
+    
+    confirmInput.addEventListener('input', function() {
+        if (this.value.trim() === reviewName) {
+            deleteBtn.disabled = false;
+        } else {
+            deleteBtn.disabled = true;
+        }
+    });
+    
+    // Additional confirmation on submit
+    document.querySelector('form').addEventListener('submit', function(e) {
+        if (!confirm('Are you absolutely sure? This action cannot be undone!')) {
+            e.preventDefault();
+        }
+    });
+</script>
+
+<style>
+    #deleteBtn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+</style>
+{% endblock %}
+{% endblock %}

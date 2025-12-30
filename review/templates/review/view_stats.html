@@ -1,0 +1,415 @@
+{% extends 'review/base.html' %}
+
+{% block title %}{{ review_model.name }} - Statistics{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">
+                            <i class="bi bi-bar-chart me-2"></i>{{ review_model.name }} - Statistics
+                        </h4>
+                        <div>
+                            <button type="button" class="btn btn-light me-2 copy-link-btn"
+                                    data-link="{{ request.scheme }}://{{ request.get_host }}{% url 'review:submit_review' review_model.shareable_link %}">
+                                <i class="bi bi-link-45deg me-2"></i>Copy Link
+                            </button>
+                            <a href="{% url 'review:admin_home' %}" class="btn btn-light">
+                                <i class="bi bi-arrow-left me-2"></i>Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5>{{ review_model.description }}</h5>
+                            <p class="text-muted mb-0">
+                                Created: {{ review_model.created_at|date:"F d, Y" }}
+                                | Status: 
+                                {% if review_model.is_active %}
+                                    <span class="badge bg-success">Active</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Inactive</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <h1 class="display-4 text-primary">{{ overall_percentage }}%</h1>
+                                <p class="text-muted mb-0">Overall Rating</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overall Rating Chart -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-pie-chart me-2"></i>Overall Rating Distribution
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <canvas id="overallChart" height="300"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Sub-category</th>
+                                            <th>Rating</th>
+                                            <th>Progress</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for stat in sub_model_stats %}
+                                        <tr>
+                                            <td>
+                                                <strong>{{ stat.sub_model.name }}</strong>
+                                                <br>
+                                                <small class="text-muted">{{ stat.sub_model.description|truncatechars:50 }}</small>
+                                            </td>
+                                            <td>
+                                                <h5 class="mb-0">{{ stat.rating_percentage }}%</h5>
+                                            </td>
+                                            <td>
+                                                <div class="progress" style="height: 20px;">
+                                                    <div class="progress-bar bg-success" 
+                                                         style="width: {{ stat.rating_percentage }}%">
+                                                        {{ stat.rating_percentage }}%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sub-model Statistics -->
+    {% for stat in sub_model_stats %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-diagram-3 me-2"></i>{{ stat.sub_model.name }}
+                        <small class="float-end">{{ stat.rating_percentage }}% Rating</small>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- Radio Questions -->
+                    {% if stat.radio_questions_data %}
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2">
+                            <i class="bi bi-circle me-2"></i>Radio Questions
+                        </h6>
+                        {% for radio_data in stat.radio_questions_data %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6 class="card-title">{{ radio_data.question.question_text }}</h6>
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <div class="progress mb-2" style="height: 25px;">
+                                            <div class="progress-bar bg-primary" 
+                                                 style="width: {{ radio_data.percentage }}%">
+                                                {{ radio_data.question.avg_score|floatformat:1 }}/{{ radio_data.max_value }}
+                                            </div>
+                                        </div>
+                                        <small class="text-muted">
+                                            {{ radio_data.question.answer_instances }} responses
+                                            | Percentage: {{ radio_data.percentage }}%
+                                        </small>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="text-center">
+                                            <h3 class="text-primary mb-0">
+                                                {{ radio_data.percentage|floatformat:0 }}%
+                                            </h3>
+                                            <small class="text-muted">Score</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Checkbox Questions -->
+                    {% if stat.checkbox_questions_data %}
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2">
+                            <i class="bi bi-check-square me-2"></i>Checkbox Questions
+                        </h6>
+                        {% for checkbox_data in stat.checkbox_questions_data %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6 class="card-title">{{ checkbox_data.question.question_text }}</h6>
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <div class="progress mb-2" style="height: 25px;">
+                                            <div class="progress-bar bg-warning" 
+                                                 style="width: {{ checkbox_data.percentage }}%">
+                                                {{ checkbox_data.question.avg_score|floatformat:1 }}/{{ checkbox_data.max_options }}
+                                            </div>
+                                        </div>
+                                        <small class="text-muted">
+                                            {{ checkbox_data.question.answer_instances }} responses
+                                            | Options: {{ checkbox_data.max_options }}
+                                            | Percentage: {{ checkbox_data.percentage }}%
+                                        </small>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="text-center">
+                                            <h3 class="text-warning mb-0">
+                                                {{ checkbox_data.percentage|floatformat:0 }}%
+                                            </h3>
+                                            <small class="text-muted">Average Checked</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Text Questions -->
+                    {% if stat.text_questions %}
+                    <div>
+                        <h6 class="border-bottom pb-2">
+                            <i class="bi bi-textarea-t me-2"></i>Text Responses
+                        </h6>
+                        {% for question in stat.text_questions %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6 class="card-title">{{ question.question_text }}</h6>
+                                <p class="text-muted mb-2">
+                                    <small>{{ question.answer_instances }} responses</small>
+                                </p>
+                                
+                                {% if question.answer_text %}
+                                <div class="bg-light p-3 rounded">
+                                    <h6>Responses:</h6>
+                                    <div class="text-responses">
+                                        {% for response in stat.text_responses %}
+                                            {% if response.question == question.question_text|truncatechars:53 %}
+                                            <div class="border-start border-3 border-primary ps-3 mb-3">
+                                                <strong>{{ response.name }}</strong>
+                                                <p class="mb-1 mt-1">{{ response.text }}</p>
+                                            </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% else %}
+                                <!-- Demo content if no responses yet -->
+                                <div class="bg-light p-3 rounded">
+                                    <h6>Sample Responses:</h6>
+                                    <div class="text-responses">
+                                        <div class="border-start border-3 border-secondary ps-3 mb-3">
+                                            <strong>Alex</strong>
+                                            <p class="mb-1 mt-1">This is a review note</p>
+                                        </div>
+                                        <div class="border-start border-3 border-secondary ps-3 mb-3">
+                                            <strong>John</strong>
+                                            <p class="mb-1 mt-1">This is a review note</p>
+                                        </div>
+                                        <div class="border-start border-3 border-secondary ps-3 mb-3">
+                                            <strong>Anonymous</strong>
+                                            <p class="mb-1 mt-1">This is a review note</p>
+                                        </div>
+                                        <div class="border-start border-3 border-secondary ps-3 mb-3">
+                                            <strong>Mark</strong>
+                                            <p class="mb-1 mt-1">This is a review note</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <i class="bi bi-bar-chart display-1 text-muted mb-3"></i>
+                    <h4>No Data Available</h4>
+                    <p class="text-muted">No sub-categories or responses found for this review form.</p>
+                    <a href="{% url 'review:create_review_form' %}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-2"></i>Add Sub-categories and Questions
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% block extra_js %}
+<script>
+    // Initialize charts when document is ready
+    $(document).ready(function() {
+        initializeOverallChart();
+        initializeCopyButtons();
+    });
+    
+    function initializeOverallChart() {
+        const canvas = document.getElementById('overallChart');
+        if (!canvas) return;
+        
+        const ctx = canvas.getContext('2d');
+        
+        // Get data from Django template variables
+        const labels = [
+            {% for stat in sub_model_stats %}
+                '{{ stat.sub_model.name|slice:":15" }}...',
+            {% endfor %}
+        ];
+        
+        const data = [
+            {% for stat in sub_model_stats %}
+                {{ stat.rating_percentage }},
+            {% endfor %}
+        ];
+        
+        // Only create chart if we have data
+        if (data.length === 0 || data.every(val => val === 0)) {
+            canvas.style.display = 'none';
+            const container = canvas.parentElement;
+            container.innerHTML = `
+                <div class="alert alert-info text-center py-4 m-0">
+                    <i class="bi bi-info-circle me-2"></i>
+                    No rating data available yet. Collect responses to see the chart.
+                </div>
+            `;
+            return;
+        }
+        
+        const backgroundColors = [
+            '#4361ee', '#3a0ca3', '#7209b7', '#f72585', 
+            '#4cc9f0', '#4895ef', '#560bad', '#b5179e'
+        ];
+        
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: backgroundColors.slice(0, Math.min(labels.length, backgroundColors.length)),
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.label}: ${context.raw}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    function initializeCopyButtons() {
+        document.querySelectorAll('.copy-link-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const link = this.getAttribute('data-link');
+                navigator.clipboard.writeText(link).then(() => {
+                    const originalHTML = this.innerHTML;
+                    this.innerHTML = '<i class="bi bi-check me-2"></i>Copied!';
+                    this.classList.remove('btn-light');
+                    this.classList.add('btn-success');
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalHTML;
+                        this.classList.remove('btn-success');
+                        this.classList.add('btn-light');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    alert('Failed to copy link. Please try again.');
+                });
+            });
+        });
+    }
+</script>
+
+<style>
+    .progress-bar {
+        transition: width 1s ease-in-out;
+    }
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .border-start {
+        border-left-color: #4361ee !important;
+    }
+    .text-responses {
+        max-height: 300px;
+        overflow-y: auto;
+        padding: 10px;
+    }
+    .text-responses div {
+        background-color: white;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .border-secondary {
+        border-left-color: #6c757d !important;
+    }
+    #overallChart {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+</style>
+{% endblock %}
+{% endblock %}

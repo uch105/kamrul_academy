@@ -1,0 +1,326 @@
+{% extends 'review/base.html' %}
+
+{% block title %}Create Review Form{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">
+                            <i class="bi bi-plus-circle me-2"></i>Create Review Form
+                        </h4>
+                        <a href="{% url 'review:admin_home' %}" class="btn btn-light">
+                            <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="row">
+        <!-- Left Column - Review Model and Sub-Model Forms -->
+        <div class="col-md-6">
+            <!-- Review Model Form -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-clipboard-plus me-2"></i>Create Review Form
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="review_model">
+                        
+                        {% for field in review_model_form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">
+                                {{ field.label }}
+                                {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                            </label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger">{{ field.errors }}</div>
+                            {% endif %}
+                            {% if field.help_text %}
+                                <div class="form-text">{{ field.help_text }}</div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-circle me-2"></i>Create Review Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Review Sub-Model Form -->
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-diagram-3 me-2"></i>Create Sub-category
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="review_sub_model">
+                        
+                        {% for field in review_sub_model_form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">
+                                {{ field.label }}
+                                {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                            </label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger">{{ field.errors }}</div>
+                            {% endif %}
+                            {% if field.help_text %}
+                                <div class="form-text">{{ field.help_text }}</div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-info text-white">
+                                <i class="bi bi-plus-circle me-2"></i>Create Sub-category
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column - Question Forms -->
+        <div class="col-md-6">
+            <!-- Question Type Toggle -->
+            <div class="card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">
+                        <i class="bi bi-question-circle me-2"></i>Create Questions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="btn-group w-100 mb-4" role="group">
+                        <button type="button" class="btn btn-primary active" data-form="radio">
+                            <i class="bi bi-circle me-1"></i>Radio
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-form="checkbox">
+                            <i class="bi bi-check-square me-1"></i>Checkbox
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-form="text">
+                            <i class="bi bi-textarea-t me-1"></i>Text
+                        </button>
+                    </div>
+
+                    <!-- Radio Question Form -->
+                    <div id="radio-form" class="question-form">
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="radio_question">
+                            
+                            {% for field in radio_form %}
+                                {% if field.name != 'options' %}
+                                <div class="mb-3">
+                                    <label for="{{ field.id_for_label }}" class="form-label">
+                                        {{ field.label }}
+                                        {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                                    </label>
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        <div class="text-danger">{{ field.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            <div class="mb-3">
+                                <label for="id_options" class="form-label">
+                                    Options <span class="text-danger">*</span>
+                                    <small class="text-muted">(One per line, format: Text:Value)</small>
+                                </label>
+                                <textarea name="options" id="id_options" class="form-control" rows="5" required></textarea>
+                                <div class="form-text">Example: Poor:1, Fair:2, Good:3, Very Good:4, Excellent:5</div>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-plus-circle me-2"></i>Add Radio Question
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Checkbox Question Form -->
+                    <div id="checkbox-form" class="question-form" style="display: none;">
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="checkbox_question">
+                            
+                            {% for field in checkbox_form %}
+                                {% if field.name != 'options' %}
+                                <div class="mb-3">
+                                    <label for="{{ field.id_for_label }}" class="form-label">
+                                        {{ field.label }}
+                                        {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                                    </label>
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        <div class="text-danger">{{ field.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            <div class="mb-3">
+                                <label for="id_checkbox_options" class="form-label">
+                                    Options <span class="text-danger">*</span>
+                                    <small class="text-muted">(One per line)</small>
+                                </label>
+                                <textarea name="options" id="id_checkbox_options" class="form-control" rows="5" required></textarea>
+                                <div class="form-text">Example: Clear explanations, Engaging presentation, Good pace, Interactive sessions</div>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-plus-circle me-2"></i>Add Checkbox Question
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Text Question Form -->
+                    <div id="text-form" class="question-form" style="display: none;">
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="text_question">
+                            
+                            {% for field in text_form %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">
+                                    {{ field.label }}
+                                    {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                                </label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class="text-danger">{{ field.errors }}</div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-plus-circle me-2"></i>Add Text Question
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Card -->
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0">
+                        <i class="bi bi-info-circle me-2"></i>Quick Stats
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <div class="text-center">
+                                <h3>{{ all_review_models.count }}</h3>
+                                <small class="text-muted">Review Forms</small>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="text-center">
+                                <h3>{{ all_review_sub_models.count }}</h3>
+                                <small class="text-muted">Sub-categories</small>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <h6>Creation Order:</h6>
+                    <ol class="small">
+                        <li>Create a Review Form first</li>
+                        <li>Then create Sub-categories for that form</li>
+                        <li>Finally add questions to the sub-categories</li>
+                    </ol>
+                    <h6>Scoring:</h6>
+                    <ul class="small">
+                        <li><strong>Radio:</strong> Each option has a value (1-5)</li>
+                        <li><strong>Checkbox:</strong> Each checked option = 1 point</li>
+                        <li><strong>Text:</strong> No score, just collects responses</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Toggle between question forms
+    document.querySelectorAll('[data-form]').forEach(button => {
+        button.addEventListener('click', function() {
+            const formType = this.getAttribute('data-form');
+            
+            // Update button styles
+            document.querySelectorAll('[data-form]').forEach(btn => {
+                btn.classList.remove('active', 'btn-primary');
+                btn.classList.add('btn-secondary');
+            });
+            this.classList.remove('btn-secondary');
+            this.classList.add('active', 'btn-primary');
+            
+            // Show selected form, hide others
+            document.querySelectorAll('.question-form').forEach(form => {
+                form.style.display = 'none';
+            });
+            document.getElementById(`${formType}-form`).style.display = 'block';
+        });
+    });
+    
+    // Auto-select the first review model in sub-model form if only one exists
+    const reviewModelSelect = document.querySelector('#{{ review_sub_model_form.review_model.id_for_label }}');
+    if (reviewModelSelect && reviewModelSelect.options.length === 2) { // 1 option + empty
+        reviewModelSelect.selectedIndex = 1;
+    }
+    
+    // Auto-select the first sub-model in question forms if only one exists
+    const questionSubModelSelects = document.querySelectorAll('select[name$="review_sub_model"]');
+    questionSubModelSelects.forEach(select => {
+        if (select && select.options.length === 2) {
+            select.selectedIndex = 1;
+        }
+    });
+</script>
+
+<style>
+    .btn-group .btn {
+        transition: all 0.3s ease;
+    }
+    .btn-group .btn.active {
+        box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+    }
+    .question-form {
+        transition: opacity 0.3s ease;
+    }
+    .form-control:focus {
+        border-color: #4361ee;
+        box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
+    }
+</style>
+{% endblock %}
+{% endblock %}

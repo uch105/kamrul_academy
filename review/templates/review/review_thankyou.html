@@ -1,0 +1,52 @@
+{% extends 'review/base.html' %}
+
+{% block title %}Thank You{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card text-center">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">
+                        <i class="bi bi-check-circle me-2"></i>Thank You!
+                    </h3>
+                </div>
+                <div class="card-body py-5">
+                    <i class="bi bi-check-circle-fill display-1 text-success mb-4"></i>
+                    <h2 class="mb-3">Review Submitted Successfully</h2>
+                    <p class="lead mb-4">
+                        Thank you for taking the time to complete the review for 
+                        <strong>{{ review_model.name }}</strong>. 
+                        Your feedback is valuable and will help us improve.
+                    </p>
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Note:</strong> Your responses are anonymous and have been recorded successfully.
+                    </div>
+                    <div class="mt-4">
+                        <a href="/" class="btn btn-primary">
+                            <i class="bi bi-house me-2"></i>Return to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .bi-check-circle-fill {
+        animation: scaleIn 0.5s ease-out;
+    }
+    @keyframes scaleIn {
+        0% { transform: scale(0); opacity: 0; }
+        70% { transform: scale(1.2); }
+        100% { transform: scale(1); opacity: 1; }
+    }
+</style>
+{% endblock %}
