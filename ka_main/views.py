@@ -1,6 +1,5 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponseRedirect,request,HttpRequest,JsonResponse
-from django.http.response import StreamingHttpResponse
+from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth import authenticate,logout
 from django.contrib.auth import login as auth_login
@@ -14,14 +13,11 @@ import requests
 import datetime
 from django.http import FileResponse, Http404
 import os
-from django.core.mail import send_mail
-from django.http.request import HttpRequest
 from .models import *
 from .bn_nums import to_bn,to_num
-import random,string,json,time
+import random,string
 from django.conf import settings
 from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
 from .certificate import create_cretificate
 from decouple import config
 #from .camera import VideoCamera,IPWebCam,MaskDetect,LiveWebCam
@@ -662,7 +658,6 @@ def blog_comment(request,pk):
 
 # checkout process & payment section ............
 
-"""
 @login_required(login_url="/sign-up/")
 def checkout(request,pk):
     try:
@@ -707,12 +702,12 @@ def checkout(request,pk):
                         coursepurchase = Enrolled.objects.create(username=get_username(request),courseid=id,way=payment_type,amount=amount)
                 
 
-                id_token = grant_payment()
+                id_token = ""
                 invoice_no = "INV"+generate_otp()
                 invoice = Invoice.objects.create(invoice=invoice_no,username=get_username(request),relatedid=id,id_token=id_token)
                 invoice.save()
                 
-                return create_payment(amount,id_token,invoice_no)
+                return id_token
             except:
                 
                 return render(request,"ka_main/checkout.html",context)
@@ -721,7 +716,6 @@ def checkout(request,pk):
             return render(request,"ka_main/payment.html",context)
 
     return render(request,"ka_main/checkout.html",context)
-"""
 
 @require_POST
 def manualpay(request):
