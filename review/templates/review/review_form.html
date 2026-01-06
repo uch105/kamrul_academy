@@ -43,6 +43,7 @@
                         {% for question in sub_model.radio_questions.all %}
                         <div class="mb-4">
                             <h6 class="mb-3">
+                                {{ question.index }}
                                 {{ question.question_text }}
                                 {% if question.required %}
                                 <span class="text-danger">*</span>
@@ -71,6 +72,7 @@
                         {% for question in sub_model.checkbox_questions.all %}
                         <div class="mb-4">
                             <h6 class="mb-3">
+                                {{ question.index }}
                                 {{ question.question_text }}
                                 {% if question.required %}
                                 <span class="text-danger">*</span>
@@ -98,6 +100,7 @@
                         {% for question in sub_model.text_questions.all %}
                         <div class="mb-4">
                             <h6 class="mb-3">
+                                {{ question.index }}
                                 {{ question.question_text }}
                                 {% if question.required %}
                                 <span class="text-danger">*</span>
